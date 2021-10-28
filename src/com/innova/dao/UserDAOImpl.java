@@ -71,6 +71,20 @@ public class UserDAOImpl implements UserDAO {
 		return persona;
 	}
 
+
+
+
+
+	@Override
+	public User getUserById(int id) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<User> query = currentSession.createQuery("from User WHERE id="+id+"",User.class);
+		
+		User usuario= query.getSingleResult();
+		
+		return usuario;	}
+
 	
 }
 

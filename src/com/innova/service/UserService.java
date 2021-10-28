@@ -15,4 +15,6 @@ public interface UserService {
 	Persona getPersonaById(int id);
 	
 	void ingresoPersona(Ingreso ingreso);
+
+	User getUserById(int id);
 }

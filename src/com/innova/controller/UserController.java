@@ -1,5 +1,8 @@
 package com.innova.controller;
 
+
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,6 @@ import com.innova.dao.SumAsigInvDAO;
 import com.innova.entity.Ingreso;
 import com.innova.entity.Persona;
 import com.innova.entity.SumAsigInv;
-import com.innova.entity.User;
 import com.innova.service.UserService;
 
 @Controller
@@ -24,12 +26,10 @@ public class UserController {
 	UserService userService;
 	
 	 @RequestMapping("/")
-	 public String home(Model model) {
+	 public String home() {
 	
-		 List<User> users = userService.listUsers();
+		//VER DE OBTENER TIMESTAMP SIN MILISEGUNDOS
 		 
-		 model.addAttribute("users",users);
-		 //model.addAttribute("users",user);
 		 
 		 return "home";
 	 }
@@ -88,13 +88,14 @@ public class UserController {
 	 }
 	 
 	 @PostMapping("/guardarMovimiento")
-	 public String finActividadPersona(@RequestParam(value="userSelected", required=false) int id, Model model) {
+	 public String finActividadPersona(@RequestParam(value="userSelected", required=false) Persona persona,
+			 							@RequestParam(value="id") int id, Model model) {
+		 
 		 
 		 Ingreso ingreso = new Ingreso();
+		 System.out.println("EL ID QUE PASOOOOOOOOOOO "+id);
 		 
-		 int idi=1;
-		 ingreso.setId(idi);
-		 ingreso.setUserId(id);
+		 ingreso.setUserId(13);
 		 ingreso.setAudDel(null);
 		 ingreso.setAudIns(null);
 		 ingreso.setAudUpd(null);

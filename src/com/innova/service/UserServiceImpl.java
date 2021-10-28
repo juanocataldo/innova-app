@@ -59,4 +59,13 @@ IngresoDAO ingresoDAO;
 		
 	}
 
+	@Transactional
+	@Override
+	public User getUserById(int id) {
+	
+		User user = userDAO.getUserById(id);
+		
+		return user;
+	}
+
 }

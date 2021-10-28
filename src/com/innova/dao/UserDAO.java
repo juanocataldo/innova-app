@@ -15,5 +15,7 @@ public interface UserDAO {
 
 	public Persona getPersonaById(int id);
 
+	public User getUserById(int id);
+
 		
 }

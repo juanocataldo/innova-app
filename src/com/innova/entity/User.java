@@ -5,15 +5,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedStoredProcedureQueries;
-import javax.persistence.NamedStoredProcedureQuery;
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureParameter;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="FPA_PORTAL.POR_USUARIOS")
 public class User {
+	/*
+	@OneToOne
+	@JoinColumn(name="USER_PER_ID")
+	private Persona persona;
+	*/
+	
+	@OneToOne(mappedBy="usuario")
+	private Ingreso ingreso;
 	
 	public User() {
 		

@@ -15,10 +15,14 @@ import javax.persistence.Table;
 @Table(name="FPA_RECURSOS_HUMANOS.RH_PERSONAS")
 public class Persona {
 	
-	@OneToOne()
+	@OneToOne
 	@JoinColumn(name="PER_ID")
 	private SumAsigInv sumAsigInv;
 	
+	/*
+	@OneToOne(mappedBy="persona")
+	private User user;
+	*/
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="PER_ID")

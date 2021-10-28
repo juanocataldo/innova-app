@@ -15,7 +15,7 @@ public class IngresoDAOImpl implements IngresoDAO {
 	@Autowired
 	SessionFactory sessionFactory;
 	
-	@Transactional
+	
 	@Override
 	public void ingresoPersona(Ingreso ingreso) {
 	

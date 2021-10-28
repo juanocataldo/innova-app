@@ -2,9 +2,12 @@ package com.innova.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -16,10 +19,24 @@ public class Ingreso {
 		
 	}
 	
-	@Id
-	//@SequenceGenerator(name="GEN_POR_INGRESO", sequenceName="FPA_PORTAL.SEQ_POR_INGRESO")
-	//@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "GEN_POR_INGRESO")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@OneToOne
+	@JoinColumn(name="PI_USER_ID", insertable = false, updatable = false)	
+	private User usuario;
+	
+	
+	
+	public User getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(User usuario) {
+		this.usuario = usuario;
+	}
+
+	@Id	
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "GEN_POR_INGRESO")
+	@SequenceGenerator(name="GEN_POR_INGRESO", sequenceName="FPA_PORTAL.SEQ_POR_INGRESO", allocationSize=1)
+	//@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="PI_ID")
 	private int id;
 	
