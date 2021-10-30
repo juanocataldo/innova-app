@@ -30,7 +30,7 @@
 		</div><br><br><br><br>
 		
 		<div class="col-md-12 pt-2 text-center">
-			Detalles<br><input type="text" />		
+			Detalles<br><input type="text" name="detalle" />		
 		</div>
 		
 		<input type="submit" value="Guardar" />

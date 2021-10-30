@@ -49,7 +49,7 @@ public class UserDAOImpl implements UserDAO {
 			query.setParameter("search", "%"+search+"%" );
 			
 		}else {
-			query = currentSession.createQuery("from Persona", Persona.class);			
+			query = currentSession.createQuery("from Persona order by nombre asc", Persona.class);			
 		}
 		
 		
@@ -58,6 +58,8 @@ public class UserDAOImpl implements UserDAO {
 		return users;
 	}
 
+	
+	
 
 
 	@Override
@@ -84,6 +86,31 @@ public class UserDAOImpl implements UserDAO {
 		User usuario= query.getSingleResult();
 		
 		return usuario;	}
+
+
+
+	@Override
+	public List<Persona> getUserByName(String personaSearch) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Persona> query = null;
+		
+		if(personaSearch!=null && personaSearch.trim().length()>0) {
+			query = currentSession.createQuery("from Persona WHERE nombre =:user OR apellido=:user",Persona.class);
+			query.setParameter("user", personaSearch);
+			
+		}else {
+			query = currentSession.createQuery("from Persona",Persona.class);
+			
+		}
+			
+		List<Persona> personas = query.getResultList();
+		
+		return personas;	
+		
+		
+	}
 
 	
 }

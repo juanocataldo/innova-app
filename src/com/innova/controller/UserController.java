@@ -1,8 +1,8 @@
 package com.innova.controller;
 
 
-import java.security.Timestamp;
-import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.innova.dao.SumAsigInvDAO;
 import com.innova.entity.Ingreso;
 import com.innova.entity.Persona;
-import com.innova.entity.SumAsigInv;
+
+import com.innova.service.IngresoService;
 import com.innova.service.UserService;
 
 @Controller
@@ -24,6 +24,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	IngresoService ingresoService;
 	
 	 @RequestMapping("/")
 	 public String home() {
@@ -34,78 +37,107 @@ public class UserController {
 		 return "home";
 	 }
 	
-	 /*
-	 @RequestMapping("/sumarios")
-	 public String sumarios(Model model) {
-		 
-		 List<Sumarios> sumarios = invDAO.getSumarios();
-		 
-		 model.addAttribute("sumarios",sumarios);
-		 
-		 return "sumarios";
-	 }*/
-	 
-	 
-	 @Autowired
-	 SumAsigInvDAO sumAsigInvDao;
-	 
-	 @RequestMapping("/sumariosPerid")
-	 public String sumariosPerId(Model model) {
-		 
-		 List<SumAsigInv> sumarios = sumAsigInvDao.sumarios();
-		 
-		 model.addAttribute("sumariosPerid",sumarios);
-		 
-		 
-		 return "sumariosPerid";
-	 }
-	 
-	 @RequestMapping("/proc")
-	 public String showProc(Model model) {
-		
-		 return "showProc";
-	 }
-	 
 	 @GetMapping("/search")
-	 public String searchUsers(@RequestParam(value = "searchPerson", required=false) String busqueda, Model model) {
+ String searchUsers(@RequestParam(value = "personaSearch", required=false) String personaSearch, 
+			 					@RequestParam(value="diaSearch", required=false) String dia, Model model) {
 		 
 		 
-		 List<Persona> theUsers = userService.listUsersByName(busqueda);
+		/* 
+		 if(personaSearch!=null) {
+			 List<Persona> persona = userService.getPersonaByName(personaSearch);
+			 List<Ingreso> ingreso = ingresoService.getIngresosByPerId(persona.getId());
+			 model.addAttribute("ingresos",ingresos);
+		 }		 
+		*/
 		 
-		 model.addAttribute("searchUsers",theUsers);
+		 //List<Persona> personas = userService.listUsersByName(persona);
+		 
+		 //List<Ingreso> ingresos = ingresoService.getIngresos();
+		 
+		 //model.addAttribute("searchUsers",personas);
+		
+		 List<Ingreso> ingresos = ingresoService.getIngresos();
+		 
+		 System.out.println(ingresos);
+		 model.addAttribute("ingresos",ingresos);
 		 
 		 return "search";		 
 	 }
 	 
-	 @RequestMapping("/actividadPersona")
+	 @GetMapping("/nuevoMovimiento")
+	 public String nuevoMovmiento(@RequestParam(value="searchPerson", required=false) String busqueda, Model model) {	 
+		 
+		 List<Persona> personas = userService.listUsersByName(busqueda);
+		 
+		 model.addAttribute("searchUsers",personas);
+		 
+		 return "nuevoMovimiento";
+	 }
+	 
+	 @RequestMapping("/addPerson")
 	 public String actividadPersona(@RequestParam(value="id", required=false) int id, Model model) {
 		 
 		 Persona userSelected = userService.getPersonaById(id);
 		 
+		 Ingreso ingreso = ingresoService.getLastIngreso(userSelected.getId());
+		 
 		 model.addAttribute("userSelected",userSelected);
 		 
-		 return "actividadPersona";
+		 model.addAttribute("ingresoPersona",ingreso);
+		 
+		 return "entradaSalida";
 	 }
 	 
-	 @PostMapping("/guardarMovimiento")
-	 public String finActividadPersona(@RequestParam(value="userSelected", required=false) Persona persona,
-			 							@RequestParam(value="id") int id, Model model) {
 		 
-		 
+	 @RequestMapping("/guardarMovimiento")
+	 public String guardarMovimiento(@RequestParam("id") Integer id,
+			 						@RequestParam("detalle") String detalle,
+			 						@RequestParam("item") String item, Model model) {
+
+		
 		 Ingreso ingreso = new Ingreso();
-		 System.out.println("EL ID QUE PASOOOOOOOOOOO "+id);
 		 
-		 ingreso.setUserId(13);
+		 Persona persona = userService.getPersonaById(id);
+		 
+		  
+		 //User user = userService.getUserById(id);
+		 //System.out.println("EL ID QUE PASOOOOOOOOOOO "+user.getId());
+		 ingreso.setUserId(persona.getId());
 		 ingreso.setAudDel(null);
 		 ingreso.setAudIns(null);
 		 ingreso.setAudUpd(null);
-		 ingreso.setDetalles(null);
-		 ingreso.setFechaFin(null);
-		 ingreso.setFechaIn(null);
+		 ingreso.setDetalles(detalle);
+		 
+		 
+		 Timestamp ts=new Timestamp(System.currentTimeMillis());  
+			
+		 
+		 if(item.equals("ingreso")) {
+			 ingreso.setFechaIn(new Date(ts.getTime()));
+			 ingreso.setFechaFin(null);
+			 System.out.println("se puso fecha IN");
+		 }			
+		 if(item.equals("egreso")) {
+			 Ingreso lastTime = ingresoService.getLastTimeIngreso(id);
+			 Timestamp ts2=(Timestamp)lastTime.getFechaIn();  
+			 ingreso.setFechaIn(new Date(ts2.getTime()));
+			 ingreso.setFechaFin(new Date(ts.getTime()));
+		 } 
+		 
 		 ingreso.setUserIns(null);
 		 ingreso.setUserUpd(null);		 
 		 
 		 userService.ingresoPersona(ingreso);
+		 
+		 return "redirect:/search";
+	 }
+	 
+	 @GetMapping("/buscarMov")
+	 public String buscarMov(@RequestParam(value="buscarMovi", required=false) String busqueda, Model model) {
+		 		 
+		 List<Ingreso> searchIngresos = ingresoService.getIngresosByName(busqueda);
+		 
+		 model.addAttribute("ingresosA",searchIngresos);
 		 
 		 return "redirect:/search";
 	 }

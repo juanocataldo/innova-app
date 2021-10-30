@@ -18,8 +18,7 @@ public class User {
 	private Persona persona;
 	*/
 	
-	@OneToOne(mappedBy="usuario")
-	private Ingreso ingreso;
+
 	
 	public User() {
 		

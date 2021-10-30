@@ -7,18 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="FPA_RECURSOS_HUMANOS.RH_PERSONAS")
 public class Persona {
 	
-	@OneToOne
-	@JoinColumn(name="PER_ID")
-	private SumAsigInv sumAsigInv;
 	
+
+
 	/*
 	@OneToOne(mappedBy="persona")
 	private User user;

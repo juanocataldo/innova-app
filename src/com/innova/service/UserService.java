@@ -17,4 +17,8 @@ public interface UserService {
 	void ingresoPersona(Ingreso ingreso);
 
 	User getUserById(int id);
+	
+	List<Ingreso> getPersonasIncome(String search);
+
+	List<Persona> getPersonaByName(String personaSearch);
 }

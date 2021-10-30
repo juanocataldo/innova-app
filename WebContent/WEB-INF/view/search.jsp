@@ -13,41 +13,75 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
-<div class="text-center p-4">
-	<form:form action="search" method="GET">
-		Buscar Persona <input type="text" name="searchPerson" />
-		
-		<input type="submit" value="Buscar" />
-	</form:form>
-</div>
+ 
 
+	
+
+	
+
+<!--  -->
+<a href="${pageContext.request.contextPath}/nuevoMovimiento" class="mb-4">Nuevo Movimiento</a>
 <div class="p-4">
-	<table class="table">
+ 
+ <div class="row text-left">
+ 	<div class="col-md-6">
+ 		<form:form action="search" method="GET">
+ 			<span>Persona</span><br><input type="text" name="personaSearch">
+ 			<input type="submit" value="Buscar" />
+ 		</form:form>
+ 	</div>
+ 	
+ 	<div class="col-md-6">
+ 		<form:form action="buscarMov" method="GET">
+ 			<span>Día</span><br><input type="text" name="diaSearch">
+ 			<input type="submit" value="Buscar" />
+ 		</form:form>
+ 	</div>
+ </div>
+ 
+ <br><br><br><br>
+	<table class="table text-center">
 		<thead>
-			<tr>
-				<td>#</td>
-				<td>Nombre</td>
-				<td>Apellido</td>
-				<td>DNI</td>
-				<td>Acción</td>
+			<tr>				
+				<td>Persona</td>							
+				<td>Llegada</td>
+				<td>Salida</td>				
 			</tr>
 		</thead>
-		<tbody>
+		<tbody class="text-center">
 		
-			<c:forEach var="tempUsers" items="${searchUsers}">
-			<c:url var="UpdateLink" value="actividadPersona"> 
+			<c:forEach var="tempIngresos" items="${ingresos}">
+			<!--<c:url var="UpdateLink" value="actividadPersona"> 
 							<c:param name="id" value="${tempUsers.id}" />
 								
-						</c:url>
-					<tr>
-						<td>${tempUsers.id}</td>
-						<td>${tempUsers.nombre}</td>
-						<td>${tempUsers.apellido}</td>
-						<td>${tempUsers.dni}</td>
-						<td><a href="${UpdateLink}">
-							<i class="material-icons p-2">person_add</i>
-							</a>
-						</td> 						
+						</c:url>-->
+					<tr>												
+					<td>${tempIngresos.persona.nombre} ${tempIngresos.persona.apellido}</td>						
+					<td>${tempIngresos.fechaIn}</td>
+					<td>${tempIngresos.fechaFin}</td>
+						<!-- <td>
+						
+							
+							<c:choose>
+							    <c:when test="${tempIngresos.fechaIn != null}">
+							        <i class="material-icons p-2" style="color:grey">person_add</i>	
+							        
+							        <a href="${UpdateLink}">
+							        	<i class="material-icons p-2" style="color:red">person_off</i>	
+							        </a>						        
+							    </c:when>    
+							    <c:otherwise>
+							        <a href="${UpdateLink}">
+							        	<i class="material-icons p-2" style="color:green">person_add</i>	
+							        </a>		
+							        <i class="material-icons p-2" style="color:grey">person_off</i>			        
+							    </c:otherwise>
+							</c:choose>
+							
+						
+						
+							
+						</td> 		 -->				
 					</tr>
 			</c:forEach>
 			

@@ -68,4 +68,22 @@ IngresoDAO ingresoDAO;
 		return user;
 	}
 
+	@Transactional
+	@Override
+	public List<Ingreso> getPersonasIncome(String search) {
+		
+		List<Ingreso> ingresos = ingresoDAO.getIngresosPersonas(search); 
+		return ingresos;
+	}
+
+	@Override
+	public List<Persona> getPersonaByName(String personaSearch) {
+		
+		List<Persona> personas = userDAO.getUserByName(personaSearch);
+		return personas;
+	}
+	
+	
+	
+
 }

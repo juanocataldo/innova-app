@@ -1,15 +1,22 @@
 package com.innova.entity;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="FPA_PORTAL.POR_INGRESO")
@@ -18,19 +25,18 @@ public class Ingreso {
 	public Ingreso() {
 		
 	}
+		
+	@ManyToOne()
+	@JoinColumn(name="PI_PER_ID", insertable = false, updatable = false)
+	private Persona persona;
 	
-	@OneToOne
-	@JoinColumn(name="PI_USER_ID", insertable = false, updatable = false)	
-	private User usuario;
-	
-	
-	
-	public User getUsuario() {
-		return usuario;
+
+	public Persona getPersona() {
+		return persona;
 	}
 
-	public void setUsuario(User usuario) {
-		this.usuario = usuario;
+	public void setPersona(Persona persona) {
+		this.persona = persona;
 	}
 
 	@Id	
@@ -38,16 +44,24 @@ public class Ingreso {
 	@SequenceGenerator(name="GEN_POR_INGRESO", sequenceName="FPA_PORTAL.SEQ_POR_INGRESO", allocationSize=1)
 	//@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="PI_ID")
-	private int id;
+	private Integer id;
 	
-	@Column(name="PI_USER_ID")
-	private int userId;
-	
+	@Column(name="PI_PER_ID")
+	private Integer userId;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="dd-MM-YY HH:mm")
 	@Column(name="PI_FECHA_HORA_INI")
-	private String fechaIn;
+	private Date fechaIn;
+	
+	@PrePersist
+	private void onCreate() {
+		Timestamp ts=new Timestamp(System.currentTimeMillis());  
+		fechaIn = new Date(ts.getTime());
+	}
 	
 	@Column(name="PI_FECHA_HORA_FIN")
-	private String fechaFin;
+	private Date fechaFin;
 	
 	@Column(name="AUD_USR_INS")
 	private String userIns;
@@ -67,35 +81,35 @@ public class Ingreso {
 	@Column(name="PI_DETALLES")
 	private String detalles;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
-	public String getFechaIn() {
+	public Date getFechaIn() {
 		return fechaIn;
 	}
 
-	public void setFechaIn(String fechaIn) {
+	public void setFechaIn(Date fechaIn) {
 		this.fechaIn = fechaIn;
 	}
 
-	public String getFechaFin() {
+	public Date getFechaFin() {
 		return fechaFin;
 	}
 
-	public void setFechaFin(String fechaFin) {
+	public void setFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 
@@ -147,7 +161,7 @@ public class Ingreso {
 		this.detalles = detalles;
 	}
 
-	public Ingreso(int userId, String fechaIn, String fechaFin, String userIns, String userUpd, String audIns,
+	public Ingreso(Integer userId, Date fechaIn, Date fechaFin, String userIns, String userUpd, String audIns,
 			String audUpd, String audDel, String detalles) {
 		super();
 		this.userId = userId;

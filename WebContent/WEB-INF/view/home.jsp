@@ -14,32 +14,10 @@
 </head>
 <body>
 <br>
-<h1>Sumarios</h1>
+
 <a href="sumarios">Entrar</a>
 
 <a href="${pageContext.request.contextPath}/search">Buscar</a>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">User Name</th>
-      <th scope="col">Person ID</th>      
-    </tr>
-  </thead>
-  <tbody>
-  	<c:forEach var="tempUser" items="${users}">
-	
-		<tr>
-			<th scope="row">${tempUser.id}</th>
-			<td>${tempUser.userName}</td>
-			<td>${tempUser.perid}</td>
-		</tr>	
-	</c:forEach>
-  </tbody>
-</table>
-
-
 
 </body>
 </html>
