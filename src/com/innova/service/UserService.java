@@ -3,6 +3,7 @@ package com.innova.service;
 import java.util.List;
 
 import com.innova.entity.Ingreso;
+import com.innova.entity.IngresoEstado;
 import com.innova.entity.Persona;
 import com.innova.entity.User;
 
@@ -14,6 +15,8 @@ public interface UserService {
 	
 	Persona getPersonaById(int id);
 	
+	Persona getPersonaFiltro(String palabra);
+	
 	void ingresoPersona(Ingreso ingreso);
 
 	User getUserById(int id);
@@ -21,4 +24,9 @@ public interface UserService {
 	List<Ingreso> getPersonasIncome(String search);
 
 	List<Persona> getPersonaByName(String personaSearch);
+	
+	Persona getOnePersonaByName(String search);
+
+	void estadoIngreso(IngresoEstado ingresoEstado);
+	
 }

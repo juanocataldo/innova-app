@@ -3,7 +3,7 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>   
 <!DOCTYPE html>
-<html>
+<html style="background-color:black;color:white">
 <head>
 <meta charset="ISO-8859-1">
 <title>Buscar usuario</title>
@@ -15,32 +15,31 @@
 <body>
  
 
-	
 
-	
 
-<!--  -->
-<a href="${pageContext.request.contextPath}/nuevoMovimiento" class="mb-4">Nuevo Movimiento</a>
-<div class="p-4">
+
+
+<div class="p-4" style="background-color:black;color:white">
+<a href="${pageContext.request.contextPath}/estadoSearch" style="color:yellow">Estado</a><br>
+<a href="${pageContext.request.contextPath}/nuevoMovimiento" class="mb-4" style="color:yellow">Nuevo Movimiento</a> 
+ <br><br><br>
  
- <div class="row text-left">
- 	<div class="col-md-6">
+ 
+ <div class="row text-center">
+ <h2 style="color:yellow">Filtros</h2>
+ 	<div class="col-md-12">
  		<form:form action="search" method="GET">
  			<span>Persona</span><br><input type="text" name="personaSearch">
  			<input type="submit" value="Buscar" />
  		</form:form>
- 	</div>
+ 	</div> 	
  	
- 	<div class="col-md-6">
- 		<form:form action="buscarMov" method="GET">
- 			<span>Día</span><br><input type="text" name="diaSearch">
- 			<input type="submit" value="Buscar" />
- 		</form:form>
- 	</div>
  </div>
  
  <br><br><br><br>
-	<table class="table text-center">
+ 
+ <h2 style="color:yellow">Listado de Ingresos/Egresos</h2>
+	<table class="table table-striped table-dark text-center">
 		<thead>
 			<tr>				
 				<td>Persona</td>							

@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name="FPA_PORTAL.POR_INGRESO")
+@Table(name="FPA_PORTAL.POR_INGRESO_LOG")
 public class Ingreso {
 	
 	public Ingreso() {

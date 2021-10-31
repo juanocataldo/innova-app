@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.innova.entity.Ingreso;
+import com.innova.entity.IngresoEstado;
 import com.innova.entity.Persona;
 
 import com.innova.service.IngresoService;
@@ -29,40 +30,37 @@ public class UserController {
 	IngresoService ingresoService;
 	
 	 @RequestMapping("/")
-	 public String home() {
-	
-		//VER DE OBTENER TIMESTAMP SIN MILISEGUNDOS
+	 public String home(Model model) {
 		 
 		 
 		 return "home";
 	 }
 	
 	 @GetMapping("/search")
- String searchUsers(@RequestParam(value = "personaSearch", required=false) String personaSearch, 
+	 public String searchUsers(@RequestParam(value = "personaSearch", required=false) String personaSearch, 
 			 					@RequestParam(value="diaSearch", required=false) String dia, Model model) {
 		 
+		 		 
+		List<Ingreso> ingresos = ingresoService.getIngresosByName(personaSearch);
 		 
-		/* 
-		 if(personaSearch!=null) {
-			 List<Persona> persona = userService.getPersonaByName(personaSearch);
-			 List<Ingreso> ingreso = ingresoService.getIngresosByPerId(persona.getId());
-			 model.addAttribute("ingresos",ingresos);
-		 }		 
-		*/
-		 
-		 //List<Persona> personas = userService.listUsersByName(persona);
-		 
-		 //List<Ingreso> ingresos = ingresoService.getIngresos();
-		 
-		 //model.addAttribute("searchUsers",personas);
-		
-		 List<Ingreso> ingresos = ingresoService.getIngresos();
-		 
-		 System.out.println(ingresos);
-		 model.addAttribute("ingresos",ingresos);
-		 
+		model.addAttribute("ingresos",ingresos);
 		 return "search";		 
 	 }
+	 
+	 @GetMapping("/estadoSearch")
+	 public String estadoSearch(@RequestParam(value = "personaSearch", required=false) String personaSearch, 
+			 					 Model model) {
+		 
+		 		 
+		List<IngresoEstado> ingresos = ingresoService.getIngresosEstadosByName(personaSearch);
+		 
+		model.addAttribute("listado",ingresos);
+		 return "estadoSearch";		 
+	 }
+	 
+	 
+	 
+	 
 	 
 	 @GetMapping("/nuevoMovimiento")
 	 public String nuevoMovmiento(@RequestParam(value="searchPerson", required=false) String busqueda, Model model) {	 
@@ -90,7 +88,7 @@ public class UserController {
 	 
 		 
 	 @RequestMapping("/guardarMovimiento")
-	 public String guardarMovimiento(@RequestParam("id") Integer id,
+	 public String guardarMovimiento(@RequestParam(value="id", required=false) Integer id,
 			 						@RequestParam("detalle") String detalle,
 			 						@RequestParam("item") String item, Model model) {
 
@@ -99,6 +97,7 @@ public class UserController {
 		 
 		 Persona persona = userService.getPersonaById(id);
 		 
+		 IngresoEstado ingresoEstado = new IngresoEstado();
 		  
 		 //User user = userService.getUserById(id);
 		 //System.out.println("EL ID QUE PASOOOOOOOOOOO "+user.getId());
@@ -109,25 +108,29 @@ public class UserController {
 		 ingreso.setDetalles(detalle);
 		 
 		 
+		 ingresoEstado.setPerId(persona.getId());
+		 
 		 Timestamp ts=new Timestamp(System.currentTimeMillis());  
-			
 		 
 		 if(item.equals("ingreso")) {
 			 ingreso.setFechaIn(new Date(ts.getTime()));
 			 ingreso.setFechaFin(null);
-			 System.out.println("se puso fecha IN");
+			 ingresoEstado.setEstado(1);			  
 		 }			
 		 if(item.equals("egreso")) {
 			 Ingreso lastTime = ingresoService.getLastTimeIngreso(id);
 			 Timestamp ts2=(Timestamp)lastTime.getFechaIn();  
 			 ingreso.setFechaIn(new Date(ts2.getTime()));
 			 ingreso.setFechaFin(new Date(ts.getTime()));
+			 ingresoEstado.setEstado(0);
 		 } 
 		 
 		 ingreso.setUserIns(null);
 		 ingreso.setUserUpd(null);		 
 		 
 		 userService.ingresoPersona(ingreso);
+		 
+		 userService.estadoIngreso(ingresoEstado);
 		 
 		 return "redirect:/search";
 	 }

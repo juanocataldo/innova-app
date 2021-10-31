@@ -46,7 +46,7 @@ public class UserDAOImpl implements UserDAO {
 		
 		if(search != null && search.trim().length() > 0) {
 			query = currentSession.createQuery("from Persona WHERE lower(nombre) LIKE :search or lower(apellido) LIKE :search", Persona.class);
-			query.setParameter("search", "%"+search+"%" );
+			query.setParameter("search", "%"+search.toLowerCase()+"%" );
 			
 		}else {
 			query = currentSession.createQuery("from Persona order by nombre asc", Persona.class);			
@@ -98,7 +98,7 @@ public class UserDAOImpl implements UserDAO {
 		
 		if(personaSearch!=null && personaSearch.trim().length()>0) {
 			query = currentSession.createQuery("from Persona WHERE nombre =:user OR apellido=:user",Persona.class);
-			query.setParameter("user", personaSearch);
+			query.setParameter("user", personaSearch.toLowerCase());
 			
 		}else {
 			query = currentSession.createQuery("from Persona",Persona.class);
@@ -110,6 +110,27 @@ public class UserDAOImpl implements UserDAO {
 		return personas;	
 		
 		
+	}
+	
+	@Override
+	public Persona getOneUserByName(String search) {
+		
+
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Persona> query = null;
+		
+		if(search!=null && search.trim().length()>0) {
+			query = currentSession.createQuery("from Persona WHERE nombre =:user OR apellido=:user",Persona.class);
+			query.setParameter("user", search.toLowerCase());
+			
+		}else {
+			System.out.println("ERROR");			
+		}
+			
+		Persona persona = query.getSingleResult();
+		
+		return persona;					
 	}
 
 	

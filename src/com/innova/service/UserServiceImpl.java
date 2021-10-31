@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.innova.dao.IngresoDAO;
 import com.innova.dao.UserDAO;
 import com.innova.entity.Ingreso;
+import com.innova.entity.IngresoEstado;
 import com.innova.entity.Persona;
 import com.innova.entity.User;
 
@@ -76,11 +77,35 @@ IngresoDAO ingresoDAO;
 		return ingresos;
 	}
 
+	@Transactional
 	@Override
 	public List<Persona> getPersonaByName(String personaSearch) {
 		
 		List<Persona> personas = userDAO.getUserByName(personaSearch);
 		return personas;
+	}
+
+	@Transactional
+	@Override
+	public Persona getPersonaFiltro(String palabra) {
+		
+		return null;
+	}
+
+	@Transactional
+	@Override
+	public Persona getOnePersonaByName(String search) {
+
+		Persona persona = userDAO.getOneUserByName(search);
+		return persona;
+	}
+
+	@Transactional
+	@Override
+	public void estadoIngreso(IngresoEstado ingresoEstado) {
+		
+		ingresoDAO.saveIngresoEstado(ingresoEstado);
+		
 	}
 	
 	

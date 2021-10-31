@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
     <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>   
 <!DOCTYPE html>
-<html>
+<html style="background-color:black">
 <head>
 <meta charset="ISO-8859-1">
 
@@ -12,13 +12,14 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <title>Innova</title>
 </head>
-<body>
+<body style="background-color:black">
 
-<a href="${pageContext.request.contextPath}/search">Atrás</a>
+<a href="${pageContext.request.contextPath}/search" style="color:yellow">Atrás</a>
 
-<div class="text-center p-4">
+<div class="text-left p-4">
 	<form:form action="nuevoMovimiento" method="GET">
-		Buscar Persona <input type="text" name="searchPerson" />
+		<span style="color:white">Persona</span><br>
+		 <input type="text" name="searchPerson" />
 		
 		<input type="submit" value="Buscar" />
 	</form:form>
@@ -27,7 +28,7 @@
 
 
 <div class="p-4">
-	<table class="table text-center">
+	<table class="table text-center table-dark table-striped">
 		<thead>
 			<tr>				
 				<td>Persona</td>
@@ -48,7 +49,7 @@
 
 						<td>
 							<a href="${addPerson}">
-								<span class="material-icons" style="color: green">add_circle</span>
+								<span class="material-icons" style="color: white">add_circle</span>
 							</a>							
 						</td> 						
 					</tr>

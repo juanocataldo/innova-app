@@ -19,5 +19,5 @@ public interface UserDAO {
 
 	public List<Persona> getUserByName(String personaSearch);
 
-		
+	public Persona getOneUserByName(String search);
 }
