@@ -1,5 +1,6 @@
 package com.innova.dao;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -29,4 +30,12 @@ public interface IngresoDAO {
 	IngresoEstado getIngresoEstadoByPersonId(int id);
 
 	List<IngresoEstado> getIngresosEstadosByName(String personaSearch);
+
+	List<IngresoEstado> getIngresosEstadosByDni(BigDecimal dni);
+
+	List<IngresoEstado> getIngresosByEstado(String estado);
+
+	List<IngresoEstado> getIngresosByFiltro(String personaSearch, BigDecimal dni, Integer estado);
+
+	List<Ingreso> getIngresosByFecha(String fecha);
 }

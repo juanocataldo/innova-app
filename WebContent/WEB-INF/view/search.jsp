@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>   
 	<!DOCTYPE html>
@@ -15,85 +16,86 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	
 	<link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/resources/css/mycss.css">
+	
+	 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+  </script>
 	</head>
 	<body>
 		
 	
 	
 	<div class="container">	
-	
+	<br>
+	<a href="${pageContext.request.contextPath}/estadoSearch" id="estado">
+		<button type="submit" class="submit-atras btn btn-sm">
+		<div class="d-flex flex-wrap justify-content-left" style="background-color: transparent;" >
+			<span class="material-icons">arrow_back</span>
+				<span>Atras</span>
+			</div>
+		</button>
+	</a>
+	<br><br>		
 		<div class="cabecera">
-			<span>Movimientos </span>
-			<button class="nuevoBoton btn btn-sm"><a href="${pageContext.request.contextPath}/nuevoMovimiento" id="estado">Nuevo</a></button><br>		
+			<span>Movimientos </span>					
 		</div>
+				
+		
 		<div class="filtro">
 			<span>Filtros</span> 
 		</div>
 		<div class="filtroCuerpo">
-			<form:form action="search" method="GET">
-				<span>Persona</span><br><input type="text" name="personaSearch">
+			<form:form action="searchFecha" method="GET">
+				<span>Fecha<br><input type="text" id="datepicker" name="fechaSearch" style="width:100%"></span><br>				
 				
-				<button type="submit" class="submit btn btn-sm">Buscar</button>
+				<br>
+				<button type="submit" class="submit btn btn-sm">
+					<div class="d-flex flex-wrap" style="background-color: transparent;" >							
+						<span class="material-icons">search</span>
+							<span>Buscar</span>
+						</div>
+				</button>		
+	<br>
 			</form:form>
 		</div>	
 	</div>
 	
 	<div class="container mt-4">
 		<div class="filtro">
-			<span>Ingresos / Egresos</span> 
-			<button class="nuevoBoton btn btn-sm" style="background-color: #006BBD;"><a href="${pageContext.request.contextPath}/estadoSearch" id="estado">Estado</a></button><br>
+			<span>Ingresos / Egresos</span>			
 		</div>
 		<div class="filtroCuerpo">
-			<table class="table table-hover">
+		
+			<fmt:formatDate type="both" value="${Date}" />  
+			<table class="table">
 				<thead>
 					<tr>				
-						<td>Persona</td>							
+						<td>Persona</td>
+						<td>DNI</td>							
 						<td>Llegada</td>
 						<td>Salida</td>				
 					</tr>
 				</thead>
 				<tbody >
-				
-					<c:forEach var="tempIngresos" items="${ingresos}">
-					<!--<c:url var="UpdateLink" value="actividadPersona"> 
-									<c:param name="id" value="${tempUsers.id}" />
-										
-								</c:url>-->
-							<tr>												
-							<td>${tempIngresos.persona.nombre} ${tempIngresos.persona.apellido}</td>						
-							<td>${tempIngresos.fechaIn}</td>
-							<td>${tempIngresos.fechaFin}</td>
-								<!-- <td>
-								
-									
-									<c:choose>
-										<c:when test="${tempIngresos.fechaIn != null}">
-											<i class="material-icons p-2" style="color:grey">person_add</i>	
-											
-											<a href="${UpdateLink}">
-												<i class="material-icons p-2" style="color:red">person_off</i>	
-											</a>						        
-										</c:when>    
-										<c:otherwise>
-											<a href="${UpdateLink}">
-												<i class="material-icons p-2" style="color:green">person_add</i>	
-											</a>		
-											<i class="material-icons p-2" style="color:grey">person_off</i>			        
-										</c:otherwise>
-									</c:choose>
-									
-								
-								
-									
-								</td> 		 -->				
-							</tr>
+				  
+					<c:forEach var="tempIngresos" items="${ingresos}">				
+						<tr>
+							<td>${tempIngresos.persona.nombre} ${tempIngresos.persona.apellido}</td>
+							<td>${tempIngresos.persona.dni}</td>
+							<td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${tempIngresos.fechaIn}" /></td>
+							<td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${tempIngresos.fechaFin}" /></td>
+						</tr>
 					</c:forEach>
-					
 				</tbody>
 			</table>
-		</div>	
+		</div>
 	</div>
-	
-	
+
 	</body>
 	</html>

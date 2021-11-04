@@ -1,7 +1,9 @@
 package com.innova.controller;
 
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +25,8 @@ import com.innova.service.UserService;
 @Controller
 public class UserController {
 
+
+	
 	@Autowired
 	UserService userService;
 	
@@ -32,29 +36,73 @@ public class UserController {
 	 @RequestMapping("/")
 	 public String home(Model model) {
 		 
+		 Timestamp ts=new Timestamp(System.currentTimeMillis());
+		 Ingreso lastTime = ingresoService.getLastTimeIngreso(61);
+		 
+		 System.out.println("ULTIMA FECHA "+lastTime+". NUEVA FECHA "+ts);
 		 
 		 return "home";
 	 }
 	
 	 @GetMapping("/search")
-	 public String searchUsers(@RequestParam(value = "personaSearch", required=false) String personaSearch, 
-			 					@RequestParam(value="diaSearch", required=false) String dia, Model model) {
+	 public String searchUsers(@RequestParam(value="id", required=false) Integer id, Model model) {
+
+		//List<Ingreso> ingresos = ingresoService.getIngresosByName(personaSearch);
+		
 		 
-		 		 
-		List<Ingreso> ingresos = ingresoService.getIngresosByName(personaSearch);
 		 
+		List<Ingreso> ingresos = ingresoService.getIngresosById(id);
+		
 		model.addAttribute("ingresos",ingresos);
-		 return "search";		 
+		
+		return "search";		 
+	 }
+	 
+	 @GetMapping("/searchFecha")
+	 public String searchFecha(@RequestParam(value="fechaSearch", required=false) String fecha, Model model) {
+
+		 try {
+			final String OLD_FORMAT = "MM/dd/yyyy";
+			final String NEW_FORMAT = "dd-MM-yyyy";
+
+			 // August 12, 2010
+			String oldDateString = fecha;
+			String newDateString;
+
+			SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+			Date d = sdf.parse(oldDateString);
+			sdf.applyPattern(NEW_FORMAT);
+			newDateString = sdf.format(d);
+			 
+			System.out.println("NEW DATE STRING : "+newDateString);
+				
+			 
+			List<Ingreso> ingresos = ingresoService.getIngresosByFecha(newDateString);
+			
+			
+			model.addAttribute("ingresos",ingresos);
+		 }
+		 catch(Exception exc){
+			 exc.printStackTrace();
+		 }
+		 
+		//List<Ingreso> ingresos = ingresoService.getIngresosByName(personaSearch);
+		
+		 
+	
+		
+		return "search";		 
 	 }
 	 
 	 @GetMapping("/estadoSearch")
-	 public String estadoSearch(@RequestParam(value = "personaSearch", required=false) String personaSearch, 
+	 public String estadoSearch(@RequestParam(value = "personaSearch", required=false) String personaSearch,
+			 					@RequestParam(value = "dniSearch", required=false) BigDecimal dni,
+			 					@RequestParam(value = "estadoSearch", required=false) Integer estado,
 			 					 Model model) {
+
+		 List<IngresoEstado> ingresos = ingresoService.getIngresosEstadosByFiltros(personaSearch, dni, estado);
+		 model.addAttribute("listado",ingresos);
 		 
-		 		 
-		List<IngresoEstado> ingresos = ingresoService.getIngresosEstadosByName(personaSearch);
-		 
-		model.addAttribute("listado",ingresos);
 		 return "estadoSearch";		 
 	 }
 	 
@@ -63,11 +111,16 @@ public class UserController {
 	 
 	 
 	 @GetMapping("/nuevoMovimiento")
-	 public String nuevoMovmiento(@RequestParam(value="searchPerson", required=false) String busqueda, Model model) {	 
-		 
-		 List<Persona> personas = userService.listUsersByName(busqueda);
-		 
-		 model.addAttribute("searchUsers",personas);
+	 public String nuevoMovmiento(@RequestParam(value="searchPerson", required=false) String busqueda, 
+			 					@RequestParam(value = "dniSearch", required=false) BigDecimal dni,Model model) {	 
+		 System.out.println("DNI DESDE EL CONTROLLER ES "+dni);
+		 if(dni != null) {			
+			 	List<Persona> personas = userService.listUsersByDni(dni);			 
+				model.addAttribute("searchUsers",personas);
+			}else {
+				List<Persona> personas = userService.listUsersByName(busqueda);					
+				model.addAttribute("searchUsers",personas);	
+			}
 		 
 		 return "nuevoMovimiento";
 	 }
@@ -91,48 +144,60 @@ public class UserController {
 	 public String guardarMovimiento(@RequestParam(value="id", required=false) Integer id,
 			 						@RequestParam("detalle") String detalle,
 			 						@RequestParam("item") String item, Model model) {
-
-		
+		 
 		 Ingreso ingreso = new Ingreso();
 		 
 		 Persona persona = userService.getPersonaById(id);
 		 
 		 IngresoEstado ingresoEstado = new IngresoEstado();
-		  
-		 //User user = userService.getUserById(id);
-		 //System.out.println("EL ID QUE PASOOOOOOOOOOO "+user.getId());
+		 
+		 System.out.println("PARAMETROS PARA CARGAR INGRESO");
+		 System.out.println("ID: "+id);
+		 System.out.println("DETALLE: "+detalle);
+		 System.out.println("ITEM: "+item);
+		 
 		 ingreso.setUserId(persona.getId());
 		 ingreso.setAudDel(null);
 		 ingreso.setAudIns(null);
 		 ingreso.setAudUpd(null);
 		 ingreso.setDetalles(detalle);
-		 
-		 
+		 		 
 		 ingresoEstado.setPerId(persona.getId());
 		 
-		 Timestamp ts=new Timestamp(System.currentTimeMillis());  
+		 Timestamp ts=new Timestamp(System.currentTimeMillis());
+		 Timestamp ts2=new Timestamp(System.currentTimeMillis());
 		 
-		 if(item.equals("ingreso")) {
+		 if(item.equals("ingreso")) {			 
 			 ingreso.setFechaIn(new Date(ts.getTime()));
 			 ingreso.setFechaFin(null);
-			 ingresoEstado.setEstado(1);			  
-		 }			
+			 ingresoEstado.setEstado(1);			 
+		 }
+				 
 		 if(item.equals("egreso")) {
 			 Ingreso lastTime = ingresoService.getLastTimeIngreso(id);
-			 Timestamp ts2=(Timestamp)lastTime.getFechaIn();  
-			 ingreso.setFechaIn(new Date(ts2.getTime()));
-			 ingreso.setFechaFin(new Date(ts.getTime()));
+			 ts = (Timestamp)lastTime.getFechaIn();
+			 if(lastTime.getFechaIn()!=null) {				 
+				 ingreso.setFechaIn(ts);				 
+			 }else {
+				 ingreso.setFechaIn(null);
+			 }
+			 
+			 ingreso.setFechaFin(ts2);			 
 			 ingresoEstado.setEstado(0);
 		 } 
 		 
 		 ingreso.setUserIns(null);
 		 ingreso.setUserUpd(null);		 
 		 
-		 userService.ingresoPersona(ingreso);
 		 
+		 System.out.println("SE VA A GUARDAR ESTO -->" + ingreso);
+		 
+		 
+		 userService.ingresoPersona(ingreso);
+		 		 
 		 userService.estadoIngreso(ingresoEstado);
 		 
-		 return "redirect:/search";
+		 return "redirect:/estadoSearch";
 	 }
 	 
 	 @GetMapping("/buscarMov")

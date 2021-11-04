@@ -1,5 +1,6 @@
 package com.innova.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.innova.entity.Ingreso;
@@ -28,5 +29,7 @@ public interface UserService {
 	Persona getOnePersonaByName(String search);
 
 	void estadoIngreso(IngresoEstado ingresoEstado);
+
+	List<Persona> listUsersByDni(BigDecimal dni);
 	
 }

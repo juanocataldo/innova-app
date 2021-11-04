@@ -17,26 +17,47 @@
 <body >
 
 <div class="container">	
+	<br>
+	<a href="${pageContext.request.contextPath}/estadoSearch" id="estado">
+		<button type="submit" class="submit-atras btn btn-sm">
+		<div class="d-flex flex-wrap justify-content-left" style="background-color: transparent;" >
+			<span class="material-icons">arrow_back</span>
+				<span>Atras</span>
+			</div>
+		</button>
+	</a>
+	<br><br>		
 
 	<div class="cabeceraMov">
 		<span>Nuevos movimientos</span>		
 	</div>
-
-	<div class="row p-4" style="background-color: transparent;">
-		<button class="atras btn btn-sm"><a href="${pageContext.request.contextPath}/search" id="estado">Atras</a></button>
-	</div>
-
+	
 	<div class="filtro">
-		<span>Filtros</span> 
-	</div>
-	<div class="filtroCuerpo">
-		<form:form action="nuevoMovimiento" method="GET">
-		<span style="color:white">Persona</span><br>
-		 <input type="text" name="searchPerson" />
+	<span>Filtros</span> 
+</div>
+<div class="filtroCuerpo">
+	<form:form action="nuevoMovimiento" method="GET">
+	
+	<div class="row">
+		<div class="col-md-6">
+			<span>Persona</span><br><input type="text" name="searchPerson" style="width:100%;" >	
+		</div>
 		
-		<button type="submit" class="submit btn btn-sm">Buscar</button>
-	</form:form>
-	</div>	
+		<div class="col-md-6">
+			<span>DNI</span><br><input type="text"  style="width:100%;" name="dniSearch">
+		</div>
+	</div>
+	<br>
+	<button type="submit" class="submit btn btn-sm">
+		<div class="d-flex flex-wrap" style="background-color: transparent;" >							
+			<span class="material-icons">search</span>
+				<span>Buscar</span>
+			</div>
+		</button>		
+	<br>
+ 	
+ 		</form:form>
+</div>	
 	
 	
 	
@@ -44,11 +65,12 @@
 		<span>Seleccione Persona</span> 
 	</div>
 	<div class="filtroCuerpo">
-		<table class="table table-hover">
+		<table class="table">
 			<thead>
 				<tr>				
 					<td>Persona</td>
-					<td>Actividadn</td>
+					<td>DNI</td>
+					<td style="text-align:center">Actividad</td>
 				</tr>
 			</thead>
 			<tbody>		
@@ -62,11 +84,17 @@
 							<td>
 								${tempPersonas.nombre} ${tempPersonas.apellido}
 							</td>
-	
+							
 							<td>
+								${tempPersonas.dni}
+							</td>	
+	
+							<td style="text-align:center">
 								<a href="${addPerson}">
-									<span class="material-icons" style="color: white">add_circle</span>
-								</a>							
+									<button class="botonAccion btn btn-sm" style="background-color:#46BA46;width:40px;font-size:5px">							
+											<span class="material-icons" style="color:white">add</span>							
+									</button>
+								</a>
 							</td> 						
 						</tr>
 				</c:forEach>

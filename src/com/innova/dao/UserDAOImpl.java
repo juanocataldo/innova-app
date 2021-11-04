@@ -1,5 +1,6 @@
 package com.innova.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -131,6 +132,31 @@ public class UserDAOImpl implements UserDAO {
 		Persona persona = query.getSingleResult();
 		
 		return persona;					
+	}
+
+
+
+
+
+	@Override
+	public List<Persona> listPersonasByDni(BigDecimal dni) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Persona> query = null;
+		System.out.println("EL DNI INGRESADO EN EL DAO ES "+dni);
+		if(dni != null) {
+			query = currentSession.createQuery("from Persona WHERE dni=:search", Persona.class);
+			query.setParameter("search", dni );
+			
+		}else {
+			query = currentSession.createQuery("from Persona order by nombre asc", Persona.class);			
+		}
+		
+		
+		List<Persona> users = query.getResultList();
+
+		return users;
 	}
 
 	

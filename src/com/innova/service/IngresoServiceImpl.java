@@ -1,5 +1,6 @@
 package com.innova.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -50,10 +51,12 @@ public class IngresoServiceImpl implements IngresoService {
 		return ingresos;
 	}
 
+	@Transactional
 	@Override
 	public List<Ingreso> getIngresosById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<Ingreso> ingresos = ingresoDAO.getIngresosById(id);
+		return ingresos;
 	}
 
 	@Transactional
@@ -79,6 +82,35 @@ public class IngresoServiceImpl implements IngresoService {
 		
 		List<IngresoEstado> ingresoEstado = ingresoDAO.getIngresosEstadosByName(personaSearch);
 		return ingresoEstado;
+	}
+
+	@Transactional
+	@Override
+	public List<IngresoEstado> getIngresosEstadosByDni(BigDecimal dni) {
+		List<IngresoEstado> ingresoEstado = ingresoDAO.getIngresosEstadosByDni(dni);
+		return ingresoEstado;
+	}
+
+	@Transactional
+	@Override
+	public List<IngresoEstado> getIngresosByEstado(String estado) {
+		
+		List<IngresoEstado> ingresoEstado = ingresoDAO.getIngresosByEstado(estado);
+		return ingresoEstado;		
+	}
+
+	@Transactional
+	@Override
+	public List<IngresoEstado> getIngresosEstadosByFiltros(String personaSearch, BigDecimal dni, Integer estado) {
+		List<IngresoEstado> ingresoEstado = ingresoDAO.getIngresosByFiltro(personaSearch, dni, estado);
+		return ingresoEstado;
+	}
+
+	@Transactional
+	@Override
+	public List<Ingreso> getIngresosByFecha(String fecha) {
+		List<Ingreso> ingresos = ingresoDAO.getIngresosByFecha(fecha);
+		return ingresos;
 	}
 
 	

@@ -1,6 +1,9 @@
 package com.innova.dao;
 
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -27,9 +30,8 @@ public class IngresoDAOImpl implements IngresoDAO {
 	public void ingresoPersona(Ingreso ingreso) {
 	
 		Session currentSession = sessionFactory.getCurrentSession();
-		
+		System.out.println("EN IMPL SE GUARDA "+ingreso);
 		currentSession.save(ingreso);		
-		
 	}
 
 
@@ -82,16 +84,15 @@ public class IngresoDAOImpl implements IngresoDAO {
 	}
 
 
-
-
 	@Override
 	public Ingreso getLastTimeIngreso(int id) {
+		System.out.println("ID GETLASTTIMEINGRESO "+id);
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query<Ingreso> query = currentSession.createQuery("from Ingreso WHERE userId=:person order by id desc", Ingreso.class);
+		Query<Ingreso> query = currentSession.createQuery("from Ingreso WHERE userId=:person ORDER BY id DESC ", Ingreso.class);
 		query.setParameter("person", id);
 		Ingreso ingreso = query.getResultList().stream().findFirst().orElse(null); 
-				
+		System.out.println("EL ULTIMO INGRESO DE "+id+"es "+ingreso.getFechaIn());
 		return ingreso;		
 	}
 
@@ -130,7 +131,7 @@ public class IngresoDAOImpl implements IngresoDAO {
 		Query<Ingreso> query = null;
 		
 		if(id != 0) {
-			query = currentSession.createQuery("from Ingreso where userId=:perid", Ingreso.class);
+			query = currentSession.createQuery("from Ingreso where userId=:perid ORDER BY 1 DESC", Ingreso.class);
 			query.setParameter("perid", id);			
 		}else {
 			query = currentSession.createQuery("from Ingreso", Ingreso.class);
@@ -197,6 +198,112 @@ public class IngresoDAOImpl implements IngresoDAO {
 		List<IngresoEstado> ingresoEstado = query.getResultList();
 		System.out.println("SE OBTUVO "+ingresoEstado);
 		return ingresoEstado;
+	}
+
+
+	@Override
+	public List<IngresoEstado> getIngresosEstadosByDni(BigDecimal dni) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<IngresoEstado> query = null;
+		
+		if(dni != null) {			
+			query = currentSession.createQuery("from IngresoEstado WHERE persona.dni=:dni",IngresoEstado.class);
+			
+			query.setParameter("dni", dni);
+		}else 
+			query = currentSession.createQuery("from IngresoEstado",IngresoEstado.class);
+				
+		List<IngresoEstado> ingresoEstado = query.getResultList();
+	
+		return ingresoEstado;
+	}
+
+
+	@Override
+	public List<IngresoEstado> getIngresosByEstado(String estado) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<IngresoEstado> query = null;
+		
+		if(estado != null) {			
+		
+			if(estado.equals("todos")) {
+				query = currentSession.createQuery("from IngresoEstado",IngresoEstado.class);
+			}else {
+				query = currentSession.createQuery("from IngresoEstado WHERE estado=:estado",IngresoEstado.class);
+				
+				query.setParameter("estado", estado);	
+			}
+		}
+		
+		List<IngresoEstado> ingresoEstado = query.getResultList();
+	
+		return ingresoEstado;
+	}
+
+
+	@Override
+	public List<IngresoEstado> getIngresosByFiltro(String personaSearch, BigDecimal dni, Integer estado) {
+		
+		System.out.println("PARAMETROS RECIBIDOS DAO IMPL: "+personaSearch + "|"+ dni + "|" + estado);
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<IngresoEstado> query = null;
+				
+		if(personaSearch == "" && dni == null) {
+			
+			if(estado == 2)
+				query = currentSession.createQuery("from IngresoEstado ORDER BY 1 DESC",IngresoEstado.class);
+			else {
+				query = currentSession.createQuery("from IngresoEstado WHERE estado=:estado ORDER BY 1 DESC",IngresoEstado.class);
+				query.setParameter("estado", estado);
+			}
+		}
+		
+		if(personaSearch == "" && dni != null) {
+			query = currentSession.createQuery("from IngresoEstado WHERE estado=:estado AND persona.dni=:dni OR persona.nombre LIKE :personaSearch OR persona.apellido LIKE :personaSearch ORDER BY persona.nombre ASC",IngresoEstado.class);
+			query.setParameter("estado", estado);
+			query.setParameter("personaSearch", personaSearch);
+			query.setParameter("dni", dni);
+		}
+		
+		if(personaSearch != "" && dni == null) {
+			query = currentSession.createQuery("from IngresoEstado WHERE estado=:estado OR persona.dni=:dni AND persona.nombre LIKE :personaSearch OR persona.apellido LIKE :personaSearch ORDER BY persona.nombre ASC",IngresoEstado.class);
+			query.setParameter("estado", estado);
+			query.setParameter("personaSearch", personaSearch);
+			query.setParameter("dni", dni);			
+		}
+		
+		if(personaSearch == null && dni == null && estado == null) {
+			query = currentSession.createQuery("from IngresoEstado ORDER BY 1 DESC",IngresoEstado.class);
+			
+		}
+		
+		List<IngresoEstado> ingresoEstado = query.getResultList();
+	
+		return ingresoEstado;
+	}
+
+
+	@Override
+	public List<Ingreso> getIngresosByFecha(String fecha) {
+		
+		
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		System.out.println("FECHAAA "+fecha);
+		
+		Query<Ingreso> query = currentSession.createQuery("from Ingreso WHERE fechaIn >= cast(:fecha as date) order by fechaIn ASC", Ingreso.class);
+		query.setParameter("fecha", fecha);
+		
+		List<Ingreso> ingresos = query.getResultList();
+		
+		return ingresos;
 	}
 }
 

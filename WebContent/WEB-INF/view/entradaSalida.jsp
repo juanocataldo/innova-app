@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>   
+    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html >
 <head >
@@ -17,14 +18,21 @@
 
 
 <div class="container">
+<br>
+	<a href="${pageContext.request.contextPath}/nuevoMovimiento" id="estado">
+		<button type="submit" class="submit-atras btn btn-sm">
+		<div class="d-flex flex-wrap justify-content-left" style="background-color: transparent;" >
+			<span class="material-icons">arrow_back</span>
+				<span>Atras</span>
+			</div>
+		</button>
+	</a>
+	<br><br>	
+
 	<div class="cabeceraMov">
 		<span>Nuevo ingreso/egreso</span>		
 	</div>
-
-	<div class="row p-4" style="background-color: transparent;">
-		<button class="atras btn btn-sm"><a href="${pageContext.request.contextPath}/nuevoMovimiento" id="estado">Atras</a></button>
-	</div>
-
+	
 	
 	<div class="filtro">
 		<span>Generar Movimiento:  ${userSelected.nombre} ${userSelected.apellido}</span> 
@@ -33,7 +41,7 @@
 		<form:form action="guardarMovimiento" >		  
 			<div class="form-group">
 			<span>Seleccionar movimiento</span>
-				 <select name="item" class="form-select form-select-sm form-select-innova">		    		
+				 <select name="item" class="form-select form-select-sm form-select-innova minimal">		    		
 							   <c:if test="${(empty ingresoPersona.fechaIn) and (not empty ingresoPersona.fechaFin)}">
 								   <option value="ingreso" >Ingreso a Base</option>
 								   <option value="egreso" disabled=disabled>Salida de Base</option>
@@ -45,8 +53,13 @@
 							   </c:if>
 							   
 							   <c:if test="${(empty ingresoPersona.fechaIn) and (empty ingresoPersona.fechaFin)}">
-								   <option value="ingreso" >Ingreso a Base</option>
+								   <option value="ingreso">Ingreso a Base</option>
 								   <option value="egreso" >Salida de Base</option>
+							   </c:if>
+							   
+							   <c:if test="${(not empty ingresoPersona.fechaIn) and (not empty ingresoPersona.fechaFin)}">
+								   <option value="ingreso" >Ingreso a Base</option>
+								   <option value="egreso" disabled=disabled >Salida de Base</option>
 							   </c:if>	   
 			 </select>
 			
@@ -57,7 +70,13 @@
 			   
 			   <input style="display:none" type="text" name="id" value="${userSelected.id}">							
 			   
-			   <button type="submit" class="submit btn btn-sm">Enviar</button>	
+			   <button type="submit" class="submit btn btn-sm">
+				<div class="d-flex flex-wrap" style="background-color: transparent;" >
+					<span class="material-icons">save</span>
+						<span>Guardar</span>
+					</div>
+				</button>
+				<br><br>	
 			</div>
 		 
 		   
@@ -69,7 +88,7 @@
 		<span>Último movimiento realizado</span> 
 	</div>
 	<div class="filtroCuerpo">
-		<table class="table table-hover">
+		<table class="table">
 			<thead>
 				<tr>				
 					<td>Persona</td>
@@ -83,10 +102,10 @@
 								<span>${userSelected.nombre} ${userSelected.apellido} ${userSelected.id}</span>
 							</td>
 							<td>
-								${ingresoPersona.fechaIn}							
+								<fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${ingresoPersona.fechaIn}" />							
 							</td>						 						
 							<td>
-									${ingresoPersona.fechaFin}						
+									<fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${ingresoPersona.fechaFin}" />						
 							</td>
 						</tr>			
 			</tbody>

@@ -1,5 +1,6 @@
 package com.innova.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -55,9 +56,8 @@ IngresoDAO ingresoDAO;
 	@Transactional
 	@Override
 	public void ingresoPersona(Ingreso ingreso) {
-		
-		ingresoDAO.ingresoPersona(ingreso);
-		
+		System.out.println("PERSONA EN SERVICE IMPL "+ingreso);
+		ingresoDAO.ingresoPersona(ingreso);		
 	}
 
 	@Transactional
@@ -106,6 +106,15 @@ IngresoDAO ingresoDAO;
 		
 		ingresoDAO.saveIngresoEstado(ingresoEstado);
 		
+	}
+
+	@Transactional
+	@Override
+	public List<Persona> listUsersByDni(BigDecimal dni) {
+		
+		List<Persona> personas = userDAO.listPersonasByDni(dni);
+		
+		return personas;
 	}
 	
 	

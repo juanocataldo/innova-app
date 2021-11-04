@@ -1,5 +1,6 @@
 package com.innova.service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -23,4 +24,12 @@ public interface IngresoService {
 	IngresoEstado getIngresoByPerId(int id);
 
 	List<IngresoEstado> getIngresosEstadosByName(String personaSearch);
+
+	List<IngresoEstado> getIngresosEstadosByDni(BigDecimal dni);
+
+	List<IngresoEstado> getIngresosByEstado(String estado);
+
+	List<IngresoEstado> getIngresosEstadosByFiltros(String personaSearch, BigDecimal dni, Integer estado);
+
+	List<Ingreso> getIngresosByFecha(String fecha);
 }

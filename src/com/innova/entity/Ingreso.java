@@ -49,17 +49,19 @@ public class Ingreso {
 	@Column(name="PI_PER_ID")
 	private Integer userId;
 
+	
+	/*
 	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern="dd-MM-YY HH:mm")
+	@DateTimeFormat(pattern="dd-MM-YY HH:mm")*/
 	@Column(name="PI_FECHA_HORA_INI")
 	private Date fechaIn;
 	
-	@PrePersist
+/*	@PrePersist
 	private void onCreate() {
 		Timestamp ts=new Timestamp(System.currentTimeMillis());  
 		fechaIn = new Date(ts.getTime());
 	}
-	
+	*/
 	@Column(name="PI_FECHA_HORA_FIN")
 	private Date fechaFin;
 	

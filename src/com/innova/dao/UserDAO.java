@@ -1,5 +1,6 @@
 package com.innova.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
@@ -20,4 +21,6 @@ public interface UserDAO {
 	public List<Persona> getUserByName(String personaSearch);
 
 	public Persona getOneUserByName(String search);
+
+	public List<Persona> listPersonasByDni(BigDecimal dni);
 }

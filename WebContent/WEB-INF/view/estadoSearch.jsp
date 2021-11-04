@@ -20,20 +20,56 @@
 <div class="container">	
 
 <div class="cabecera">
-	<span>Estado de Personal</span>	
+	<span>Estado de Personal</span>
+
+		
+	<a href="${pageContext.request.contextPath}/nuevoMovimiento" id="estado">
+		<button type="submit" class="submit btn btn-sm" style="background-color: #46BA46">
+		<div class="d-flex flex-wrap" style="background-color: transparent;" >
+			<span class="material-icons">add</span>
+				<span>Nuevo</span>
+			</div>
+		</button>
+	</a>
+	<br>		
 </div>
 
-<div class="row p-4" style="background-color: transparent;">
-	<a class="atras" href="${pageContext.request.contextPath}/search" id="estado"><button class="atras btn btn-sm">Atras</button></a>
-</div>
+
 
 <div class="filtro">
 	<span>Filtros</span> 
 </div>
 <div class="filtroCuerpo">
 	<form:form action="estadoSearch" method="GET">
- 			<span>Persona</span><br><input type="text" name="personaSearch">
- 			<button type="submit" class="submit btn btn-sm">Buscar</button>
+	
+	<div class="row">
+		<div class="col-md-4">
+			<span>Persona</span><br><input type="text" name="personaSearch" style="width:100%;" >	
+		</div>
+		
+		<div class="col-md-4">
+			<span>DNI</span><br><input type="text" name="dniSearch" style="width:100%;">	
+		</div>
+		
+		<div class="col-md-4">
+			<span>Estado</span><br>
+			<select name="estadoSearch" class="form-select form-select-sm form-select-innova minimal" style="width:100%">
+			    <option value="2" selected>Todos</option>
+			    <option value="1">En Base</option>
+			    <option value="0">Fuera de Base</option>			        
+			</select>
+		</div>
+		
+	</div>
+	<br>
+	<button type="submit" class="submit btn btn-sm">
+		<div class="d-flex flex-wrap" style="background-color: transparent;" >							
+			<span class="material-icons">search</span>
+				<span>Buscar</span>
+			</div>
+		</button>		
+	<br>
+ 	
  		</form:form>
 </div>	
 </div>
@@ -44,11 +80,13 @@
 </div>
 <div class="filtroCuerpo">
 	
-	<table class="table table-hover">
+	<table class="table">
 		<thead>
 			<tr>
 				<th scope="col">Persona</th>
-				<th scope="col">Estado</th>
+				<th scope="col">DNI</th>
+				<th scope="col" style="text-align:center">Estado</th>
+				<th scope="col" style="text-align:center">Acción</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -56,16 +94,30 @@
 				<tr>
 					
 					<td>${tempSemaforo.persona.nombre} ${tempSemaforo.persona.apellido}</td>
-					
+					<td>${tempSemaforo.persona.dni}</td>
 				
+					<td style="text-align:center">
 					<c:choose>
-					    <c:when test="${tempSemaforo.estado == 1}">
-					        <td><span class="material-icons" style="color:green">circle</span></td>
+					    <c:when test="${tempSemaforo.estado == 1}">					       
+					       <span class="material-icons" style="color:#46BA46">circle</span>
 					    </c:when>    
 					    <c:otherwise>
-					    	<td><span class="material-icons" style="color:red">circle</span></td>
+					    	<span class="material-icons" style="color:#515960">circle</span>
 					    </c:otherwise>
 					</c:choose>
+					</td>
+					
+					<c:url var="viewMov" value="search"> 
+						<c:param name="id" value="${tempSemaforo.persona.id}" />								
+					</c:url>
+					
+					<td style="text-align:center; ">
+					<a href="${viewMov}">
+						<button class="botonAccion btn btn-sm" style="background-color:#5BBFDD;width:40px;font-size:5px">							
+								<span class="material-icons" style="color:white">visibility</span>							
+						</button>
+					</a>
+					</td>
 				</tr>
 			</c:forEach>
 			
