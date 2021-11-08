@@ -23,7 +23,7 @@
 	<span>Elementos Economato</span>
 
 		
-	<a href="${pageContext.request.contextPath}/nuevoMovimiento" id="estado">
+	<a href="${pageContext.request.contextPath}/nuevoElemento" id="estado">
 		<button type="submit" class="submit btn btn-sm" style="background-color: #46BA46">
 		<div class="d-flex flex-wrap" style="background-color: transparent;" >
 			<span class="material-icons">add</span>
@@ -40,23 +40,26 @@
 	<span>Filtros</span> 
 </div>
 <div class="filtroCuerpo">
-	<form:form action="estadoSearch" method="GET">
+	<form:form action="elementoSearch" method="GET">
 	
 	<div class="row">
 		<div class="col-md-4">
-			<span>Persona</span><br><input type="text" name="personaSearch" style="width:100%;" >	
+			<span>Elemento</span><br><input type="text" name="elemNombre" style="width:100%;" >	
 		</div>
 		
 		<div class="col-md-4">
-			<span>DNI</span><br><input type="text" name="dniSearch" style="width:100%;">	
+			<span>Tipo</span><br><select name="elemTipo" class="form-select form-select-sm form-select-innova minimal" style="width:100%">
+			    <option value="2" selected>Todos</option>
+			    <option value="21">Lapiceras</option>			    			        
+			</select>	
 		</div>
 		
 		<div class="col-md-4">
 			<span>Estado</span><br>
-			<select name="estadoSearch" class="form-select form-select-sm form-select-innova minimal" style="width:100%">
+			<select name="elemEstado" class="form-select form-select-sm form-select-innova minimal" style="width:100%">
 			    <option value="2" selected>Todos</option>
-			    <option value="1">En Base</option>
-			    <option value="0">Fuera de Base</option>			        
+			    <option value="1">Entregado</option>
+			    <option value="0">Stock</option>			        
 			</select>
 		</div>
 		
@@ -87,6 +90,7 @@
 				<th scope="col">Nombre</th>
 				<th scope="col">Tipo</th>
 				<th scope="col">Estado</th>
+				<th scope="col">Acción</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -96,6 +100,7 @@
 					<td>${tempElemento.nombre}</td>
 					<td>${tempElemento.tipo}</td>
 					<td>${tempElemento.estado}</td>
+					<td>Editar/Baja</td>
 				</tr>
 			</c:forEach>
 			

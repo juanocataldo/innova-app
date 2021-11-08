@@ -31,18 +31,18 @@ public class Economato_Elementos {
 	private String nombre;
 	
 	@Column(name="ELEM_TIPO_ID")
-	private int tipo;
+	private Integer tipo;
 	
 	@Column(name="ELEM_ESTADO")
-	private int estado;
+	private Integer estado;
 
 	
 	
-	public int getEstado() {
+	public Integer getEstado() {
 		return estado;
 	}
 
-	public void setEstado(int estado) {
+	public void setEstado(Integer estado) {
 		this.estado = estado;
 	}
 
@@ -62,15 +62,15 @@ public class Economato_Elementos {
 		this.nombre = nombre;
 	}
 
-	public int getTipo() {
+	public Integer getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(int tipo) {
+	public void setTipo(Integer tipo) {
 		this.tipo = tipo;
 	}
 
-	public Economato_Elementos(String nombre, int tipo, int estado) {
+	public Economato_Elementos(String nombre, Integer tipo, Integer estado) {
 		super();
 		this.nombre = nombre;
 		this.tipo = tipo;

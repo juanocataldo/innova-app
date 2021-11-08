@@ -33,7 +33,7 @@
 			</button>		
 	
 			<button class="submit-menu btn btn-sm">
-				<a href="${pageContext.request.contextPath}/economato">
+				<a href="${pageContext.request.contextPath}/elementos">
 					<div class="submit-menu d-flex flex-wrap">
 						<span class="material-icons">meeting_room</span>ECONOMATO
 					</div>

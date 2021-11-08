@@ -16,12 +16,27 @@ public class EconomatoServiceImpl implements EconomatoService, EconomatoDAO {
 	@Autowired
 	EconomatoDAO economatoDAO;
 	
-	
+	@Transactional
 	@Override
 	public List<Economato_Elementos> listElementos() {
 
 		List<Economato_Elementos> listElementos = economatoDAO.listElementos();
 		return listElementos;
+	}
+
+	@Transactional
+	@Override
+	public List<Economato_Elementos> listElementosByFilters(String nombre, int estado, int tipo) {
+		List<Economato_Elementos> listElementos = economatoDAO.listElementosByFilters(nombre, estado, tipo);
+		return listElementos;	
+		}
+
+	@Transactional
+	@Override
+	public void addElemento(Economato_Elementos nuevoElemento) {
+		
+		economatoDAO.addElemento(nuevoElemento);
+		
 	}
 	
 }
