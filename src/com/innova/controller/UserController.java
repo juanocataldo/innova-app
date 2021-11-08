@@ -35,14 +35,10 @@ public class UserController {
 	
 	 @RequestMapping("/")
 	 public String home(Model model) {
-		 
-		 Timestamp ts=new Timestamp(System.currentTimeMillis());
-		 Ingreso lastTime = ingresoService.getLastTimeIngreso(61);
-		 
-		 System.out.println("ULTIMA FECHA "+lastTime+". NUEVA FECHA "+ts);
-		 
+		 		 
 		 return "home";
-	 }
+	 } 
+	 
 	
 	 @GetMapping("/search")
 	 public String searchUsers(@RequestParam(value="id", required=false) Integer id, Model model) {
@@ -208,5 +204,5 @@ public class UserController {
 		 model.addAttribute("ingresosA",searchIngresos);
 		 
 		 return "redirect:/search";
-	 }
+	 }	 
 }

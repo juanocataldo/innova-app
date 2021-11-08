@@ -80,6 +80,7 @@
 						<td>DNI</td>							
 						<td>Llegada</td>
 						<td>Salida</td>				
+						<td>Detalles</td>
 					</tr>
 				</thead>
 				<tbody >
@@ -90,6 +91,7 @@
 							<td>${tempIngresos.persona.dni}</td>
 							<td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${tempIngresos.fechaIn}" /></td>
 							<td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${tempIngresos.fechaFin}" /></td>
+							<td>${tempIngresos.detalles}</td>
 						</tr>
 					</c:forEach>
 				</tbody>

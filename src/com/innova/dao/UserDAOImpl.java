@@ -16,8 +16,6 @@ import com.innova.entity.User;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-
-	
 	@Autowired
 	private SessionFactory sessionFactory;
 	

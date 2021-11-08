@@ -298,7 +298,7 @@ public class IngresoDAOImpl implements IngresoDAO {
 		
 		System.out.println("FECHAAA "+fecha);
 		
-		Query<Ingreso> query = currentSession.createQuery("from Ingreso WHERE fechaIn >= cast(:fecha as date) order by fechaIn ASC", Ingreso.class);
+		Query<Ingreso> query = currentSession.createQuery("from Ingreso WHERE to_char(fechaIn, 'Dy DD-Mon-YYYY HH24:MI:SS') >= cast(:fecha as date) order by fechaIn ASC", Ingreso.class);
 		query.setParameter("fecha", fecha);
 		
 		List<Ingreso> ingresos = query.getResultList();

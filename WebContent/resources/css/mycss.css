@@ -195,3 +195,16 @@ select.minimal {
       1px 1.5em;
     background-repeat: no-repeat;
   }
+  
+
+.submit-menu{
+    background-color: transparent;
+    color: rgb(255, 196, 0);
+    width:auto;
+    height: 40px; 
+    padding: 10px;
+}
+
+.submit-menu span{
+    color: rgb(255, 196, 0);
+}

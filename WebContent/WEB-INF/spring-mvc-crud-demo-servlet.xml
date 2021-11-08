@@ -34,8 +34,8 @@
           destroy-method="close">
         <property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
         <property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.240.244:1920:INNOVADS" />
-        <property name="user" value="FPA_PORTAL" />
-        <property name="password" value="FPA_PORTAL" /> 
+        <property name="user" value="FPA_DBA" />
+        <property name="password" value="FPA_DBA" /> 
 
         <!-- these are connection pool properties for C3P0 -->
 		<property name="initialPoolSize" value="5"/>
