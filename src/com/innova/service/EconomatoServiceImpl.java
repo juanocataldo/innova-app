@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.innova.dao.EconomatoDAO;
+import com.innova.entity.EcoBienesUso;
 import com.innova.entity.Economato_Elementos;
 
 @Service
@@ -38,5 +39,33 @@ public class EconomatoServiceImpl implements EconomatoService, EconomatoDAO {
 		economatoDAO.addElemento(nuevoElemento);
 		
 	}
+
+	@Transactional
+	@Override
+	public List<EcoBienesUso> listBienesUso() {
+		
+		List<EcoBienesUso> listBienesUso = economatoDAO.listBienesUso();
+		return listBienesUso;
+	}
+
+	@Transactional
+	@Override
+	public int countBienesUso() {
+		
+		int total = economatoDAO.countBienesUso();
+		return total;
+	}
+
+	
+
+	@Transactional
+	@Override
+	public List<EcoBienesUso> listBienesUsoByName(String nombre) {
+
+		List<EcoBienesUso> list = economatoDAO.listBienesUsoByName(nombre);
+		return list;
+	}
+	
+	
 	
 }

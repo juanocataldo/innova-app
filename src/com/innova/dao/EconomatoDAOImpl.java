@@ -10,10 +10,12 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.innova.entity.EcoBienesTipoMov;
+import com.innova.entity.EcoBienesUso;
 import com.innova.entity.Economato_Elementos;
 
 @Repository
-public class EconomatoDAOImpl implements EconomatoDAO {
+public class EconomatoDAOImpl implements EconomatoDAO  {
 
 	@Autowired
 	SessionFactory currentSession;
@@ -65,6 +67,49 @@ public class EconomatoDAOImpl implements EconomatoDAO {
 		
 		session.save(nuevoElemento);
 		
+	}
+
+	@Override
+	public List<EcoBienesUso> listBienesUso() {
+
+		Session session = currentSession.getCurrentSession();
+		
+		Query<EcoBienesUso> query = session.createQuery("from EcoBienesUso WHERE estado=1 ",EcoBienesUso.class);
+		
+		List<EcoBienesUso> listado = query.getResultList();
+				
+		return listado;
+	}
+
+	@Override
+	public int countBienesUso() {
+
+		Session session = currentSession.getCurrentSession();
+		
+		long count = (long)session.createQuery("SELECT COUNT(e) FROM EcoBienesUso e WHERE e.estado=1").getSingleResult();
+		
+		return (int)count;
+	}
+
+	
+	@Override
+	public List<EcoBienesUso> listBienesUsoByName(String nombre) {
+
+		Session session = currentSession.getCurrentSession();
+		
+		Query<EcoBienesUso> query = null;
+		
+		
+		if(nombre != null) {
+			query = session.createQuery("from EcoBienesUso WHERE lower(nombre) LIKE :nombre AND estado=1 ORDER BY nombre ASC",EcoBienesUso.class);
+			query.setParameter("nombre", "%"+nombre+"%");
+		}else {
+			query = session.createQuery("from EcoBienesUso ORDER BY nombre ASC",EcoBienesUso.class);
+		}
+		
+		List<EcoBienesUso> listado = query.getResultList();
+				
+		return listado;
 	}
 
 }

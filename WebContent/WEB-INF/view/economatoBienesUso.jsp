@@ -62,7 +62,6 @@
 
          
         </nav>
-
         <!-- Page Content  -->
         <div id="content" style="background-color: #272B30;">
 
@@ -85,10 +84,9 @@
             <div class="container">	
 
                 <div class="cabecera">
-                    <span>Elementos Economato</span>
+                    <span>Bienes de Uso</span>
                 
-                        
-                    <a href="${pageContext.request.contextPath}/nuevoElemento" id="estado">
+                    <a href="${pageContext.request.contextPath}/nuevoBienUso" id="estado">
                         <button type="submit" class="submit btn btn-sm" style="background-color: #46BA46">
                         <div class="d-flex flex-wrap" style="background-color: transparent;" >
                             <span class="material-icons">add</span>
@@ -105,27 +103,19 @@
                     <span>Filtros</span> 
                 </div>
                 <div class="filtroCuerpo">
-                    <form:form action="elementoSearch" method="GET">
+                    <form:form action="searchBU" method="GET">
                     
                     <div class="row">
                         <div class="col-md-4">
-                            <span>Elemento</span><br><input type="text" name="elemNombre" style="width:100%;" >	
+                            <span>Elemento</span><br><input type="text" name="nombreSearch" style="width:100%;" >	
                         </div>
                         
                         <div class="col-md-4">
-                            <span>Tipo</span><br><select name="elemTipo" class="form-select form-select-sm form-select-innova minimal" style="width:100%">
-                                <option value="2" selected>Todos</option>
-                                <option value="21">Lapiceras</option>			    			        
-                            </select>	
+                            
                         </div>
                         
                         <div class="col-md-4">
-                            <span>Estado</span><br>
-                            <select name="elemEstado" class="form-select form-select-sm form-select-innova minimal" style="width:100%">
-                                <option value="2" selected>Todos</option>
-                                <option value="1">Entregado</option>
-                                <option value="0">Stock</option>			        
-                            </select>
+                            
                         </div>
                         
                     </div>
@@ -153,8 +143,7 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Tipo</th>
-                                <th scope="col">Estado</th>
+                                <th scope="col">Stock</th>				
                                 <th scope="col">Acción</th>
                             </tr>
                         </thead>
@@ -163,15 +152,56 @@
                                 <tr>
                                     <td>${tempElemento.id}</td>
                                     <td>${tempElemento.nombre}</td>
-                                    <td>${tempElemento.tipo}</td>
-                                    <td>${tempElemento.estado}</td>
-                                    <td>Editar/Baja</td>
+                                    <td>${tempElemento.stock}</td>					
+                                    <td>
+                                        <a href="">
+                                        <button class="botonAccion btn btn-sm" style="background-color:#5BBFDD;width:40px;font-size:5px">							
+                                                <span class="material-icons" style="color:white">edit</span>							
+                                        </button>
+                                        </a>
+                                        <button class="botonAccion btn btn-sm" style="background-color:red;width:40px;font-size:5px">							
+                                                <span class="material-icons" style="color:white">arrow_downward</span>							
+                                        </button>
+                                    </td>
                                 </tr>
                             </c:forEach>
                             
                         </tbody>
                     </table>
                 
+                </div>
+                <div id="pagination">
+                <nav aria-label="Page navigation example">
+                              <ul class="pagination justify-content-end">
+                              
+                    <c:url value="/bienesUso" var="prev">
+                        <c:param name="page" value="${page-1}"/>
+                    </c:url>
+                    <c:if test="${page > 1}">
+                        <li class="page-item"><a class="page-link" href="<c:out value="${prev}" />" class="pn prev"><span style="color:black"><</span></a></li>
+                    </c:if>
+                
+                    <c:forEach begin="1" end="${maxPages}" step="1" varStatus="i">
+                        <c:choose>
+                            <c:when test="${page == i.index}">
+                                <span class="p-2">${i.index}</span>
+                            </c:when>
+                            <c:otherwise>
+                                <c:url value="/bienesUso" var="url">
+                                    <c:param name="page" value="${i.index}"/>
+                                </c:url>
+                               <li class="page-item"> <a class="page-link" href='<c:out value="${url}" />'>${i.index}</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                    <c:url value="/bienesUso" var="next">
+                        <c:param name="page" value="${page + 1}"/>
+                    </c:url>
+                    <c:if test="${page + 1 <= maxPages}">
+                        <li class="page-item"><a class="page-link" href='<c:out value="${next}" />' class="pn next"><span style="color:black">></span></a></a></li>
+                    </c:if>
+                     </ul>
+                    </nav>
                 </div>	
                 </div>
     

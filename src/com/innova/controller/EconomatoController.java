@@ -3,6 +3,7 @@ package com.innova.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.innova.entity.EcoBienesUso;
 import com.innova.entity.Economato_Elementos;
 import com.innova.service.EconomatoService;
 
@@ -62,4 +64,77 @@ public class EconomatoController {
 		
 		return "redirect:/elementos";
 	}
+	
+	@GetMapping("/bienesUso")
+	public String bienesUso(@RequestParam(name="page",required = false) Integer page, Model model) {
+		
+		List<EcoBienesUso> listBienesUso = economatoService.listBienesUso();
+		
+		PagedListHolder<EcoBienesUso> pagedListHolder = new PagedListHolder<>(listBienesUso);
+		
+		int totalBienesUso = economatoService.countBienesUso();
+		
+		int paginas = (int)Math.ceil(totalBienesUso / 10);
+		
+		pagedListHolder.setPageSize(paginas);
+		
+		model.addAttribute("maxPages",pagedListHolder.getPageCount());
+		
+		if(page==null || page < 1 || page > pagedListHolder.getPageCount())page=1;
+		
+		model.addAttribute("page",page);
+		
+		 if(page == null || page < 1 || page > pagedListHolder.getPageCount()){
+	            pagedListHolder.setPage(0);
+	            model.addAttribute("listado", pagedListHolder.getPageList());
+		 }else if(page <= pagedListHolder.getPageCount()) {
+	            pagedListHolder.setPage(page-1);	            
+	            model.addAttribute("listado", pagedListHolder.getPageList());
+	        }
+		
+				
+		return "economatoBienesUso";
+	}
+	
+	@GetMapping("/searchBU")
+	public String searchBU(@RequestParam(name="page",required = false) Integer page,
+							@RequestParam(name="nombreSearch")String nombre,
+							  Model model) {
+		
+		
+		List<EcoBienesUso> busquedaNombre = economatoService.listBienesUsoByName(nombre);
+		
+		PagedListHolder<EcoBienesUso> pagedListHolder = new PagedListHolder<>(busquedaNombre);
+		
+		int totalBienesUso = economatoService.countBienesUso();
+		
+		int paginas = (int)Math.ceil(totalBienesUso / 10);
+		
+		pagedListHolder.setPageSize(paginas);
+		
+		model.addAttribute("maxPages",pagedListHolder.getPageCount());
+		
+		if(page==null || page < 1 || page > pagedListHolder.getPageCount())page=1;
+		
+		model.addAttribute("page",page);
+		
+		 if(page == null || page < 1 || page > pagedListHolder.getPageCount()){
+	            pagedListHolder.setPage(0);
+	            model.addAttribute("listado", pagedListHolder.getPageList());
+		 }else if(page <= pagedListHolder.getPageCount()) {
+	            pagedListHolder.setPage(page-1);	            
+	            model.addAttribute("listado", pagedListHolder.getPageList());
+	        }
+		
+				
+		return "economatoBienesUso";
+		
+	}
+	
+	@GetMapping("/nuevoBienUso")
+	public String nuevoBienUso(Model model) {
+		
+		return "nuevoBienUso";
+	}
+	
 }
