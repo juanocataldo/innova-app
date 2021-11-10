@@ -18,4 +18,10 @@ public interface EconomatoDAO {
 	public int countBienesUso();
 
 	public List<EcoBienesUso> listBienesUsoByName(String nombre);
+	public List<EcoBienesUso> listBienesUsoByNameExc(String nombre, List<Integer> excepciones);
+
+	public EcoBienesUso getBienById(Integer id);
+
+	List<EcoBienesUso> listBienesUsoByNameInc(List<Integer> excepciones);
+	
 }

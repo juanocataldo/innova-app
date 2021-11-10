@@ -1,5 +1,6 @@
 package com.innova.dao;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -20,16 +21,16 @@ public class EconomatoDAOImpl implements EconomatoDAO  {
 	@Autowired
 	SessionFactory currentSession;
 	
-	@Transactional
+	
 	@Override
 	public List<Economato_Elementos> listElementos() {
-		
+
 		Session session = currentSession.getCurrentSession();
-		
-		Query<Economato_Elementos> query = session.createQuery("from Economato_Elementos",Economato_Elementos.class);
-		
+
+		Query<Economato_Elementos> query = session.createQuery("from Economato_Elementos order by 1 asc",Economato_Elementos.class);
+
 		List<Economato_Elementos> listado = query.getResultList();
-				
+
 		return listado;
 	}
 
@@ -111,5 +112,77 @@ public class EconomatoDAOImpl implements EconomatoDAO  {
 				
 		return listado;
 	}
+
+	@Override
+	public EcoBienesUso getBienById(Integer id) {
+		
+		Session session = currentSession.getCurrentSession();
+
+		Query<EcoBienesUso> query = session.createQuery("from EcoBienesUso WHERE id=:id",EcoBienesUso.class);
+
+		query.setParameter("id", id);
+		
+		EcoBienesUso elemento = query.getSingleResult();
+
+		return elemento;
+	}
+
+	@Override
+	public List<EcoBienesUso> listBienesUsoByNameExc(String nombre, List<Integer> excepciones) {
+		
+		Session session = currentSession.getCurrentSession();
+		
+		Query<EcoBienesUso> query = null;
+		
+		String list = Arrays.toString(excepciones.toArray()).replace("[", "").replace("]", "");
+		
+		System.out.println("LISTADO EXC "+list);
+		
+		if(excepciones.isEmpty()) {
+			query = session.createQuery("from EcoBienesUso",EcoBienesUso.class);
+		}else {
+		
+				if(nombre != null ) {
+					query = session.createQuery("SELECT e from EcoBienesUso as e WHERE lower(e.nombre) LIKE :nombre AND e.estado=1 AND e.id NOT IN ("+list+") ORDER BY e.nombre ASC",EcoBienesUso.class);
+					query.setParameter("nombre", "%"+nombre+"%");
+					
+				}else {
+					query = session.createQuery("SELECT e from EcoBienesUso as e WHERE e.estado=1 AND e.id NOT IN ("+list+") ORDER BY e.nombre ASC",EcoBienesUso.class);
+									
+				}
+			}
+			
+		
+		
+		
+		List<EcoBienesUso> listado = query.getResultList();
+				
+		return listado;
+	}
+	
+	
+	
+	@Override
+	public List<EcoBienesUso> listBienesUsoByNameInc(List<Integer> excepciones) {
+		
+		Session session = currentSession.getCurrentSession();
+		
+		Query<EcoBienesUso> query = null;
+		
+		String list = Arrays.toString(excepciones.toArray()).replace("[", "").replace("]", "");
+		
+		System.out.println("LISTADO EXC "+list);
+		
+		if(excepciones.isEmpty()) {
+			query = session.createQuery("from EcoBienesUso  WHERE id=0",EcoBienesUso.class);
+		}else {		
+		query = session.createQuery("SELECT e from EcoBienesUso as e WHERE e.id IN ("+list+") ORDER BY e.nombre ASC",EcoBienesUso.class);
+		}
+		List<EcoBienesUso> listado = query.getResultList();
+				
+		return listado;
+	}
+	
+	
 
 }

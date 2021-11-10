@@ -26,12 +26,13 @@ a:focus {
 }
 
 .navbar {
-    padding: 15px 10px;
+    
     background: #fff;
     border: none;
     border-radius: 0;
     margin-bottom: 40px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    position: fixed;
 }
 
 .navbar-btn {
@@ -62,7 +63,7 @@ a:focus {
     max-width: 250px;
     background: #3A3F44;
     color: #fff;
-    transition: all 0.3s;
+    transition: all 0.3s;    
 }
 
 #sidebar.active {
@@ -149,7 +150,7 @@ a.article:hover {
 
 #content {
     width: 100%;
-    padding: 20px;
+    
     min-height: 100vh;
     transition: all 0.3s;
 }
@@ -164,6 +165,7 @@ a.article:hover {
     }
     #sidebar.active {
         margin-left: 0;
+        
     }
     #sidebarCollapse span {
         display: none;

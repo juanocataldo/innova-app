@@ -36,8 +36,19 @@ public class Economato_Elementos {
 	@Column(name="ELEM_ESTADO")
 	private Integer estado;
 
+	@Column(name="ELEM_STOCK")
+	private int stock;
 	
 	
+	
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
 	public Integer getEstado() {
 		return estado;
 	}
@@ -70,15 +81,16 @@ public class Economato_Elementos {
 		this.tipo = tipo;
 	}
 
-	public Economato_Elementos(String nombre, Integer tipo, Integer estado) {
-		super();
+	public Economato_Elementos(String nombre, Integer tipo, Integer estado, int stock) {
+		
 		this.nombre = nombre;
 		this.tipo = tipo;
 		this.estado = estado;
+		this.stock = stock;
 	}
 
 	@Override
 	public String toString() {
-		return "Economato_Elementos [id=" + id + ", nombre=" + nombre + ", tipo=" + tipo + ", estado=" + estado + "]";
+		return "Economato_Elementos [id=" + id + ", nombre=" + nombre + ", tipo=" + tipo + ", estado=" + estado + ", stock="+ stock +"]";
 	}	
 }

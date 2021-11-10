@@ -29,7 +29,11 @@
         <!-- Sidebar  -->
         <nav id="sidebar" style="background-color: #3A3F44;">
             <div class="sidebar-header" style="background-color: #3A3F44;">
-                <h3 style="color: rgb(255, 196, 0);">Ampliación SIFPA</h3>
+                <div class="row text-left">
+                    <div class="col-md-12">
+                        <img src="${pageContext.request.contextPath}/resources/img/fpa.png" width="70%" alt="">
+                    </div>
+                </div>
             </div>
 
             <ul class="list-unstyled components" style="background-color: #3A3F44;border-bottom: none;">
@@ -44,7 +48,7 @@
                             <a href="${pageContext.request.contextPath}/elementos">Bienes de Consumo</a>
                         </li>
                         <li>
-                            <a href="#">Movimientos</a>
+                            <a href="${pageContext.request.contextPath}/nuevoElemento">Movimientos</a>
                         </li>
                     </ul>
                 </li>           

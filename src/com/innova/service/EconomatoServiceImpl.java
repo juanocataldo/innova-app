@@ -65,7 +65,28 @@ public class EconomatoServiceImpl implements EconomatoService, EconomatoDAO {
 		List<EcoBienesUso> list = economatoDAO.listBienesUsoByName(nombre);
 		return list;
 	}
-	
+
+	@Transactional
+	@Override
+	public EcoBienesUso getBienById(Integer id) {
+		
+		EcoBienesUso bien = economatoDAO.getBienById(id);
+		return bien;
+	}
+
+	@Transactional
+	@Override
+	public List<EcoBienesUso> listBienesUsoByNameExc(String nombre, List<Integer> excepciones) {
+		List<EcoBienesUso> list = economatoDAO.listBienesUsoByNameExc(nombre,excepciones);
+		return list;
+	}
+
+	@Transactional
+	@Override
+	public List<EcoBienesUso> listBienesUsoByNameInc(List<Integer> excepciones) {
+		List<EcoBienesUso> list = economatoDAO.listBienesUsoByNameInc(excepciones);
+		return list;
+	}
 	
 	
 }

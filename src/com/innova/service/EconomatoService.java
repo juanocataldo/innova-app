@@ -17,5 +17,10 @@ public interface EconomatoService {
 
 	int countBienesUso();
 
-	List<EcoBienesUso> listBienesUsoByName(String nombre);	
+	List<EcoBienesUso> listBienesUsoByName(String nombre);
+	List<EcoBienesUso> listBienesUsoByNameExc(String nombre, List<Integer> excepciones);
+
+	EcoBienesUso getBienById(Integer id);
+
+	List<EcoBienesUso> listBienesUsoByNameInc(List<Integer> excepciones);	
 }

@@ -25,9 +25,13 @@
 <body>
     <div class="wrapper" >
         <!-- Sidebar  -->
-        <nav id="sidebar" style="background-color: #3A3F44;">
+       <nav id="sidebar" style="background-color: #3A3F44;">
             <div class="sidebar-header" style="background-color: #3A3F44;">
-                <h3 style="color: rgb(255, 196, 0);">Ampliación SIFPA</h3>
+                <div class="row text-left">
+                    <div class="col-md-12">
+                        <img src="${pageContext.request.contextPath}/resources/img/fpa.png" width="70%" alt="">
+                    </div>
+                </div>
             </div>
 
             <ul class="list-unstyled components" style="background-color: #3A3F44;border-bottom: none;">
@@ -42,7 +46,7 @@
                             <a href="${pageContext.request.contextPath}/elementos">Bienes de Consumo</a>
                         </li>
                         <li>
-                            <a href="#">Movimientos</a>
+                            <a href="${pageContext.request.contextPath}/nuevoMovimientoBU">Movimientos</a>
                         </li>
                     </ul>
                 </li>           
@@ -85,7 +89,7 @@
             <div class="container">	
 
                 <div class="cabecera">
-                    <span>Elementos Economato</span>
+                    <span>Bienes de Consumo</span>
                 
                         
                     <a href="${pageContext.request.contextPath}/nuevoElemento" id="estado">
@@ -152,9 +156,8 @@
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Tipo</th>
-                                <th scope="col">Estado</th>
+                                <th scope="col">Nombre</th>                                
+                                <th scope="col">Stock</th>
                                 <th scope="col">Acción</th>
                             </tr>
                         </thead>
@@ -162,9 +165,8 @@
                             <c:forEach var="tempElemento" items="${listado}">
                                 <tr>
                                     <td>${tempElemento.id}</td>
-                                    <td>${tempElemento.nombre}</td>
-                                    <td>${tempElemento.tipo}</td>
-                                    <td>${tempElemento.estado}</td>
+                                    <td>${tempElemento.nombre}</td>                                    
+                                    <td>${tempElemento.stock}</td>
                                     <td>Editar/Baja</td>
                                 </tr>
                             </c:forEach>
@@ -173,11 +175,45 @@
                     </table>
                 
                 </div>	
+                
+                <div id="pagination">
+                <nav aria-label="Page navigation example">
+                              <ul class="pagination justify-content-end">
+                              
+                    <c:url value="/elementos" var="prev">
+                        <c:param name="page" value="${page-1}"/>
+                    </c:url>
+                    <c:if test="${page > 1}">
+                        <li class="page-item"><a class="page-link" href="<c:out value="${prev}" />" class="pn prev"><span style="color:black"><</span></a></li>
+                    </c:if>
+                
+                    <c:forEach begin="1" end="${maxPages}" step="1" varStatus="i">
+                        <c:choose>
+                            <c:when test="${page == i.index}">
+                                <span class="p-2">${i.index}</span>
+                            </c:when>
+                            <c:otherwise>
+                                <c:url value="/elementos" var="url">
+                                    <c:param name="page" value="${i.index}"/>
+                                </c:url>
+                               <li class="page-item"> <a class="page-link" href='<c:out value="${url}" />'>${i.index}</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                    <c:url value="/elementos" var="next">
+                        <c:param name="page" value="${page + 1}"/>
+                    </c:url>
+                    <c:if test="${page + 1 <= maxPages}">
+                        <li class="page-item"><a class="page-link" href='<c:out value="${next}" />' class="pn next"><span style="color:black">></span></a></a></li>
+                    </c:if>
+                     </ul>
+                    </nav>
+                </div>
                 </div>
     
             
 
-
+					
 
 
 
