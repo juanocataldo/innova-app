@@ -54,4 +54,20 @@ public class PersonaDAOImpl implements PersonaDAO {
 		return persona;
 	}
 
+	@Override
+	public int getIdByDni(Integer id) {
+		
+		Session session = currentSession.getCurrentSession();
+		
+		System.out.println("POR EJECUTAR LA QUERY DE PERID BY DNI");
+		
+		int query = (int)session.createQuery("SELECT p.id from Persona p WHERE p.dni="+id+"").getSingleResult();
+		
+		int persona = query;
+		
+		System.out.println("PERID "+persona);
+		
+		return persona;
+	}
+
 }

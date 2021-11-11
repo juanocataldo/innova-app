@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.innova.dao.PersonaDAO;
 import com.innova.entity.EcoBienesUso;
 import com.innova.entity.Economato_Elementos;
 import com.innova.entity.Persona;
@@ -199,31 +200,30 @@ public class EconomatoController {
 						@RequestParam(name="dniSearch", required=false) BigDecimal dni, 
 						@RequestParam(name="page",required = false) Integer page,
 						@RequestParam(name="id", required = false) Integer id,
+						@RequestParam(name="tipoMov", required = false) Integer tipoMov,
 						Model model) {
+		
+		System.out.println("TIPO MOV " +tipoMov);
 		
 		if(id!=null) {
 			EcoBienesUso excep = economatoService.getBienById(id);
 			
 			excepciones.add(excep.getId());
-			
-			System.out.println("LISTADO "+excepciones);
 		}
+		 
 		
-		
-		if(dni!=null) {
+			if(dni!=null) {
 			Persona persona = personaService.getPersonaByNameOrDni(dni);
 			model.addAttribute("persona",persona);
 		}
 
-		
 		List<EcoBienesUso> busquedaNombre = economatoService.listBienesUsoByNameExc(nombreBien,excepciones);
 		
 		PagedListHolder<EcoBienesUso> pagedListHolder = new PagedListHolder<>(busquedaNombre);
 
 		int totalBienesUso = economatoService.countBienesUso();
 
-		//int paginas = (int)Math.ceil(totalBienesUso / 10); REDONDEA PARA ARRIBA
-
+		
 		pagedListHolder.setPageSize(10);
 		
 		model.addAttribute("maxPages",pagedListHolder.getPageCount());
@@ -231,6 +231,7 @@ public class EconomatoController {
 		if(page==null || page < 1 || page > pagedListHolder.getPageCount())page=1;
 		
 		model.addAttribute("page",page);
+		
 		
 		 if(page == null || page < 1 || page > pagedListHolder.getPageCount()){
 	            pagedListHolder.setPage(0);
@@ -244,16 +245,36 @@ public class EconomatoController {
 		 List<EcoBienesUso> listBienesInc = economatoService.listBienesUsoByNameInc(excepciones); 
 		 model.addAttribute("listadoBUselected",listBienesInc);
 		 
+		 model.addAttribute("excepciones",excepciones);
+		 
+		 model.addAttribute("tipoMov", tipoMov);
+		 
 		return "nuevoMovBU";
 	}
 	 
-	@RequestMapping("/saveMovBU")
-	public String saveMovBU(@RequestParam(name="listElementos", required=false) String lista,
-							@RequestParam(name="id", required=false) Integer id, Model model) {
-		System.out.println("ID "+id);
-		System.out.println("LISTA "+lista);
+	
+	@GetMapping("/saveMovBU")
+	public String saveMovBU(@RequestParam(name="listElementos", required=false) List<String> lista,
+							@RequestParam(name="id", required=false) Integer id,
+							@RequestParam(name="tipoMov", required=false) Integer tipoMov, Model model) {
+		System.out.println("TIPO MOV "+tipoMov);
+		int perId = personaService.getIdByDni(id);
+		
+		
+		for (String s : lista) {
+			
+			economatoService.saveMovBu(Integer.parseInt((s).replace("[", "").replace("]", "")), tipoMov, perId);
+			}
+		excepciones = new ArrayList<Integer>();
 		
 		return "nuevoMovBU";
+	}
+	
+	@RequestMapping("/tipoMovBU")
+	public String tipoMovBU(@RequestParam(name="tipoMov", required=false) Integer tipoMov,Model model) {
+		excepciones = new ArrayList<Integer>();
+		model.addAttribute("tipoMov",tipoMov);
+		return "tipoMovBU";
 	}
 	
 }

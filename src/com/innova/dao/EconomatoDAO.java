@@ -2,6 +2,7 @@ package com.innova.dao;
 
 import java.util.List;
 
+import com.innova.entity.EcoBienesMov;
 import com.innova.entity.EcoBienesUso;
 import com.innova.entity.Economato_Elementos;
 
@@ -23,5 +24,7 @@ public interface EconomatoDAO {
 	public EcoBienesUso getBienById(Integer id);
 
 	List<EcoBienesUso> listBienesUsoByNameInc(List<Integer> excepciones);
+
+	public void saveMovBu(int bu, int tipoMov, int perId);
 	
 }

@@ -18,7 +18,7 @@ public class EcoBienesMov {
 	
 	@Id	
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "GEN_POR_BIEN_MOV")
-	@SequenceGenerator(name="GEN_POR_BIEN_MOV", sequenceName="FPA_PORTAL.SEQ_ECO_BIENES_MOV", allocationSize=1)
+	@SequenceGenerator(name="GEN_POR_BIEN_MOV", sequenceName="FPA_ECONOMATO.SEQ_ECO_BIENES_MOV", allocationSize=1)
 	@Column(name="BM_ID")
 	private int id;
 	
@@ -30,6 +30,19 @@ public class EcoBienesMov {
 	
 	@Column(name="BM_DETALLE")
 	private String detalle;
+	
+	@Column(name="BM_PER_ID")
+	private int perId;
+
+	
+	
+	public int getPerId() {
+		return perId;
+	}
+
+	public void setPerId(int perId) {
+		this.perId = perId;
+	}
 
 	public int getId() {
 		return id;
@@ -63,17 +76,18 @@ public class EcoBienesMov {
 		this.detalle = detalle;
 	}
 
-	public EcoBienesMov(int bienId, int tipoMovId, String detalle) {
+	public EcoBienesMov(int bienId, int tipoMovId, String detalle, int perId) {
 		super();
 		this.bienId = bienId;
 		this.tipoMovId = tipoMovId;
 		this.detalle = detalle;
+		this.perId = perId;
 	}
 
 	@Override
 	public String toString() {
 		return "eco_bienes_mov [id=" + id + ", bienId=" + bienId + ", tipoMovId=" + tipoMovId + ", detalle=" + detalle
-				+ "]";
+				+ "], perId=" + perId +"]";
 	}
 	
 	

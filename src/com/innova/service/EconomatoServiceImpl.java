@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.innova.dao.EconomatoDAO;
+import com.innova.entity.EcoBienesMov;
 import com.innova.entity.EcoBienesUso;
 import com.innova.entity.Economato_Elementos;
 
 @Service
-public class EconomatoServiceImpl implements EconomatoService, EconomatoDAO {
+public class EconomatoServiceImpl implements EconomatoService {
 
 	@Autowired
 	EconomatoDAO economatoDAO;
@@ -86,6 +87,14 @@ public class EconomatoServiceImpl implements EconomatoService, EconomatoDAO {
 	public List<EcoBienesUso> listBienesUsoByNameInc(List<Integer> excepciones) {
 		List<EcoBienesUso> list = economatoDAO.listBienesUsoByNameInc(excepciones);
 		return list;
+	}
+
+	
+	@Transactional
+	@Override
+	public void saveMovBu(int bu, int tipoMov, int perId) {
+		
+		economatoDAO.saveMovBu(bu,  tipoMov, perId);		
 	}
 	
 	

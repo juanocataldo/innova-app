@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.innova.entity.EcoBienesMov;
 import com.innova.entity.EcoBienesTipoMov;
 import com.innova.entity.EcoBienesUso;
 import com.innova.entity.Economato_Elementos;
@@ -181,6 +182,20 @@ public class EconomatoDAOImpl implements EconomatoDAO  {
 		List<EcoBienesUso> listado = query.getResultList();
 				
 		return listado;
+	}
+
+	@Override
+	public void saveMovBu(int bu, int tipoMov, int perId) {
+		
+		Session session = currentSession.getCurrentSession();
+		
+		EcoBienesMov mov = new EcoBienesMov();
+		
+		mov.setBienId(bu);
+		mov.setTipoMovId(tipoMov);
+		mov.setPerId(perId);
+		
+		session.save(mov);
 	}
 	
 	

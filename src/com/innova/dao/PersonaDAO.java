@@ -12,4 +12,6 @@ public interface PersonaDAO {
 	int countPersonas();
 
 	Persona getPersonaByNombreOrDni(BigDecimal dni);
+
+	int getIdByDni(Integer id);
 }

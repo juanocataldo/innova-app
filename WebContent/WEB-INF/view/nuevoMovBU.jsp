@@ -66,7 +66,6 @@
                 </li>       
             </ul>
 
-         
         </nav>
 
         <!-- Page Content  -->
@@ -91,13 +90,18 @@
             <div class="container">	
                
                 <div class="cabeceraMov">
-                    <span>Nuevo Movimiento</span>		
+                    <span>Nuevo Movimiento ${tipoMov}</span>		
                 </div>
+                
+               
                 
                 <div class="filtro">
                 <span>Seleccione Persona</span> 
             </div>
+           
             <div class="filtroCuerpo">
+                
+                
                 <form:form action="nuevoMovimientoBU" method="GET">
                 
                 <div class="row">
@@ -117,7 +121,7 @@
                         </div>
                     </button>		
                 <br>
-                 
+                 <input type="hidden" name="tipoMov" value="${tipoMov}"/>
            </form:form>
             </div>	
                 
@@ -138,9 +142,10 @@
                         <tbody>		
                             
                             
-                            <c:url var="addPerson" value="addPerson"> 
-                                <c:param name="id" value="${tempPersonas.id}" />								
-                            </c:url>
+                <!--             <c:url var="addPerson" value="addPerson"> 
+                                <c:param name="id" value="${tempPersonas.id}" />
+                                <c:param name="tipoMov" value="${tipoMov}" />									
+                            </c:url> -->
                 
                                     <tr>
                                         <td>
@@ -179,6 +184,7 @@
                 <span>Seleccione Bienes</span> 
             </div>
             <div class="filtroCuerpo">
+                
                 <form:form action="nuevoMovimientoBU" method="GET">
                 
                 <div class="row">
@@ -199,6 +205,24 @@
                     </button>		
                 <br>
                  
+                      <div class="form-group">
+                <span>Seleccionar movimiento</span>
+                     <select name="tipoMov" id="tipoMov" class="form-select form-select-sm form-select-innova minimal">		    		
+                                  
+                                       <option value="1">Ingreso</option>
+                                       <option value="2">Egreso</option>
+                                  
+                 </select>
+              
+              
+                   <button type="submit" class="submit btn btn-sm">
+                    <div class="d-flex flex-wrap" style="background-color: transparent;" >
+                        <span class="material-icons"></span>
+                            <span>Siguiente</span>
+                        </div>
+                    </button>
+                    </div>
+           
                      </form:form>
             </div>	
                 
@@ -220,7 +244,9 @@
                             <c:forEach var="tempElemento" items="${listadoBU}">
                             
                             <c:url var="nuevoMovimientoBU" value="nuevoMovimientoBU"> 
-                                <c:param name="id" value="${tempElemento.id}" />								
+                                <c:param name="id" value="${tempElemento.id}" />
+                                <c:param name="tipoMov" value="${tipoMov}" />
+                                <c:param name="dniSearch" value="${persona.dni}" />									
                             </c:url>
                 
                                     <tr>
@@ -319,13 +345,20 @@
                     </table>
                 </div>
                 
+                
+                
                  <c:url var="saveMovBU" value="saveMovBU"> 
                                 <c:param name="id" value="${persona.dni}" />
-                                <c:param name="listElementos" value="${listadoBUselected}" />
+                                <c:param name="listElementos" value="${excepciones}" /> 
+                                 <c:param name="tipoMov" value="${tipoMov}" />             
                             </c:url>
                 
                 <a href="${saveMovBU}">
-                	 <button  class="submitNuevo btn btn-sm">
+                
+              
+                
+                	  
+                	 <button class="submitNuevo btn btn-sm">
                     <div class="d-flex flex-wrap" style="background-color: transparent;" >							
                         <span class="material-icons">save</span>
                             <span> Guardar</span>

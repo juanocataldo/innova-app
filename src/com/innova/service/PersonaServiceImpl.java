@@ -41,4 +41,13 @@ public class PersonaServiceImpl implements PersonaService {
 		return getPersona;
 	}
 
+	@Transactional
+	@Override
+	public int getIdByDni(Integer id) {
+		int getPersona = personaDAO.getIdByDni(id);
+		return getPersona;
+	}
+
+	
+
 }
