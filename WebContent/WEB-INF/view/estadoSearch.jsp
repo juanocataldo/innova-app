@@ -4,8 +4,13 @@
     <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>   
 <!DOCTYPE html>
 <html>
-
+<style>
+	table.dataTable thead {
+		color:white;
+	}
+</style>
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,8 +23,18 @@
     <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/resources/css/style.css">
 
     <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+   
+  
+    
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+
+
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    
+
 </head>
 
 <body>
@@ -144,9 +159,9 @@
     <div class="filtro">
         <span>Estados</span> 	
     </div>
-    <div class="filtroCuerpo">
+    <div class="filtroCuerpo" style="color:white">
         
-        <table class="table">
+         <!-- <table class="table">
             <thead>
                 <tr>
                     <th scope="col">Persona</th>
@@ -188,7 +203,20 @@
                 </c:forEach>
                 
             </tbody>
-        </table>
+        </table> -->
+        <br>
+        <table id="tablaUsuarios" class="table table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Estado</th>
+                <th scope="col" style="text-align:center">Acción</th>
+            </tr>
+        </thead>
+        <tbody>        	
+        </tbody>
+    </table>
     
     </div>	
     </div>
@@ -199,13 +227,43 @@
         </div>
     </div>
 
-    <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <!-- Popper.JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
+<script>
+	$(document).ready(function() {
+		$('#tablaUsuarios').DataTable({
+		"ajax":{
+			"url": '${pageContext.request.contextPath}/jsonEstadoSearch',
+			"dataSrc":''
+		},
+		"columns":[			
+			{"data": 'persona.nombre'},
+			{"data": 'persona.apellido'},
+			{"data": 'estado',
+			
+				"render": function(data, type, row){
+					if(data == 0){
+						return '<span class="material-icons" style="color:grey">circle</span>';
+					}else{
+						return '<span class="material-icons" style="color:green">circle</span>';
+					}	
+				} 
+				
+				},
+			{"defaultContent":
+				'<a href="${viewMov}"><button class="botonAccion btn btn-sm" style="background-color:#5BBFDD;width:40px;font-size:5px"><span class="material-icons" style="color:white">visibility</span></button></a>'
+			}
+		]
+	});
+});
+</script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+<!--      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    
+    
+    
+<!-- Bootstrap JS -->
+	
     <script type="text/javascript">
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
@@ -214,5 +272,5 @@
         });
     </script>
 </body>
-
+    
 </html>

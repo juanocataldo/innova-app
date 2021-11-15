@@ -106,7 +106,7 @@
                 
                 <div class="row">
                     <div class="col-md-6">
-                        <span>DNI</span><br><input type="text"  style="width:100%;" name="dniSearch">	
+                        <span>DNI</span><br><input type="text"  style="width:100%;" name="dniSearch" id="dni" >	
                     </div>
                     
                     <div class="col-md-6">
@@ -119,7 +119,8 @@
                         <span class="material-icons">search</span>
                             <span>Buscar</span>
                         </div>
-                    </button>		
+                    </button>
+                    <input type="button" value="Demo 1" id="buttonDemo1">		
                 <br>
                  <input type="hidden" name="tipoMov" value="${tipoMov}"/>
            </form:form>
@@ -135,37 +136,22 @@
                         <thead>
                             <tr>				
                                 <td>Persona</td>
-                                <td>DNI</td>
+                                
                                 <td style="text-align:center">Actividad</td>
                             </tr>
                         </thead>
                         <tbody>		
                             
-                            
-                <!--             <c:url var="addPerson" value="addPerson"> 
-                                <c:param name="id" value="${tempPersonas.id}" />
-                                <c:param name="tipoMov" value="${tipoMov}" />									
-                            </c:url> -->
+             
                 
                                     <tr>
                                         <td>
-                                            ${persona.nombre} ${persona.apellido}
+                                           <!--   ${persona.nombre} ${persona.apellido}-->
+                                           <span id="result1"></span>
                                         </td>
                                         
-                                        <td>
-                                            ${persona.dni}
-                                        </td>	
-                
-                                   <!--     <td style="text-align:center">
-                                            <a href="${addPerson}">
-                                                <button class="botonAccion btn btn-sm" style="background-color:red;width:40px;font-size:5px">							
-                                                        <span class="material-icons" style="color:white">delete</span>							
-                                                </button>
-                                            </a>
-                                        </td>-->   						
+                               					
                                     </tr>
-                            
-                            
                         </tbody>
                     </table>
                 </div>	
@@ -205,23 +191,7 @@
                     </button>		
                 <br>
                  
-                      <div class="form-group">
-                <span>Seleccionar movimiento</span>
-                     <select name="tipoMov" id="tipoMov" class="form-select form-select-sm form-select-innova minimal">		    		
-                                  
-                                       <option value="1">Ingreso</option>
-                                       <option value="2">Egreso</option>
-                                  
-                 </select>
-              
-              
-                   <button type="submit" class="submit btn btn-sm">
-                    <div class="d-flex flex-wrap" style="background-color: transparent;" >
-                        <span class="material-icons"></span>
-                            <span>Siguiente</span>
-                        </div>
-                    </button>
-                    </div>
+                    
            
                      </form:form>
             </div>	
@@ -264,6 +234,10 @@
                                                         <span class="material-icons" style="color:white">add</span>							
                                                 </button>
                                             </a>
+                                            
+                                             <input type="button" value="Demo 1" id="buttonDemo2">		
+                			                 <input type="hidden" name="id" value="${tempElemento.id}"/>
+                                            
                                         </td> 						
                                     </tr>
                             </c:forEach>
@@ -397,7 +371,7 @@
     </div>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.js"></script>
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
@@ -410,6 +384,40 @@
             });
         });
     </script>
+    
+    <script>
+
+	$(document).ready(function(){
+		$('#buttonDemo1').click(function(){
+			var dni = $('#dni').val();
+			$.ajax({
+				type:'GET',
+				url:'${pageContext.request.contextPath}/getPerByDni/'+dni+'',
+				success: function(result){
+					$('#result1').html(result);
+				}
+			})
+		})
+	})
+    </script>
+    
+     <script>
+
+	$(document).ready(function(){
+		$('#buttonDemo1').click(function(){
+			var dni = $('#dni').val();
+			$.ajax({
+				type:'GET',
+				url:'${pageContext.request.contextPath}/getBUById/'+id+'',
+				success: function(result){
+					$('#result1').html(result);
+				}
+			})
+		})
+	})
+    </script>
+    
+    
 </body>
 
 </html>

@@ -9,11 +9,12 @@ import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.innova.dao.PersonaDAO;
 import com.innova.entity.EcoBienesUso;
 import com.innova.entity.Economato_Elementos;
 import com.innova.entity.Persona;
@@ -195,7 +196,32 @@ public class EconomatoController {
 	
 	List<Integer> excepciones = new ArrayList<Integer>();
 	
-	@GetMapping("/nuevoMovimientoBU")
+	
+
+	@GetMapping("/getPerByDni/{dni}")
+	@ResponseBody
+	public String demo2(@PathVariable("dni") BigDecimal dni) {
+		
+		System.out.println("EL DNI "+dni);
+		
+		Persona persona = personaService.getPersonaByNameOrDni(dni);
+		
+		return persona.getNombre()+" "+persona.getApellido();		
+	}
+	
+	@GetMapping("/getBUById/{id}")
+	@ResponseBody
+	public String demo3(@PathVariable("id") BigDecimal dni) {
+		
+		System.out.println("EL DNI "+dni);
+		
+		Persona persona = personaService.getPersonaByNameOrDni(dni);
+		
+		return persona.getNombre()+" "+persona.getApellido();		
+	}
+	
+	
+	@GetMapping("/nuevoMovimientoBU")	
 	public String nuevoMovBU(@RequestParam(name="bienSearch", required=false) String nombreBien,
 						@RequestParam(name="dniSearch", required=false) BigDecimal dni, 
 						@RequestParam(name="page",required = false) Integer page,
