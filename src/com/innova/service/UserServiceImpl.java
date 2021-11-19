@@ -116,6 +116,13 @@ IngresoDAO ingresoDAO;
 		
 		return personas;
 	}
+
+	@Transactional
+	@Override
+	public Persona getPersonaByDni(BigDecimal dni) {
+		Persona persona = userDAO.getPersonaByDni(dni);
+		return persona;
+	}
 	
 	
 	

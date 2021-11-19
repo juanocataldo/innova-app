@@ -6,23 +6,26 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
+     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <title>SIFPA</title>
-
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-    <!-- Our Custom CSS -->
-    <link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/resources/css/style.css">
-
-    <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  	
+  	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/resources/css/style.css">
+  	<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	
 </head>
 
+
+ <style>
+           
+           .dataTables_wrapper{
+           	color:#DCDCDD;
+           }
+</style>
 
 <body>
     <div class="wrapper" >
@@ -114,15 +117,10 @@
                     </div>
                 </div>
                 <br>
-                <button type="submit" class="submit btn btn-sm">
-                    <div class="d-flex flex-wrap" style="background-color: transparent;" >							
-                        <span class="material-icons">search</span>
-                            <span>Buscar</span>
-                        </div>
-                    </button>
-                    <input type="button" value="Demo 1" id="buttonDemo1">		
+             
+                    <input type="button" class="submit btn btn-sm" value="Buscar" id="buttonDemo1">		
                 <br>
-                 <input type="hidden" name="tipoMov" value="${tipoMov}"/>
+                 <!-- <input type="hidden" name="tipoMov" value="${tipoMov}"/> -->
            </form:form>
             </div>	
                 
@@ -132,12 +130,10 @@
                     <span>Seleccionado</span> 
                 </div>
                 <div class="filtroCuerpo">
-                    <table class="table">
+                    <table class="table" style="color:white">
                         <thead>
                             <tr>				
                                 <td>Persona</td>
-                                
-                                <td style="text-align:center">Actividad</td>
                             </tr>
                         </thead>
                         <tbody>		
@@ -166,35 +162,8 @@
                
                 <br>
                 
-                <div class="filtro">
-                <span>Seleccione Bienes</span> 
-            </div>
-            <div class="filtroCuerpo">
-                
-                <form:form action="nuevoMovimientoBU" method="GET">
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Elemento</span><br><input type="text" name="bienSearch" style="width:100%;" >	
-                    </div>
-                    
-                    <div class="col-md-6">
-                        
-                    </div>
-                </div>
-                <br>
-                <button type="submit" class="submit btn btn-sm">
-                    <div class="d-flex flex-wrap" style="background-color: transparent;" >							
-                        <span class="material-icons">search</span>
-                            <span>Buscar</span>
-                        </div>
-                    </button>		
-                <br>
-                 
-                    
-           
-                     </form:form>
-            </div>	
+            
+          
                 
                 
                 
@@ -202,7 +171,7 @@
                     <span>Lista Bienes</span> 
                 </div>
                 <div class="filtroCuerpo">
-                    <table class="table">
+                  <!--    <table class="table">
                         <thead>
                             <tr>				
                                 <td>Elemento</td>
@@ -278,46 +247,24 @@
                     </c:if>
                      </ul>
                     </nav>
-                </div>	
+                </div>	-->
+                
+                
+                <table id="tablaBienes" class="table" style="width:100%; color:white">
+			        <thead>
+			            <tr>
+			            	<th scope="col">Elemento</th>
+			                <th scope="col">Stock</th>
+			                <th scope="col">Actividad</th>			                
+			            </tr>
+			        </thead>
+			        <tbody>        	
+			        </tbody>
+			    </table>
+                
                 
                 <div class="container">
-            	<div class="filtro mt-4">
-                    <span>Elemento seleccionado</span> 
-                </div>
-                <div class="filtroCuerpo">
-                    <table class="table">
-                        <thead>
-                            <tr>				
-                                <td>Elemento</td>
-                                <td>Stock</td>
-                                <td style="text-align:center">Actividad</td>
-                            </tr>
-                        </thead>
-                        <tbody>		
-                            <c:forEach var="tempElemento" items="${listadoBUselected}">
-                
-                                    <tr>
-                                        <td>
-                                            ${tempElemento.nombre}
-                                        </td>
-                                        
-                                        <td>
-                                            ${tempElemento.stock}
-                                        </td>	
-                
-                                        <td style="text-align:center">
-                                            <a href="${nuevoMovimientoBU}">
-                                                <button class="botonAccion btn btn-sm" style="background-color:#46BA46;width:40px;font-size:5px">							
-                                                        <span class="material-icons" style="color:white">add</span>							
-                                                </button>
-                                            </a>
-                                        </td> 						
-                                    </tr>
-                            </c:forEach>
-                            
-                        </tbody>
-                    </table>
-                </div>
+            	
                 
                 
                 
@@ -366,16 +313,122 @@
 
         </div>
         
+        
+        
+        
+        <div class="modal fade" id="modalCRUD" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color:#3A3F44">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <form id="formUsuarios">    
+            <div class="modal-body">
+                <div class="row"  style="color:white">
+                    <div class="col-lg-4">
+                    <div class="form-group">
+                    <label for="" class="col-form-label" >DNI</label>
+                    <input type="text" id="dni">
+                    </div>
+                    </div>
+                    <div class="col-lg-5">
+	                    <div class="form-group">
+		                    <label for="" class="col-form-label">Persona</label><br>
+		                    <h5 id="result1"></h5>
+	                    </div> 
+                    </div>                    
+                    <div class="col-lg-3">
+	                    <div class="form-group">
+		                    <br><input type="button" value="Buscar" id="buttonDemo1">
+		                    </div> 
+                    </div>    
+                </div>    
+				<div class="row" style="color:white">
+					<div class="col-lg-12">
+                        <div class="form-group">
+                        <label for="" class="col-form-label">Acción</label><br>
+                       <select id="item" name="item" class="form-select form-select-sm form-select-innova" style="width:100%">
+							<option value="ingreso">Ingreso a Base</option>
+							<option value="egreso">Salida de Base</option>
+			 			</select>
+                        
+                        </div>
+                    </div>
+				</div>        
+				
+				<div class="row" style="color:white">
+					<div class="col-lg-12">
+                       <div class="form-group">
+                        <label for="" class="col-form-label">Detalles</label>
+                        <input type="text" id="detalles">
+                        </div> 
+                    </div>
+				</div>
+				            
+			                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+                <button type="submit" id="btnGuardar" class="btn btn-success">Guardar</button>
+            </div>
+        </form>    
+        </div>
+    </div>
+</div> 
+        
+        
             	 
         
     </div>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.js"></script>
-    <!-- Popper.JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#tablaBienes').DataTable({
+		"ajax":{
+			"url": '${pageContext.request.contextPath}/listBienesUso',
+			"dataSrc":''
+		},
+		
+		 "language": {
+		        "sProcessing":    "Procesando...",
+		        "sLengthMenu":    "Mostrar _MENU_ registros",
+		        "sZeroRecords":   "No se encontraron resultados",
+		        "sEmptyTable":    "Ningún dato disponible en esta tabla",
+		        "sInfo":          "_START_ al _END_ de _TOTAL_ ",
+		        "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+		        "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+		        "sInfoPostFix":   "",
+		        "sSearch":        "Buscar:",
+		        "sUrl":           "",
+		        "sInfoThousands":  ",",
+		        "sLoadingRecords": "Cargando...",
+		        "oPaginate": {
+		            "sFirst":    "Primero ",
+		            "sLast":    " Último",
+		            "sNext":    "- Siguiente",
+		            "sPrevious": "Anterior- "
+		        },
+		        "oAria": {
+		            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+		            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+		        }
+		    },
+		"columns":[
+			{"data": 'nombre'},
+			{"data": 'stock'},
+			{"defaultContent":
+				'<div class="text-center"><button class="btnEditar botonAccion btn btn-sm" style="background-color:#5BBFDD;width:40px;font-size:5px"><span class="material-icons" style="color:green">add</span></button></div>'
+			}
+		]
+	});
+});
+</script>
+
 
     <script type="text/javascript">
         $(document).ready(function () {

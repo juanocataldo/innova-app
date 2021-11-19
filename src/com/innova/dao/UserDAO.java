@@ -23,4 +23,6 @@ public interface UserDAO {
 	public Persona getOneUserByName(String search);
 
 	public List<Persona> listPersonasByDni(BigDecimal dni);
+
+	public Persona getPersonaByDni(BigDecimal dni);
 }

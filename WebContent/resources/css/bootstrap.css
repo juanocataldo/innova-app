@@ -11263,4 +11263,19 @@ textarea.form-control-lg {
   }
 }
 
+.tableInnova{
+    color: #DCDCDD; 
+    border-collapse:collapse; 
+    border-spacing:0;
+    border: 0px transparent;
+}
+
+.tableInnova tbody tr:hover{
+   color:white;
+}
+
+.tableInnova tr td{
+    border: 0px transparent;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */

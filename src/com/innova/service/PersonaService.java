@@ -14,6 +14,8 @@ public interface PersonaService {
 	Persona getPersonaByNameOrDni(BigDecimal dni);
 
 	int getIdByDni(Integer id);
+
+	Persona getPersonById(int id);
 	
 	
 }

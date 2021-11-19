@@ -96,6 +96,29 @@ public class EconomatoServiceImpl implements EconomatoService {
 		
 		economatoDAO.saveMovBu(bu,  tipoMov, perId);		
 	}
+
+	@Transactional
+	@Override
+	public int editBC(int id, int stock, String nombre) {
+		
+		int editBC = economatoDAO.editBC(id,stock,nombre);
+		return editBC;
+	}
+
+	@Transactional
+	@Override
+	public Economato_Elementos getBCbyId(int id) {
+		Economato_Elementos bien = economatoDAO.getBCbyId(id);
+		return bien;
+	}
+
+	@Transactional
+	@Override
+	public void updateBCestado(int estado, int id) {
+		
+		economatoDAO.updateBCestado(estado, id);
+		
+	}
 	
 	
 }

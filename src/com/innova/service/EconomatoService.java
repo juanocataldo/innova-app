@@ -26,4 +26,10 @@ public interface EconomatoService {
 	List<EcoBienesUso> listBienesUsoByNameInc(List<Integer> excepciones);
 	
 	void saveMovBu(int bu, int tipoMov, int perId);
+
+	int editBC(int id, int stock, String nombre);
+
+	Economato_Elementos getBCbyId(int id);
+
+	void updateBCestado(int estado, int id);
 }

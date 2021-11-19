@@ -31,5 +31,7 @@ public interface UserService {
 	void estadoIngreso(IngresoEstado ingresoEstado);
 
 	List<Persona> listUsersByDni(BigDecimal dni);
+
+	Persona getPersonaByDni(BigDecimal dni);
 	
 }

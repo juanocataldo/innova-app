@@ -70,4 +70,17 @@ public class PersonaDAOImpl implements PersonaDAO {
 		return persona;
 	}
 
+	@Override
+	public Persona getIdById(int id) {
+		
+		Session session = currentSession.getCurrentSession();
+		
+		Query<Persona> query = session.createQuery("from Persona WHERE id=:id",Persona.class);
+		query.setParameter("id", id);
+		
+		Persona persona = query.getSingleResult();
+		
+		return persona;
+	}
+
 }

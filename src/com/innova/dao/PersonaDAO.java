@@ -14,4 +14,6 @@ public interface PersonaDAO {
 	Persona getPersonaByNombreOrDni(BigDecimal dni);
 
 	int getIdByDni(Integer id);
+
+	Persona getIdById(int id);
 }

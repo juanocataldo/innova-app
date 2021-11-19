@@ -53,6 +53,7 @@ public class Ingreso {
 	/*
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern="dd-MM-YY HH:mm")*/
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	@Column(name="PI_FECHA_HORA_INI")
 	private Date fechaIn;
 	

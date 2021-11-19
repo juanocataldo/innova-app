@@ -248,7 +248,7 @@ public class IngresoDAOImpl implements IngresoDAO {
 	@Override
 	public List<IngresoEstado> getIngresosByFiltro(String personaSearch, BigDecimal dni, Integer estado) {
 		
-		System.out.println("PARAMETROS RECIBIDOS DAO IMPL: "+personaSearch + "|"+ dni + "|" + estado);
+	/*	System.out.println("PARAMETROS RECIBIDOS DAO IMPL: "+personaSearch + "|"+ dni + "|" + estado);
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
@@ -283,7 +283,7 @@ public class IngresoDAOImpl implements IngresoDAO {
 			
 		}
 		
-		List<IngresoEstado> ingresoEstado = query.getResultList();
+		*/List<IngresoEstado> ingresoEstado = null;
 	
 		return ingresoEstado;
 	}

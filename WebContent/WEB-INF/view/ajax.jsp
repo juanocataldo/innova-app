@@ -41,8 +41,6 @@
 
 </body>
 <script>
-
-
 	$(document).ready(function(){
 		$('#buttonDemo1').click(function(){
 			var dni = $('#dni').val();

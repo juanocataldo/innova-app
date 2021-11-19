@@ -11,14 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.innova.entity.Ingreso;
 import com.innova.entity.IngresoEstado;
 import com.innova.entity.Persona;
-
 import com.innova.service.IngresoService;
 import com.innova.service.UserService;
 
@@ -204,5 +203,63 @@ public class UserController {
 		 model.addAttribute("ingresosA",searchIngresos);
 		 
 		 return "redirect:/search";
-	 }	 
+	 }
+	 
+	 
+	 @GetMapping("/ajaxEstado")
+	 @ResponseBody
+	 public void ajaxEstado(@RequestParam(value="dni", required=false) BigDecimal dni,
+			 				@RequestParam(value="detalles", required=false) String detalles,
+			 				@RequestParam("item") String item,Model model) {
+		 
+	 Ingreso ingreso = new Ingreso();
+		 
+		 Persona persona = userService.getPersonaByDni(dni);
+		 
+		 IngresoEstado ingresoEstado = new IngresoEstado();
+		 
+		
+		 
+		 ingreso.setUserId(persona.getId());
+		 ingreso.setAudDel(null);
+		 ingreso.setAudIns(null);
+		 ingreso.setAudUpd(null);
+		 ingreso.setDetalles(detalles);
+		 		 
+		 ingresoEstado.setPerId(persona.getId());
+		 
+		 Timestamp ts=new Timestamp(System.currentTimeMillis());
+		 Timestamp ts2=new Timestamp(System.currentTimeMillis());
+		 
+		 if(item.equals("ingreso")) {			 
+			 ingreso.setFechaIn(new Date(ts.getTime()));
+			 ingreso.setFechaFin(null);
+			 ingresoEstado.setEstado(1);			 
+		 }
+				 
+		 if(item.equals("egreso")) {
+			 Ingreso lastTime = ingresoService.getLastTimeIngreso(persona.getId());
+			 ts = (Timestamp)lastTime.getFechaIn();
+			 if(lastTime.getFechaIn()!=null) {				 
+				 ingreso.setFechaIn(ts);				 
+			 }else {
+				 ingreso.setFechaIn(null);
+			 }
+			 
+			 ingreso.setFechaFin(ts2);			 
+			 ingresoEstado.setEstado(0);
+		 } 
+		 
+		 ingreso.setUserIns(null);
+		 ingreso.setUserUpd(null);		 
+		 
+		 
+		 System.out.println("SE VA A GUARDAR ESTO -->" + ingreso);
+		 
+		 
+		 userService.ingresoPersona(ingreso);
+		 		 
+		 userService.estadoIngreso(ingresoEstado);
+		 
+	 }
 }

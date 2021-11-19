@@ -6,26 +6,31 @@
 	<!DOCTYPE html>
 	<html >
 	<head>
-	<meta charset="ISO-8859-1">
-	<title>Buscar usuario</title>
+   <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>SIFPA</title>
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  	
+  	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  	
+  	
+  	
+  	
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  
+  
+	<link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/resources/css/style.css">
 	
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>	
-	<link rel="stylesheet"
-			  href="https://fonts.googleapis.com/css?family=Tangerine">
+	
+  	
+  	<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	
-	<link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/resources/css/mycss.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 	
-	 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-  <script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
-  </script>
 	</head>
 	<body>
 		
@@ -47,7 +52,7 @@
 		</div>
 				
 		
-		<div class="filtro">
+		<!-- <div class="filtro">
 			<span>Filtros</span> 
 		</div>
 		<div class="filtroCuerpo">
@@ -63,7 +68,7 @@
 				</button>		
 	<br>
 			</form:form>
-		</div>	
+		</div>	-->
 	</div>
 	
 	<div class="container mt-4">
@@ -73,6 +78,23 @@
 		<div class="filtroCuerpo">
 		
 			<fmt:formatDate type="both" value="${Date}" />  
+			
+			<table id="tablaIngresos" class="table" style="width:100%; color:white">
+		        <thead>
+		            <tr>
+		            	<th scope="col">Nombre</th>
+		            	<th scope="col">Apellido</th>
+		                <th scope="col">DNI</th>
+		                <th scope="col">Llegada</th>
+		                <th scope="col">Salida</th>
+		                <th scope="col">Detalles</th>
+		            </tr>
+		        </thead>
+		        <tbody>        	
+		        </tbody>
+		    </table>
+			<!-- 
+			<br><br>
 			<table class="table">
 				<thead>
 					<tr>				
@@ -95,9 +117,71 @@
 						</tr>
 					</c:forEach>
 				</tbody>
-			</table>
+			</table> -->
 		</div>
 	</div>
+
+   <style>
+           
+           .dataTables_wrapper{
+           	color:#DCDCDD;
+           }
+           
+           </style> 
+
+<script type="text/javascript">
+
+var url_string = window.location.href; //window.location.href
+var url = new URL(url_string);
+var id = url.searchParams.get("id");
+
+	$(document).ready(function() {
+		$('#tablaIngresos').DataTable({
+		"ajax":{
+			"url": '${pageContext.request.contextPath}/jsonEstadoSearch3',
+			"dataSrc":'',
+			"data":{id:id}
+		},
+		
+		 "language": {
+		        "sProcessing":    "Procesando...",
+		        "sLengthMenu":    "Mostrar _MENU_ registros",
+		        "sZeroRecords":   "No se encontraron resultados",
+		        "sEmptyTable":    "Ningún dato disponible en esta tabla",
+		        "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+		        "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+		        "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+		        "sInfoPostFix":   "",
+		        "sSearch":        "Buscar:",
+		        "sUrl":           "",
+		        "sInfoThousands":  ",",
+		        "sLoadingRecords": "Cargando...",
+		        "oPaginate": {
+		            "sFirst":    "Primero",
+		            "sLast":    "Último",
+		            "sNext":    "Siguiente",
+		            "sPrevious": "Anterior"
+		        },
+		        "oAria": {
+		            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+		            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+		        }
+		    },
+		"columns":[
+			{"data": 'persona.nombre'},
+			{"data": 'persona.apellido'},
+			{"data": 'persona.dni'},
+			{"data": 'fechaIn',
+				"defaultContent": '<i style="color:#9b9b9b">-</i>'},
+			{"data": 'fechaFin',
+					"defaultContent": '<i style="color:#9b9b9b">-</i>'},
+			{"data": 'detalles',
+						"defaultContent": '<i style="color:#9b9b9b">-</i>'}
+		]
+	});
+});
+</script>
+
 
 	</body>
 	</html>

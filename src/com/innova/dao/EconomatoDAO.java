@@ -26,5 +26,11 @@ public interface EconomatoDAO {
 	List<EcoBienesUso> listBienesUsoByNameInc(List<Integer> excepciones);
 
 	public void saveMovBu(int bu, int tipoMov, int perId);
+
+	public int editBC(int id, int stock, String nombre);
+
+	public Economato_Elementos getBCbyId(int id);
+
+	public void updateBCestado(int estado, int id);
 	
 }

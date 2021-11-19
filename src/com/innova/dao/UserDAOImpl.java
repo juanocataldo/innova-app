@@ -157,6 +157,23 @@ public class UserDAOImpl implements UserDAO {
 		return users;
 	}
 
+
+
+
+
+	@Override
+	public Persona getPersonaByDni(BigDecimal dni) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Persona> query = currentSession.createQuery("from Persona WHERE dni=:dni", Persona.class);
+		query.setParameter("dni", dni);
+		
+		Persona persona = query.getSingleResult(); 
+		
+		return persona;
+	}
+
 	
 }
 

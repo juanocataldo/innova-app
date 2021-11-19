@@ -216,7 +216,7 @@ span{
 .filtro{
     background-color: #515960;
     padding: 20px;  
-     
+    
     align-items: center;
 }
 
@@ -292,19 +292,21 @@ input{
     line-height: 40px;
 }
 
-.table{
+.tableInnova{
     color: #DCDCDD; 
     border-collapse:collapse; 
     border-spacing:0;
     border: 0px transparent;
 }
 
-.table tbody tr:hover{
+.tableInnova tbody tr:hover{
    color:white;
+   
 }
 
-.table tr td{
+.tableInnova tr td{
     border: 0px transparent;
+    color: #DCDCDD; 
 }
 
 
@@ -317,6 +319,7 @@ input{
     background-color: #515B65;
     color: rgba(255, 255, 255, 0.685);
     border: none;
+    text-size:10px;
 }
 
 #detalles{
@@ -325,18 +328,26 @@ input{
 
 .botonAccion{
     background-color: #5BBFDD;            
-    border-radius: 8px;
-    width:35px;
-    height:35px;
+    
+    width:30px;
+    height:30px;
     text-align:center;
     border-width: 0;
+    cursor: pointer;
 }
 
 .botonAccion span{
     color: white;    
  	vertical-align:middle;
  	text-align:center;
-     
+     font-size:12px;
+     cursor: pointer;
+}
+
+input[type="text"], textarea {
+
+  background-color : #515B65; 
+
 }
 
 #btnIngreso{
@@ -383,3 +394,6 @@ select.minimal {
 .submit-menu span{
     color: rgb(255, 196, 0);
 }
+
+
+

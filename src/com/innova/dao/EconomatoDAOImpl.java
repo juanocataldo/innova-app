@@ -28,7 +28,7 @@ public class EconomatoDAOImpl implements EconomatoDAO  {
 
 		Session session = currentSession.getCurrentSession();
 
-		Query<Economato_Elementos> query = session.createQuery("from Economato_Elementos order by 1 asc",Economato_Elementos.class);
+		Query<Economato_Elementos> query = session.createQuery("from Economato_Elementos order by nombre asc",Economato_Elementos.class);
 
 		List<Economato_Elementos> listado = query.getResultList();
 
@@ -196,6 +196,47 @@ public class EconomatoDAOImpl implements EconomatoDAO  {
 		mov.setPerId(perId);
 		
 		session.save(mov);
+	}
+
+	@Override
+	public int editBC(int id, int stock, String nombre) {
+
+		System.out.println("SE RECIBEN PARA EDITAR ID "+id+" Y SE PONDRA "+nombre+", "+stock+".");
+		Session session = currentSession.getCurrentSession();
+
+		Query query = session.createQuery("UPDATE Economato_Elementos e SET e.nombre=:nombre, e.stock=:stock WHERE id=:id");
+		query.setParameter("id", id);
+		query.setParameter("nombre", nombre);
+		query.setParameter("stock", stock);
+
+		int elemento = query.executeUpdate();
+		
+		return elemento;
+	}
+
+	@Override
+	public Economato_Elementos getBCbyId(int id) {
+
+		Session session = currentSession.getCurrentSession();
+		
+		Query<Economato_Elementos> query = session.createQuery("from Economato_Elementos where id=:id", Economato_Elementos.class);
+		query.setParameter("id", id);
+		
+		Economato_Elementos bien = query.getSingleResult();
+		
+		return bien;
+	}
+
+	@Override
+	public void updateBCestado(int estado, int id) {
+		
+		Session session = currentSession.getCurrentSession();
+
+		Query query = session.createQuery("UPDATE Economato_Elementos s SET s.estado=:estado WHERE s.id=:id");
+		query.setParameter("id", id);
+		query.setParameter("estado", estado);
+		
+		query.executeUpdate();		
 	}
 	
 	
