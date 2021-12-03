@@ -18,7 +18,7 @@ public class EcoBienesUso {
 	
 	@Id	
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "GEN_POR_BIEN_USO")
-	@SequenceGenerator(name="GEN_POR_BIEN_USO", sequenceName="FPA_PORTAL.SEQ_ECO_BIENES_USO", allocationSize=1)
+	@SequenceGenerator(name="GEN_POR_BIEN_USO", sequenceName="FPA_ECONOMATO.SEQ_ECO_BIENES_USO", allocationSize=1)
 	@Column(name="BU_ID")
 	private int id;
 	

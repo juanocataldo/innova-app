@@ -395,5 +395,8 @@ select.minimal {
     color: rgb(255, 196, 0);
 }
 
-
+.tabla{
+	cursor: pointer;
+	color:#DCAB46;
+}
 

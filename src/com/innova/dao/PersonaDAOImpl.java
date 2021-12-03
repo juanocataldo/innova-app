@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.innova.entity.Persona;
+import com.innova.entity.Personal;
 
 @Repository
 public class PersonaDAOImpl implements PersonaDAO {
@@ -81,6 +82,20 @@ public class PersonaDAOImpl implements PersonaDAO {
 		Persona persona = query.getSingleResult();
 		
 		return persona;
+	}
+
+	@Override
+	public Personal getPersonalByPersonaId(Integer id) {
+
+		System.out.println("ID PARA GET PERSONAL: "+id);
+		Session session = currentSession.getCurrentSession();
+		
+		Query<Personal> query = session.createQuery("from Personal where id=:id",Personal.class);
+		query.setParameter("id", id);
+		
+		Personal personal= query.getSingleResult();
+		
+		return personal;
 	}
 
 }

@@ -119,6 +119,113 @@ public class EconomatoServiceImpl implements EconomatoService {
 		economatoDAO.updateBCestado(estado, id);
 		
 	}
+
+	@Transactional
+	@Override
+	public int editBU(int id, Integer stock, String nombre) {
+
+		int editBU = economatoDAO.editBU(id,stock,nombre);
+		return editBU;
+	}
+
+	@Transactional
+	@Override
+	public void addElementoBU(EcoBienesUso nuevoElemento) {
+		
+		economatoDAO.addElementoBU(nuevoElemento);
+		
+	}
+
+	@Transactional
+	@Override
+	public void updateBUestado(int estado, int id) {
+		economatoDAO.updateBUestado(estado, id);
+		
+	}
+
+	@Transactional
+	@Override
+	public EcoBienesUso getBienByNameId(int id, String nombre) {
+		
+		EcoBienesUso bu = economatoDAO.getBienByNameId(id,nombre);
+		return bu;
+	}
+
+	@Transactional
+	@Override
+	public void saveMovBien(int mov, int tipoBien, int idBien, int perid, int cant, Integer temp) {
+		
+		economatoDAO.saveMovBien(mov, tipoBien,idBien, perid, cant, temp);
+		
+	}
+
+	@Transactional
+	@Override
+	public List<EcoBienesMov> listMovimientos() {
+
+		List<EcoBienesMov> listMovs = economatoDAO.listMovimientos();
+		return listMovs;
+	}
+
+	@Transactional
+	@Override
+	public int getStockBU(int id) {
+		
+		int cant = economatoDAO.getStockBU(id);
+		return cant;
+	}
+
+	@Transactional
+	@Override
+	public void updateStockBU(EcoBienesUso bu) {
+		
+		economatoDAO.updateStock(bu);
+		
+	}
+
+	@Transactional
+	@Override
+	public Economato_Elementos getBienByNameIdBC(int id, String nombre) {
+		Economato_Elementos bc = economatoDAO.getBienByNameIdBC(id,nombre);
+		return bc;
+	}
+
+	@Transactional
+	@Override
+	public void updateStockBC(Economato_Elementos bc) {
+
+		economatoDAO.updateStock(bc);		
+	}
+
+	@Transactional
+	@Override
+	public int getStockBC(int id) {
+		int cant = economatoDAO.getStockBC(id);
+		return cant;
+	}
+
+	@Transactional
+	@Override
+	public List<EcoBienesMov> listBienesCargo(Integer id) {
+		
+		List<EcoBienesMov> mov = economatoDAO.listBienesCargo(id);
+		return mov;
+	}
+
+	@Transactional
+	@Override
+	public int getBienCantCargo(Integer id, int id2) {
+		int mov = economatoDAO.getBienCantCargo(id, id2);
+		return mov;
+	}
+
+	@Transactional
+	@Override
+	public void updateBienCantCargo(int id, int id2, int id3) {
+
+		economatoDAO.updateBienCantCargo(id,id2, id3);
+		
+	}
 	
 	
 }

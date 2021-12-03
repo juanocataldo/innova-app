@@ -1,10 +1,15 @@
 package com.innova.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -16,6 +21,18 @@ public class EcoBienesMov {
 		
 	}
 	
+	@ManyToOne()
+	@JoinColumn(name="BM_PER_ID", insertable = false, updatable = false)
+	private Persona persona;
+	
+	@ManyToOne()
+	@JoinColumn(name="BM_BU_ID", insertable = false, updatable = false)
+	private EcoBienesUso bienUso;
+	
+	@ManyToOne()
+	@JoinColumn(name="BM_BC_ID", insertable = false, updatable = false)
+	private Economato_Elementos bienConsumo;
+	
 	@Id	
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "GEN_POR_BIEN_MOV")
 	@SequenceGenerator(name="GEN_POR_BIEN_MOV", sequenceName="FPA_ECONOMATO.SEQ_ECO_BIENES_MOV", allocationSize=1)
@@ -23,7 +40,7 @@ public class EcoBienesMov {
 	private int id;
 	
 	@Column(name="BM_BU_ID")
-	private int bienId;
+	private Integer bienBuId;
 	
 	@Column(name="BM_BTM_ID")
 	private int tipoMovId;
@@ -33,15 +50,35 @@ public class EcoBienesMov {
 	
 	@Column(name="BM_PER_ID")
 	private int perId;
+	
+	@Column(name="BM_FECHA")
+	private Date fecha;
+	
+	@Column(name="BM_BC_ID")
+	private Integer bienBcId;
 
+	@Column(name="BM_CANT")
+	private Integer cant;
+	
+	@Column(name="BM_CARGO_TEMP")
+	private Integer temp;
 	
 	
-	public int getPerId() {
-		return perId;
+	
+	public Integer getTemp() {
+		return temp;
 	}
 
-	public void setPerId(int perId) {
-		this.perId = perId;
+	public void setTemp(Integer temp) {
+		this.temp = temp;
+	}
+
+	public Integer getCant() {
+		return cant;
+	}
+
+	public void setCant(Integer cant) {
+		this.cant = cant;
 	}
 
 	public int getId() {
@@ -52,12 +89,12 @@ public class EcoBienesMov {
 		this.id = id;
 	}
 
-	public int getBienId() {
-		return bienId;
+	public Integer getBienBuId() {
+		return bienBuId;
 	}
 
-	public void setBienId(int bienId) {
-		this.bienId = bienId;
+	public void setBienBuId(Integer bienBuId) {
+		this.bienBuId = bienBuId;
 	}
 
 	public int getTipoMovId() {
@@ -76,19 +113,48 @@ public class EcoBienesMov {
 		this.detalle = detalle;
 	}
 
-	public EcoBienesMov(int bienId, int tipoMovId, String detalle, int perId) {
+	public int getPerId() {
+		return perId;
+	}
+
+	public void setPerId(int perId) {
+		this.perId = perId;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public Integer getBienBcId() {
+		return bienBcId;
+	}
+
+	public void setBienBcId(Integer bienBcId) {
+		this.bienBcId = bienBcId;
+	}
+
+	public EcoBienesMov(Integer cant, Integer bienBuId, int tipoMovId, String detalle, int perId, Date fecha, Integer bienBcId, Integer temp) {
 		super();
-		this.bienId = bienId;
+		this.bienBuId = bienBuId;
 		this.tipoMovId = tipoMovId;
 		this.detalle = detalle;
 		this.perId = perId;
+		this.fecha = fecha;
+		this.bienBcId = bienBcId;
+		this.cant = cant;
+		this.temp = temp;
 	}
 
 	@Override
 	public String toString() {
-		return "eco_bienes_mov [id=" + id + ", bienId=" + bienId + ", tipoMovId=" + tipoMovId + ", detalle=" + detalle
-				+ "], perId=" + perId +"]";
+		return "EcoBienesMov [id=" + id + ", bienBuId=" + bienBuId + ", tipoMovId=" + tipoMovId + ", detalle=" + detalle
+				+ ", perId=" + perId + ", fecha=" + fecha + ", bienBcId=" + bienBcId + ", cant="+cant+"], temp="+temp+"]";
 	}
+
 	
 	
 }

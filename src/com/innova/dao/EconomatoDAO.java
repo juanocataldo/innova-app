@@ -32,5 +32,33 @@ public interface EconomatoDAO {
 	public Economato_Elementos getBCbyId(int id);
 
 	public void updateBCestado(int estado, int id);
+
+	public int editBU(int id, Integer stock, String nombre);
+
+	public void addElementoBU(EcoBienesUso nuevoElemento);
+
+	public void updateBUestado(int estado, int id);
+
+	public EcoBienesUso getBienByNameId(int id, String nombre);
+
+	public void saveMovBien(int mov, int tipoBien, int idBien, int perid, int cant, Integer temp);
+
+	public List<EcoBienesMov> listMovimientos();
+
+	public int getStockBU(int id);
+
+	public void updateStock(EcoBienesUso bu);
+
+	public Economato_Elementos getBienByNameIdBC(int id, String nombre);
+
+	public void updateStock(Economato_Elementos bc);
+
+	public int getStockBC(int id);
+
+	public List<EcoBienesMov> listBienesCargo(Integer id);
+
+	public int getBienCantCargo(Integer id, int id2);
+
+	public void updateBienCantCargo(int id, int id2, int id3);
 	
 }

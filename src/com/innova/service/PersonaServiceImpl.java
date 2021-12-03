@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.innova.dao.PersonaDAO;
 import com.innova.entity.Persona;
+import com.innova.entity.Personal;
 
 @Service
 public class PersonaServiceImpl implements PersonaService {
@@ -53,6 +54,13 @@ public class PersonaServiceImpl implements PersonaService {
 	public Persona getPersonById(int id) {
 		Persona getPersona = personaDAO.getIdById(id);
 		return getPersona;
+	}
+
+	@Transactional
+	@Override
+	public Personal getPersonalByPersonaId(Integer id) {
+		Personal getPersonal = personaDAO.getPersonalByPersonaId(id);
+		return getPersonal;
 	}
 
 	

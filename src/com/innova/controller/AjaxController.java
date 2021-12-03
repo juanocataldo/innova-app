@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.innova.entity.EcoBienesMov;
 import com.innova.entity.EcoBienesUso;
 import com.innova.entity.Economato_Elementos;
 import com.innova.entity.Ingreso;
@@ -67,9 +72,7 @@ public class AjaxController {
 	
 	@GetMapping("/test2/{dni}")
 	@ResponseBody
-	public String demo2(@PathVariable("dni") BigDecimal dni) {
-		
-		System.out.println("DNI "+dni);
+	public String demo2(@PathVariable("dni") BigDecimal dni, Model model) {
 		
 		Persona persona = personaService.getPersonaByNameOrDni(dni);
 		
@@ -122,16 +125,16 @@ public class AjaxController {
 		return gson;
 	}
 	
-	@Autowired
+	@Autowired 
 	EconomatoService economatoService;
 	
 	@GetMapping("/jsonEstadoSearch5")
 	@ResponseBody
 	public String jsonEstadoSearch5() {
 		
-		List<Economato_Elementos> listBienesUso = economatoService.listElementos();
+		List<Economato_Elementos> listBienesConsumo = economatoService.listElementos();
 		
-		String gson = new Gson().toJson(listBienesUso);
+		String gson = new Gson().toJson(listBienesConsumo);
 		
 		return gson;
 	}
@@ -213,6 +216,26 @@ public class AjaxController {
 		return "economato";		
 	}
 	
+	
+	
+	
+	@PostMapping("/editBienUso")
+	public String editBienUso(@RequestParam(name="id") int id,
+								@RequestParam(name="stock", required=false) Integer stock,
+								@RequestParam(name="nombre", required=false) String nombre) {
+		
+		if(stock!=null && nombre!=null) {
+			int bienUso = economatoService.editBU(id, stock, nombre);
+				if(bienUso==1)
+					System.out.println("SE EDITÓ "+bienUso);
+				else
+					System.out.println("ALGO SUCEDIÓ");
+		}else
+			System.out.println("NO PUEDEN EXISTIR CAMPOS VACIOS");
+		
+		return "economatoBienesUso";		
+	}
+	
 	@PostMapping("/newBC")
 	@ResponseBody
 	public void newBC(@RequestParam(name="nombre", required=false) String nombre,
@@ -251,11 +274,28 @@ public class AjaxController {
 		return "economato";
 	}
 	
+	
+	@PostMapping("/bajaBienUso")
+	public String bajaBienUso(@RequestParam(name="id") int id,
+						@RequestParam(name="estado") int estado) {
+		
+		if(estado==0)
+			estado = 1;
+		else
+			estado = 0;
+		
+		economatoService.updateBUestado(estado, id);
+		
+		System.out.println("UPDATE OK");
+		
+		return "economatoBienesUso";
+	}
+	
 
 	
-	@GetMapping("/listBienesUso")
+	@GetMapping("/listBienesUso1")
 	@ResponseBody
-	public String listBienesUso() {
+	public String listBienesUso1() {
 		
 		List<EcoBienesUso> listBienesUso = economatoService.listBienesUso();
 		
@@ -263,4 +303,152 @@ public class AjaxController {
 		
 		return gson;
 	}
+	
+	
+	@PostMapping("/newBU")
+	@ResponseBody
+	public void newBU(@RequestParam(name="nombre", required=false) String nombre,
+						@RequestParam(name="stock", required=false) int stock
+						) {
+		
+		EcoBienesUso nuevoElemento = new EcoBienesUso();
+		
+		nuevoElemento.setNombre(nombre);		
+		nuevoElemento.setStock(stock);
+		nuevoElemento.setEstado(1);
+		
+		economatoService.addElementoBU(nuevoElemento);
+		 
+		System.out.println("OK");		
+	}
+	
+	List<Economato_Elementos> listadoBC = new ArrayList<>();
+	List<EcoBienesUso> listadoBU = new ArrayList<>();
+	List<Object> listSelec = new ArrayList<>();
+	List<String> select = new ArrayList<>();
+	
+	Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	
+	@GetMapping("/listBienesSeleccioandos")
+	@ResponseBody
+	public String listBienesSeleccioandos(@RequestParam(name="id", required=false) Integer id,
+											@RequestParam(name="cat", required=false) Integer cat,
+											@RequestParam(name="cant", required=false) Integer cant) {
+		
+		
+		
+		if(id!=null || cat!=null || cant!=null) {
+			
+			if(cat==2) {
+				System.out.println("Entramos a BU "+cat+". Buscamos ID "+id);
+				EcoBienesUso bu = economatoService.getBienById(id);
+				bu.setStock(cant);
+				listSelec.add(bu);
+				JsonElement json = gson.toJsonTree(listSelec);
+				
+				return json.toString();
+			}else {		
+				System.out.println("Entramos a BC "+cat+". Buscamos ID "+id);
+				Economato_Elementos bc = economatoService.getBCbyId(id);
+				bc.setStock(cant);
+				listSelec.add(bc);
+				JsonElement json = gson.toJsonTree(listSelec);
+				return json.toString();	
+			}
+			
+		}
+			JsonElement json = gson.toJsonTree(listSelec);
+			
+			
+			
+			return json.toString();			
+	}
+	
+	@GetMapping("/limpiar")
+	@ResponseBody
+	public String limpiar() {
+		
+		listSelec.clear();
+		listSelecDev.clear();
+		System.out.println("CANCELAR");
+		
+		JsonElement json = gson.toJsonTree(listSelec);
+		return json.toString();
+	}
+	
+	@PostMapping("/inOut")
+	public String inOut(@RequestParam(name="tipoMov", required=false) int mov,
+						@RequestParam(name="dniSearch", required=false) BigDecimal dni,
+						Model model) {
+		
+		System.out.println("DNI "+dni);
+		
+		if(mov==1) {
+			model.addAttribute("tipoMov",mov);
+			return "nuevoMovBU";
+		}
+		else {
+			model.addAttribute("dni",dni);
+			return "devolucionB";	
+		}
+			
+	}
+	
+	
+	
+	
+	@GetMapping("/listadoMovimientos")
+	@ResponseBody
+	public String listadoMovimientos() {
+		
+		List<EcoBienesMov> listMovs = economatoService.listMovimientos();
+		
+		String gson = new Gson().toJson(listMovs);
+		
+		return gson;			
+	}
+	
+	@GetMapping("/listBienesCargo")
+	@ResponseBody
+	public String listBienesCargo(@RequestParam(name="dni", required=false) BigDecimal dni) {
+		
+		Persona persona = personaService.getPersonaByNameOrDni(dni);
+		
+		List<EcoBienesMov> mov = economatoService.listBienesCargo(persona.getId());
+		
+		String gson = new Gson().toJson(mov);
+		
+		return gson;
+	}
+	
+	List<Object> listSelecDev = new ArrayList<>();
+	@GetMapping("/listBienesSeleccioandosDev")
+	@ResponseBody
+	public String listBienesSeleccioandosDev(@RequestParam(name="id", required=false) Integer id,											
+											@RequestParam(name="cant", required=false) Integer cant) {
+		
+		
+		
+		if(id!=null || cant!=null) {
+			
+			
+				System.out.println("Entramos a BU ");
+				EcoBienesUso bu = economatoService.getBienById(id);
+				bu.setStock(cant);
+				listSelecDev.add(bu);
+				JsonElement json = gson.toJsonTree(listSelecDev);
+				
+				return json.toString();
+			
+			
+		}
+			JsonElement json = gson.toJsonTree(listSelecDev);
+			
+			
+			
+			return json.toString();			
+					
+	}
+	
+	
 }

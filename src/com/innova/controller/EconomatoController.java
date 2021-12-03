@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.innova.entity.EcoBienesUso;
 import com.innova.entity.Economato_Elementos;
 import com.innova.entity.Persona;
+import com.innova.entity.Personal;
 import com.innova.service.EconomatoService;
 import com.innova.service.PersonaService;
 
@@ -195,9 +196,8 @@ public class EconomatoController {
 	PersonaService personaService;
 	
 	List<Integer> excepciones = new ArrayList<Integer>();
-	
-	
 
+	
 	@GetMapping("/getPerByDni/{dni}")
 	@ResponseBody
 	public String demo2(@PathVariable("dni") BigDecimal dni) {
@@ -206,8 +206,12 @@ public class EconomatoController {
 		
 		Persona persona = personaService.getPersonaByNameOrDni(dni);
 		
-		return persona.getNombre()+" "+persona.getApellido();		
+		Personal personal = personaService.getPersonalByPersonaId(persona.getPersonalId());
+		
+		return persona.getNombre()+" "+persona.getApellido() + "( "+personal.getSector()+" )";		
 	}
+	
+	
 	
 	@GetMapping("/getBUById/{id}")
 	@ResponseBody
@@ -301,6 +305,13 @@ public class EconomatoController {
 		excepciones = new ArrayList<Integer>();
 		model.addAttribute("tipoMov",tipoMov);
 		return "tipoMovBU";
+	}
+	
+	
+	@GetMapping("/nuevoMovB")
+	public String nuevoMovB() {
+		
+		return "nuevoMovB";
 	}
 	
 }

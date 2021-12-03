@@ -16,6 +16,24 @@
 	<link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/resources/css/style.css">
   	<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	
+	<link rel="apple-touch-icon" sizes="57x57" href="${pageContext.request.contextPath}/resources/img/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="${pageContext.request.contextPath}/resources/img/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="${pageContext.request.contextPath}/resources/img/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="${pageContext.request.contextPath}/resources/img/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="${pageContext.request.contextPath}/resources/img/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="${pageContext.request.contextPath}/resources/img/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="${pageContext.request.contextPath}/resources/img/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="${pageContext.request.contextPath}/resources/img/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="${pageContext.request.contextPath}/resources/img/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="${pageContext.request.contextPath}/resources/img/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="${pageContext.request.contextPath}/resources/img/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="${pageContext.request.contextPath}/resources/img/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="${pageContext.request.contextPath}/resources/img/favicon-16x16.png">
+	<link rel="manifest" href="${pageContext.request.contextPath}/resources/img/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="${pageContext.request.contextPath}/resources/img/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
 </head>
 
 <body>
@@ -52,7 +70,7 @@
                             <a href="${pageContext.request.contextPath}/elementos">Bienes de Consumo</a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/nuevoMovimientoBU">Movimientos</a>
+                            <a href="${pageContext.request.contextPath}/nuevoMovB">Movimientos</a>
                         </li>
                     </ul>
                 </li>           
@@ -63,9 +81,7 @@
                         <li>
                             <a href="${pageContext.request.contextPath}/estadoSearch">Estado Personal</a>
                         </li>                        
-                        <li>
-                            <a href="${pageContext.request.contextPath}/nuevoMovimiento">Movimientos</a>
-                        </li>
+                       
                     </ul>
                 </li>       
             </ul>
@@ -174,65 +190,7 @@
                     
                     <br><br>
                     
-                <!--     
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Nombre</th>                                
-                                <th scope="col">Stock</th>
-                                <th scope="col">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="tempElemento" items="${listado}">
-                                <tr>
-                                    <td>${tempElemento.id}</td>
-                                    <td>${tempElemento.nombre}</td>                                    
-                                    <td>${tempElemento.stock}</td>
-                                    <td>Editar/Baja</td>
-                                </tr>
-                            </c:forEach>
-                            
-                        </tbody>
-                    </table>
-                
-                </div>	
-                
-                <div id="pagination">
-                <nav aria-label="Page navigation example">
-                              <ul class="pagination justify-content-end">
-                              
-                    <c:url value="/elementos" var="prev">
-                        <c:param name="page" value="${page-1}"/>
-                    </c:url>
-                    <c:if test="${page > 1}">
-                        <li class="page-item"><a class="page-link" href="<c:out value="${prev}" />" class="pn prev"><span style="color:black"><</span></a></li>
-                    </c:if>
-                
-                    <c:forEach begin="1" end="${maxPages}" step="1" varStatus="i">
-                        <c:choose>
-                            <c:when test="${page == i.index}">
-                                <span class="p-2">${i.index}</span>
-                            </c:when>
-                            <c:otherwise>
-                                <c:url value="/elementos" var="url">
-                                    <c:param name="page" value="${i.index}"/>
-                                </c:url>
-                               <li class="page-item"> <a class="page-link" href='<c:out value="${url}" />'>${i.index}</a></li>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                    <c:url value="/elementos" var="next">
-                        <c:param name="page" value="${page + 1}"/>
-                    </c:url>
-                    <c:if test="${page + 1 <= maxPages}">
-                        <li class="page-item"><a class="page-link" href='<c:out value="${next}" />' class="pn next"><span style="color:black">></span></a></a></li>
-                    </c:if>
-                     </ul>
-                    </nav>
-                </div>
-                -->
+            
                 
                 </div>
     
@@ -394,22 +352,22 @@
 		
 		 "language": {
 		        "sProcessing":    "Procesando...",
-		        "sLengthMenu":    "Mostrar _MENU_ registros",
+		        "sLengthMenu":    "_MENU_ ",
 		        "sZeroRecords":   "No se encontraron resultados",
 		        "sEmptyTable":    "Ningún dato disponible en esta tabla",
-		        "sInfo":          "_START_ al _END_ de _TOTAL_ ",
+		        "sInfo":          "_START_ 	al 	_END_ 	de 	_TOTAL_ ",
 		        "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
 		        "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
 		        "sInfoPostFix":   "",
 		        "sSearch":        "Buscar:",
 		        "sUrl":           "",
 		        "sInfoThousands":  ",",
-		        "sLoadingRecords": "Cargando...",
+		        "sLoadingRecords": "Sin elementos",
 		        "oPaginate": {
-		            "sFirst":    "Primero ",
-		            "sLast":    " Último",
-		            "sNext":    "- Siguiente",
-		            "sPrevious": "Anterior- "
+		            "sFirst":    '<span style="cursor: pointer;color:#DCAB46;"><<	</span>',
+		            "sLast":    '<span style="cursor: pointer;color:#DCAB46;">	>></span>',
+		            "sNext":    '<span style="cursor: pointer;color:#DCAB46;">	></span>',
+		            "sPrevious": '<span style="cursor: pointer;color:#DCAB46;"><	</span>'
 		        },
 		        "oAria": {
 		            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",

@@ -59,7 +59,7 @@
                             <a href="${pageContext.request.contextPath}/estadoSearch">Estado Personal</a>
                         </li>                        
                         <li>
-                            <a href="${pageContext.request.contextPath}/nuevoMovimiento">Movimientos</a>
+                            <a href="${pageContext.request.contextPath}/nuevoMovB">Movimientos</a>
                         </li>
                     </ul>
                 </li>       

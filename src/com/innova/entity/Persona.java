@@ -7,7 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,12 +16,21 @@ import javax.persistence.Table;
 public class Persona {
 	
 	
-
-
 	/*
 	@OneToOne(mappedBy="persona")
-	private User user;
-	*/
+	private Personal personal;
+	
+	
+	
+	
+	public Personal getPersonal() {
+		return personal;
+	}
+
+	public void setPersonal(Personal personal) {
+		this.personal = personal;
+	}
+*/
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="PER_ID")
