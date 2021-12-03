@@ -127,27 +127,34 @@ public class RestC {
 		    	EcoBienesUso bu = ecoService.getBienByNameId(id,nombre);
 		    	System.out.println("SI");
 		    	System.out.println("BU ENCONTRADO "+bu);
-		    	System.out.println("CANT BU: "+myRequest.getCant());
+		    	System.out.println("CANT BU: "+dev);
 		    	
 		    	int buACargo = ecoService.getBienCantCargo(persona.getId(),id); 
 		    	
 		    	System.out.println("COMPARO SI LO QUE DEVUELVE ("+dev+") ES MENOR A LO QUE SE LE DIO ("+buACargo+")");
 		    	
 		    	if(dev<buACargo) {
-		    		ecoService.saveMovBien(myRequest.getTipoMov(), 1, id, persona.getId(),myRequest.getCant(),1);
+		    		ecoService.saveMovBien(myRequest.getTipoMov(), 1, id, persona.getId(),dev,1);
 		    		updateDev = buACargo - dev;
-		    		ecoService.updateBienCantCargo(updateDev,id,persona.getId());
+		    		//ecoService.updateBienCantCargo(updateDev,id,persona.getId());
 		    	}else {
-		    		ecoService.saveMovBien(myRequest.getTipoMov(), 1, id, persona.getId(),myRequest.getCant(),0);
+		    		ecoService.saveMovBien(myRequest.getTipoMov(), 1, id, persona.getId(),dev,0);
 		    	}
 		    	
 		    	int cantidadStock = ecoService.getStockBU(bu.getId());
 		    	
-		    		total=cantidadStock+myRequest.getCant();
-		    		bu.setStock(total);
-		    		ecoService.updateStockBU(bu);		    		
-		    	 
+		    	System.out.println("EL STOCK QUE HAY DEL ELEM ES "+cantidadStock);
 		    	
+		    	total=cantidadStock+dev;
+		    	
+		    	System.out.println("AL DEVOLVER ESTO, QUEDA EL STOCK ASI: "+ total);
+		    	
+		    	bu.setStock(total);
+		    	
+		    	
+		    	ecoService.updateStockBU(bu);		    		
+		    	System.out.println("SE GUARDÓ EL STOCK AL ELEMENTO"); 
+
 		    }catch(Exception e) {
 		    	e.printStackTrace();		    	
 		    }	
