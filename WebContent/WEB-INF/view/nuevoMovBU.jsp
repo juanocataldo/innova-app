@@ -715,7 +715,22 @@ $('#formBU').submit(function(e){
 	})
 	
     </script>
-   
+
+<script>
+$(document).ready(function(){
+	 $.ajax({
+	        url: "${pageContext.request.contextPath}/limpiar",
+	        type: "GET",
+	        datatype:"json",
+	        success: function(data) {
+	        	$('#tablaSeleccionadosDev').DataTable().ajax.reload(null, false);
+	        	$('#tablaSeleccionados').DataTable().ajax.reload(null, false);
+	         }
+	      });
+});
+
+
+</script>   
     
 </body>
 

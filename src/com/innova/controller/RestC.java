@@ -54,11 +54,14 @@ public class RestC {
 		    	System.out.println("BU ENCONTRADO "+bu);
 		    	System.out.println("CANT BU: "+myRequest.getCant());
 		    	
+		    	//Guardo el movimiento general
 		    	ecoService.saveMovBien(myRequest.getTipoMov(), 1, id, persona.getId(),cant,1);
 		    	
+		    	System.out.println("POR GUARDAR TEMPORAL DE "+persona.getId());
+		    	//Guardo el elemento como temporal en la tabla Temporal
+		    	ecoService.saveTemporal(persona.getId(), id, cant, myRequest.getTipoMov());
+		    	
 		    	int cantidadStock = ecoService.getStockBU(bu.getId());
-		    	
-		    	
 		    	
 		    	if(myRequest.getCant()<=cantidadStock) {
 		    		total=cantidadStock-cant;
@@ -133,9 +136,11 @@ public class RestC {
 		    	
 		    	System.out.println("COMPARO SI LO QUE DEVUELVE ("+dev+") ES MENOR A LO QUE SE LE DIO ("+buACargo+")");
 		    	
-		    	if(dev<buACargo) {
+		    	if(dev<=buACargo) {
 		    		ecoService.saveMovBien(myRequest.getTipoMov(), 1, id, persona.getId(),dev,1);
-		    		updateDev = buACargo - dev;
+		    		//updateDev = buACargo - dev;
+		    		System.out.println("SE ACTUALIZO STOCK A "+updateDev);
+		    		ecoService.saveTemporal(persona.getId(), id, dev, myRequest.getTipoMov());
 		    		//ecoService.updateBienCantCargo(updateDev,id,persona.getId());
 		    	}else {
 		    		ecoService.saveMovBien(myRequest.getTipoMov(), 1, id, persona.getId(),dev,0);

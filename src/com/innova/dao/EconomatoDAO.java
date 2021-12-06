@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.innova.entity.EcoBienesMov;
 import com.innova.entity.EcoBienesUso;
+import com.innova.entity.EcoTemporal;
 import com.innova.entity.Economato_Elementos;
 
 public interface EconomatoDAO {
@@ -55,10 +56,12 @@ public interface EconomatoDAO {
 
 	public int getStockBC(int id);
 
-	public List<EcoBienesMov> listBienesCargo(Integer id);
+	public List<EcoTemporal> listBienesCargo(Integer id);
 
 	public int getBienCantCargo(Integer id, int id2);
 
 	public void updateBienCantCargo(int id, int id2, int id3);
+
+	public void saveTemporal(int id, int id2, int cant, int tipoMov);
 	
 }

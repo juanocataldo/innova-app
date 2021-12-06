@@ -127,10 +127,9 @@
 			        <thead>
 			            <tr>
 			            	<th scope="col">ID</th>
-			            	<th scope="col">Bien Uso</th>
-			            	<th scope="col">Bien Consumo</th>
+			            	<th scope="col">Bien Uso</th>			            	
 			                <th scope="col">Stock</th>			                
-			                <th scope="col">Actividad</th>			                
+			                <th scope="col" class="text-center">Actividad</th>			                
 			            </tr>
 			        </thead>
 			        <tbody>        	
@@ -377,9 +376,7 @@
 		"columns":[
 			{"data": 'bienUso.id'},			
 			{"data": 'bienUso.nombre',
-				"defaultContent": '<i style="color:#9b9b9b">-</i>'},
-			{"data": 'bienConsumo.nombre',
-					"defaultContent": '<i style="color:#9b9b9b">-</i>'},				
+				"defaultContent": '<i style="color:#9b9b9b">-</i>'},							
 			{"data": 'cant',
 					"defaultContent": '<i style="color:#9b9b9b">-</i>'},					
 			{"defaultContent":
@@ -447,7 +444,7 @@ $('#formBU').submit(function(e){
         fila = $(this).closest("tr");	        
         id = parseInt(fila.find('td:eq(0)').text()); //capturo el ID		            
         nombre = fila.find('td:eq(1)').text();
-        cant = fila.find('td:eq(3)').text();
+        cant = fila.find('td:eq(2)').text();
         
         $("#id2").val(id);
         $("#nombre2").val(nombre);

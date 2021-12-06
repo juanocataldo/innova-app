@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.innova.dao.EconomatoDAO;
 import com.innova.entity.EcoBienesMov;
 import com.innova.entity.EcoBienesUso;
+import com.innova.entity.EcoTemporal;
 import com.innova.entity.Economato_Elementos;
 
 @Service
@@ -206,9 +207,9 @@ public class EconomatoServiceImpl implements EconomatoService {
 
 	@Transactional
 	@Override
-	public List<EcoBienesMov> listBienesCargo(Integer id) {
+	public List<EcoTemporal> listBienesCargo(Integer id) {
 		
-		List<EcoBienesMov> mov = economatoDAO.listBienesCargo(id);
+		List<EcoTemporal> mov = economatoDAO.listBienesCargo(id);
 		return mov;
 	}
 
@@ -225,6 +226,13 @@ public class EconomatoServiceImpl implements EconomatoService {
 
 		economatoDAO.updateBienCantCargo(id,id2, id3);
 		
+	}
+
+	@Transactional
+	@Override
+	public void saveTemporal(int id, int id2, int cant, int tipoMov) {
+		
+		economatoDAO.saveTemporal(id, id2, cant, tipoMov);
 	}
 	
 	

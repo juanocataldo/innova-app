@@ -112,7 +112,7 @@
             	<select name="tipoMov" id="tipoMov" style="width:100%" class="form-select-innova">
 					  <option value="1" selected>Entregar bienes</option>
 					  <option value="2">Devolución de bienes</option>
-					  <option value="3" disabled=disabled>Bien a Fuera de Servicio</option>
+					  <option value="3" disabled=disabled>Bien Fuera de Servicio</option>
 					</select>
             
             
@@ -291,9 +291,9 @@
 						
 						"render": function(data, type, row){
 							if(data == 1){
-								return '<span class="material-icons" style="color:green;font-size:40px">arrow_circle_up</span>';
+								return '<span class="material-icons" style="color:#d39a9a;font-size:40px">arrow_circle_up</span>';
 							}else{
-								return '<span class="material-icons" style="color:grey;font-size:40px">arrow_circle_down</span>';
+								return '<span class="material-icons" style="color:#8dc1a5;font-size:40px">arrow_circle_down</span>';
 							}	
 						} },
 			{"defaultContent":
@@ -321,6 +321,23 @@
 
     });
     </script>
+    
+<script>
+$(document).ready(function(){
+	 $.ajax({
+	        url: "${pageContext.request.contextPath}/limpiar",
+	        type: "GET",
+	        datatype:"json",
+	        success: function(data) {
+	        	$('#tablaSeleccionadosDev').DataTable().ajax.reload(null, false);
+	        	$('#tablaSeleccionados').DataTable().ajax.reload(null, false);
+	         }
+	      });
+});
+
+
+</script>  
+
 </body>
 
 </html>

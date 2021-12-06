@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.innova.entity.EcoBienesMov;
 import com.innova.entity.EcoBienesUso;
+import com.innova.entity.EcoTemporal;
 import com.innova.entity.Economato_Elementos;
 import com.innova.entity.Ingreso;
 import com.innova.entity.IngresoEstado;
@@ -413,12 +413,12 @@ public class AjaxController {
 	public String listBienesCargo(@RequestParam(name="dni", required=false) BigDecimal dni) {
 		
 		Persona persona = personaService.getPersonaByNameOrDni(dni);
-		
-		List<EcoBienesMov> mov = economatoService.listBienesCargo(persona.getId());
+		System.out.println("PERSONA ENCONTRADA "+persona);
+		List<EcoTemporal> mov = economatoService.listBienesCargo(persona.getId());
 		
 		String gson = new Gson().toJson(mov);
 		
-		return gson;
+		return gson; 
 	}
 	
 	List<Object> listSelecDev = new ArrayList<>();
@@ -439,7 +439,6 @@ public class AjaxController {
 				JsonElement json = gson.toJsonTree(listSelecDev);
 				
 				return json.toString();
-			
 			
 		}
 			JsonElement json = gson.toJsonTree(listSelecDev);

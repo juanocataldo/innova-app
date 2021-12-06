@@ -3,8 +3,6 @@ package com.innova.dao;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -12,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.innova.entity.EcoBienesMov;
-import com.innova.entity.EcoBienesTipoMov;
 import com.innova.entity.EcoBienesUso;
+import com.innova.entity.EcoTemporal;
 import com.innova.entity.Economato_Elementos;
 
 @Repository
@@ -381,14 +379,16 @@ public class EconomatoDAOImpl implements EconomatoDAO  {
 	}
 
 	@Override
-	public List<EcoBienesMov> listBienesCargo(Integer perid) {
+	public List<EcoTemporal> listBienesCargo(Integer perid) {
 
 		Session session = currentSession.getCurrentSession();
 
-		Query<EcoBienesMov> query = session.createQuery("from EcoBienesMov m WHERE m.perId=:id AND m.bienUso IS NOT NULL AND m.tipoMovId=1 AND m.temp=1 AND NOT EXISTS( from EcoBienesMov n WHERE n.perId=:id AND n.bienUso IS NOT NULL AND n.tipoMovId=2 AND n.temp=0 AND n.bienUso=m.bienUso) order by 1 asc ",EcoBienesMov.class);
-		query.setParameter("id", perid);
+		System.out.println("PERID "+perid+"");
+		Query<EcoTemporal> query = session.createQuery("from EcoTemporal m WHERE m.perId=:perId AND m.cant>0",EcoTemporal.class);
+		query.setParameter("perId", perid);
 		
-		List<EcoBienesMov> listado = query.getResultList();
+		
+		List<EcoTemporal> listado = query.getResultList();
 
 		return listado;
 	}
@@ -398,7 +398,7 @@ public class EconomatoDAOImpl implements EconomatoDAO  {
 
 		Session session = currentSession.getCurrentSession();
 		System.out.println("BUSCO LA CANT DEL BIEN "+ id2+" A NOMBRE DE "+id);
-		int count = (int)session.createQuery("SELECT m.cant from EcoBienesMov m WHERE m.perId="+id+" AND m.tipoMovId=1 AND m.temp=1 AND m.bienBuId="+id2+" AND NOT EXISTS ( SELECT n FROM EcoBienesMov n WHERE n.perId="+id+" AND n.bienBuId="+id2+" AND n.tipoMovId=2 AND n.temp=0)").getSingleResult();
+		int count = (int)session.createQuery("SELECT m.cant from EcoTemporal m WHERE m.perId="+id+" AND m.buId="+id2+" AND m.cant>0").getSingleResult();
 		System.out.println("A CARGO TIENE "+count);
 		return (int)count;
 	}
@@ -418,6 +418,56 @@ public class EconomatoDAOImpl implements EconomatoDAO  {
 		
 		System.out.println("SE ACTUALIZÓ AL "+buId+" QUE TENIA "+perId+" POR LA SUMA DE "+cant+" ELEMENTOS");
 		
+	}
+
+	@Override
+	public void saveTemporal(int id, int id2, int cant, int tipoMov) {
+		/*
+		EcoTemporal temp = new EcoTemporal();
+		
+		temp.setBuId(id);
+		temp.setPerid(id2);
+		temp.setCant(cant);
+		*/
+		
+		int total=0;
+		
+		Session session = currentSession.getCurrentSession();
+		
+		Long query2 = (Long)session.createQuery("SELECT COUNT(t) from EcoTemporal t where t.buId="+id2+"").getSingleResult();
+		
+		if(query2>0) {
+			System.out.println("ACTUALIZO EL TEMP");
+			int count = (int)session.createQuery("SELECT cant FROM EcoTemporal WHERE buId="+id2+" AND perId="+id+"").getSingleResult();
+			
+			
+			if(tipoMov==2) {
+				System.out.println("ENTRO A DEVOLUCION");
+				System.out.println("RESTO "+count+" - "+cant+" Y LO UPDATEO");
+				total= count-cant;
+				Query query = session.createQuery("UPDATE EcoTemporal t SET t.cant=:cant WHERE buId=:buId AND perId="+id+"");
+				query.setParameter("cant", total);
+				query.setParameter("buId", id2);
+				query.executeUpdate();
+				System.out.println("SE DEVOLVIÓ "+total+" BIENES DE USO CON ID "+id2);
+			}else {
+				System.out.println("ENTRO A ENTREGA");
+				total= count+cant;
+				Query query = session.createQuery("UPDATE EcoTemporal t SET t.cant=:cant WHERE buId=:buId");
+				query.setParameter("cant", total);
+				query.setParameter("buId", id2);
+				query.executeUpdate();
+			}
+			
+		}else {
+			System.out.println("CREO EL TEMP");
+			EcoTemporal temp = new EcoTemporal();			
+			temp.setBuId(id2);
+			temp.setPerid(id);
+			temp.setCant(cant);
+			
+			session.save(temp);
+		}
 	}
 	
 	
