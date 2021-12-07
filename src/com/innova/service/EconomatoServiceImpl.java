@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.innova.dao.EconomatoDAO;
 import com.innova.entity.EcoBienesMov;
 import com.innova.entity.EcoBienesUso;
+import com.innova.entity.EcoMovLog;
 import com.innova.entity.EcoTemporal;
 import com.innova.entity.Economato_Elementos;
 
@@ -233,6 +234,36 @@ public class EconomatoServiceImpl implements EconomatoService {
 	public void saveTemporal(int id, int id2, int cant, int tipoMov) {
 		
 		economatoDAO.saveTemporal(id, id2, cant, tipoMov);
+	}
+
+	@Transactional
+	@Override
+	public EcoBienesMov getMovById(int id) {
+		EcoBienesMov mov = economatoDAO.getMovById(id);
+		return mov;
+	}
+
+	@Transactional
+	@Override
+	public Integer getLastIdMov() {
+		
+		Integer id = economatoDAO.getLastIdMov();
+		return id;		
+	}
+
+	@Transactional
+	@Override
+	public Integer getLastIdMovLog() {
+		Integer id = economatoDAO.getLastIdMovLog();
+		return id;	
+	}
+
+	@Transactional
+	@Override
+	public void saveMovLog(EcoMovLog movLog) {
+		
+		economatoDAO.saveMovLog(movLog);
+		
 	}
 	
 	

@@ -1,17 +1,15 @@
 package com.innova.controller;
 import java.math.BigDecimal;
 
-import org.apache.catalina.connector.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.innova.entity.EcoBienesUso;
+import com.innova.entity.EcoMovLog;
 import com.innova.entity.Economato_Elementos;
 import com.innova.entity.Persona;
 import com.innova.service.EconomatoService;
@@ -27,6 +25,8 @@ public class RestC {
 	@Autowired
 	PersonaService personaService;
 	
+	Integer idMov=null;
+	
 	@PostMapping("/saveMovBienes2")	
 	public String saveMovBienes2(@RequestBody Request myRequest) {
 
@@ -40,6 +40,13 @@ public class RestC {
 		JSONArray arr = new JSONArray(json);
 		
 		int total=0;
+		
+		try {
+			idMov= ecoService.getLastIdMovLog();
+			idMov++;
+		}catch(Exception e) {
+			idMov=1;
+		}
 		
 		for (int i = 0; i < arr.length(); ++i) {
 		    JSONObject rec = arr.getJSONObject(i);
@@ -70,7 +77,7 @@ public class RestC {
 		    	}
 		    	
 		    }catch(Exception e) {
-		    	e.printStackTrace();
+		    	//e.printStackTrace();
 		    	
 		    	ecoService.saveMovBien(myRequest.getTipoMov(), 2, id, persona.getId(), cant, null);
 		    	
@@ -88,9 +95,45 @@ public class RestC {
 		    		ecoService.updateStockBC(bc);		    	
 		    	}
 		    }	
+		    
+		    
+		    EcoMovLog movLog = new EcoMovLog();
+		    
+		    //busco el último ID de elemento que se registró en la base
+		    System.out.println("Busco el ultimo id MOV");
+		    Integer lastIdMovLog = ecoService.getLastIdMov();
+		    
+		    
+		    
+		    System.out.println("TRYCATCH si ya existe registro de movlog");
+		    //me fijo si existe registro en Mov Log, en caso de que no, metemos el valor 1
+		    try {		    	
+		    	
+		    	
+		    	
+				System.out.println("SETEANDO ID MOVLOG "+idMov);
+				movLog.setId(idMov);
+				movLog.setIdMov(lastIdMovLog);
+				    
+				ecoService.saveMovLog(movLog);
+				    
+				System.out.println("MOV LOG "+movLog); 
+		    	
+		    }catch(Exception e) {
+		    	//e.printStackTrace();
+		    	System.out.println("NO");
+		    	idMov=1;
+		    	System.out.println("SETEANDO ID MOVLOG "+idMov);
+			    movLog.setId(idMov);
+			    movLog.setIdMov(lastIdMovLog);
+			    
+			    ecoService.saveMovLog(movLog);
+			    
+			    System.out.println("MOV LOG "+movLog);
+		    } 
 		}
 
-		System.out.println("GUARDADO");
+		idMov++;
 		
 		json=null;
 		arr=null;
@@ -126,11 +169,8 @@ public class RestC {
 		    int dev = rec.getInt("stock");
 		    
 		    try {
-		    	System.out.println("SERA BU?");
+		    	
 		    	EcoBienesUso bu = ecoService.getBienByNameId(id,nombre);
-		    	System.out.println("SI");
-		    	System.out.println("BU ENCONTRADO "+bu);
-		    	System.out.println("CANT BU: "+dev);
 		    	
 		    	int buACargo = ecoService.getBienCantCargo(persona.getId(),id); 
 		    	

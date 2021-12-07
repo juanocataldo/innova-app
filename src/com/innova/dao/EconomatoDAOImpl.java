@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.innova.entity.EcoBienesMov;
 import com.innova.entity.EcoBienesUso;
+import com.innova.entity.EcoMovLog;
 import com.innova.entity.EcoTemporal;
 import com.innova.entity.Economato_Elementos;
 
@@ -438,7 +439,7 @@ public class EconomatoDAOImpl implements EconomatoDAO  {
 		
 		if(query2>0) {
 			System.out.println("ACTUALIZO EL TEMP");
-			int count = (int)session.createQuery("SELECT cant FROM EcoTemporal WHERE buId="+id2+" AND perId="+id+"").getSingleResult();
+			Integer count = (Integer)session.createQuery("SELECT cant FROM EcoTemporal WHERE buId="+id2+" AND perId="+id+"").getSingleResult();
 			
 			
 			if(tipoMov==2) {
@@ -468,6 +469,51 @@ public class EconomatoDAOImpl implements EconomatoDAO  {
 			
 			session.save(temp);
 		}
+	}
+
+	@Override
+	public EcoBienesMov getMovById(int id) {
+
+		Session session = currentSession.getCurrentSession();
+		
+		Query<EcoBienesMov> query = session.createQuery("from EcoBienesMov where id=:id",EcoBienesMov.class);
+		query.setParameter("id", id);
+		
+		EcoBienesMov mov = query.getSingleResult();
+		
+		return mov;
+	}
+
+	@Override
+	public Integer getLastIdMov() {
+		
+		Session session = currentSession.getCurrentSession();
+		
+		Integer query = (Integer)session.createQuery("SELECT b.id FROM EcoBienesMov b ORDER BY b.id DESC").setMaxResults(1).getSingleResult();
+		
+		System.out.println("GETLASTIDMOV "+query);
+		return query;
+	}
+
+	@Override
+	public Integer getLastIdMovLog() {
+
+		Session session = currentSession.getCurrentSession();
+		
+		Integer query = (Integer)session.createQuery("SELECT b.id FROM EcoMovLog b ORDER BY b.id DESC").setMaxResults(1).getSingleResult();
+		
+		System.out.println("GETLASTID-MOV-LOG "+query);
+		return query;
+	}
+
+	@Override
+	public void saveMovLog(EcoMovLog movLog) {
+
+		Session session = currentSession.getCurrentSession();
+		
+		session.save(movLog);
+		
+		System.out.println("MOVLOG GUARDADO OK");
 	}
 	
 	

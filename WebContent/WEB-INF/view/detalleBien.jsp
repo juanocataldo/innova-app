@@ -100,78 +100,41 @@
             <div class="container text-center" >
                 
                 <div class="cabeceraMov">
-                    <span style="color:#F0B847">Nuevo Movimiento</span>		
+                    <span style="color:#F0B847">Detalle</span>		
                 </div>
-                
-               
-            <div class="filtroCuerpo">
-            <form:form action="inOut" method="POST">
-            
-              
-            <h4 style="text-align:left;color:white">Seleccionar movimiento</h4>
-            	<select name="tipoMov" id="tipoMov" style="width:100%" class="form-select-innova">
-					  <option value="1" selected>Entregar bienes</option>
-					  <option value="2">Devolución de bienes</option>
-					  <option value="3" disabled=disabled>Bien Fuera de Servicio</option>
-					</select>
-            
-            
-            
            
-        
-         <div class="" id="personaShow" style="display:none;">
-    	<div class="filtroCuerpo">
-    		<div class="row">
-                    <div class="col-md-6">
-                        <span>DNI</span><br><input type="text"  style="width:100%;" name="dniSearch" id="dniSearch" >
-                    </div>
-
-                    <div class="col-md-3">
-                        <span>Persona</span><br><h5 style="color:white" id="result1"></h5>
-                    </div>     
-                    <div class="col-md-3">
-						<input class="btn btn-sm submit" type="button" value="Buscar persona" id="buttonDemo1">                    
-                    </div>               
-                </div>
-             
-    	</div>  
-</div>
-          <button type="submit" class="submit btn btn-sm">
-                    <div class="d-flex flex-wrap" style="background-color: transparent;" >
-                            <span>Siguiente</span>
-                        </div>
-                    </button>	
-                    <br><br>	
-                    
-			</form:form>
-        </div>
     </div><br>
     
     <div class="container">
     
       <div class="filtro">
-                <span>Listado Movimientos</span> 
+                <span>Ver Detalle de Movimiento</span> 
             </div>
            
-            <div class="filtroCuerpo">
-            	
-            	<table id="tablaMovs" class="table " style="width:100%; color:white">
-            		<thead>
-            			<tr>
-            				<th scope="col">ID</th>
-            				<th scope="col">Nombre</th>
-            				<th scope="col">Apellido</th>
-            				<th scope="col">Bien Uso</th>
-            				<th scope="col">Bien Consumo</th>
-            				<th scope="col">Cantidad</th>
-            				<th scope="col">Actividad</th>
-            				<th scope="col" class="text-center">Acción</th>            				
-            			</tr>
-            		</thead>
-            		<tbody>
-            		</tbody>
-            	</table>
-            	            
+           <div class="filtroCuerpo">
+           		
+           		<div class="row">
+           			<div class="col-md-3">
+           				<span>Movimiento</span><br>
+           				<input type="text" disabled=disabled value="${id}">
+           			</div>           			
+           			<div class="col-md-9">
+           				<span>Persona</span><br>
+           				<input type="text" disabled=disabled value="${nombre} ${apellido}">
+           			</div>
+           			
+           		</div><br>
+           		<div class="row">
+           			<div class="col-md-4">
+           				<span>Elemento</span><br><input type="text" disabled=disabled value="${bien}">
+           			</div>
+           			<div class="col-md-4">
+           				<span>Cantidad</span><br><input type="text" disabled=disabled value="${cant}">
+           			</div>
+           			<div class="col-md-4">
+           				<span>Fecha</span><br><input type="text" disabled=disabled value="">
+           			</div>
+           		</div>		            
            </div>  
     
     </div>
@@ -208,101 +171,9 @@
             });
         });
         
-        
-        
-        $(document).ready(function(){
-            $('#tipoMov').on('change', function() {
-              if ( this.value == '2')
-              {
-                $("#personaShow").show();
-              }
-              else
-              {
-                $("#personaShow").hide();
-              }
-            });
-        });
+       
     </script>
     
-     <script>
-
-	$(document).ready(function(){
-		$('#buttonDemo1').click(function(){
-			var dni = parseInt($('#dniSearch').val());
-			
-			$.ajax({
-				type:'GET',
-				url:'${pageContext.request.contextPath}/test2/'+dni+'',
-				success: function(result){
-					$('#result1').html(result);
-				}
-			})
-		})
-	})
-    </script>
-    
-    <script type="text/javascript">
-	$(document).ready(function() {
-		
-		fila = $(this).closest("tr");
-		estado = parseInt(fila.find('td:eq(3)').text());
-		
-		$('#tablaMovs').DataTable({
-		"ajax":{
-			"url": '${pageContext.request.contextPath}/listadoMovimientos',
-			"dataSrc":''
-			
-		},
-		"language": {
-	        "sProcessing":    "Procesando...",
-	        "sLengthMenu":    "_MENU_ ",
-	        "sZeroRecords":   "No se encontraron resultados",
-	        "sEmptyTable":    "Ningún dato disponible en esta tabla",
-	        "sInfo":          "_START_ 	al 	_END_ 	de 	_TOTAL_ ",
-	        "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
-	        "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
-	        "sInfoPostFix":   "",
-	        "sSearch":        "Buscar:",
-	        "sUrl":           "",
-	        "sInfoThousands":  ",",
-	        "sLoadingRecords": "Cargando...",
-	        "oPaginate": {
-	            "sFirst":    '<span style="cursor: pointer;color:#DCAB46;"><<	</span>',
-	            "sLast":    '<span style="cursor: pointer;color:#DCAB46;">	>></span>',
-	            "sNext":    '<span style="cursor: pointer;color:#DCAB46;">	></span>',
-	            "sPrevious": '<span style="cursor: pointer;color:#DCAB46;"><	</span>'
-	        },
-	        "oAria": {
-	            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-	            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-	        }
-	    },
-		"columns":[
-			{"data": 'id'},
-			{"data": 'persona.nombre'},
-			{"data": 'persona.apellido'},
-			{"data": 'bienUso.nombre',
-				"defaultContent": '<i style="color:#9b9b9b">-</i>'},
-			{"data": 'bienConsumo.nombre',
-					"defaultContent": '<i style="color:#9b9b9b">-</i>'},				
-			{"data": 'cant',
-					"defaultContent": '<i style="color:#9b9b9b">-</i>'},
-			{"data" : 'tipoMovId',
-						
-						"render": function(data, type, row){
-							if(data == 1){
-								return '<span class="material-icons" style="color:#d39a9a;font-size:40px">arrow_circle_up</span>';
-							}else{
-								return '<span class="material-icons" style="color:#8dc1a5;font-size:40px">arrow_circle_down</span>';
-							}	
-						} },
-			{"defaultContent":
-				'<div class="text-center"><button class="btnView botonAccion btn btn-sm" style="background-color:#5BBFDD;width:40px;font-size:5px"><span class="material-icons" style="color:white">visibility</span></button></div>'
-			}
-		]
-	});
-});
-</script>
   <script>
     $(".filtro").click(function () {
 
@@ -321,58 +192,8 @@
 
     });
     </script>
-    
-<script>
-$(document).ready(function(){
-	 $.ajax({
-	        url: "${pageContext.request.contextPath}/limpiar",
-	        type: "GET",
-	        datatype:"json",
-	        success: function(data) {
-	        	$('#tablaSeleccionadosDev').DataTable().ajax.reload(null, false);
-	        	$('#tablaSeleccionados').DataTable().ajax.reload(null, false);
-	         }
-	      });
-});
 
-
-</script>  
-
-<script>
-$(document).on("click", ".btnView", function(){	        
     
-	 fila = $(this).closest("tr");	        
-    var id = parseInt(fila.find('td:eq(0)').text()); //capturo el ID		            
-    nombrePersona = fila.find('td:eq(1)').text();
-    apellidoPersona = fila.find('td:eq(2)').text();
-    
-    
-    
-    elemento = fila.find('td:eq(3)').text();
-    
-    if(elemento == "-"){
-    	elemento = fila.find('td:eq(4)').text();	
-    }
-    
-    cant = parseInt(fila.find('td:eq(5)').text());
-    
-    actividad = fila.find('td:eq(6)').text();
-    
-    cat = 2;
-    
-    $.ajax({
-        url: "${pageContext.request.contextPath}/detalleBien/"+id+"",
-        type: "GET",
-        datatype:"json",
-        data: {id:id, nombrePersona:nombrePersona, apellidoPersona:apellidoPersona, elemento:elemento, cant:cant, actividad:actividad},
-        success: function() {
-        	 location.href = "${pageContext.request.contextPath}/detalleBien/"+id+"";
-        }
-      });
-   	   
-   });
-</script>
-
 </body>
 
 </html>
