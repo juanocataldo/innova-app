@@ -44,7 +44,7 @@ public interface EconomatoService {
 
 	EcoBienesUso getBienByNameId(int id, String nombre);
 
-	void saveMovBien(int mov, int tipoBien, int idBien, int perid, int cant, Integer i);
+	void saveMovBien(int id, int mov, int tipoBien, int idBien, int perid, int cant, Integer i);
 
 	List<EcoBienesMov> listMovimientos();
 
@@ -73,5 +73,7 @@ public interface EconomatoService {
 	Integer getLastIdMovLog();
 
 	void saveMovLog(EcoMovLog movLog);
+
+	List<EcoBienesMov> listMovsById(int id);
 	 
 }

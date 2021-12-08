@@ -43,7 +43,7 @@ public interface EconomatoDAO {
 
 	public EcoBienesUso getBienByNameId(int id, String nombre);
 
-	public void saveMovBien(int mov, int tipoBien, int idBien, int perid, int cant, Integer temp);
+	public void saveMovBien(int id, int mov, int tipoBien, int idBien, int perid, int cant, Integer temp);
 
 	public List<EcoBienesMov> listMovimientos();
 
@@ -72,5 +72,7 @@ public interface EconomatoDAO {
 	public Integer getLastIdMovLog();
 
 	public void saveMovLog(EcoMovLog movLog);
+
+	public List<EcoBienesMov> listMovsById(int id);
 	
 }

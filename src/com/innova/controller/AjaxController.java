@@ -449,31 +449,20 @@ public class AjaxController {
 					
 	} 
 	
+	
 	@GetMapping("/detalleBien/{id}")
-	public String detalleBien(@PathVariable(name="id") int id,							
-							Model model) {
+	@ResponseBody
+	public String detalleBien(@PathVariable("id") int id) {
 		
-		EcoBienesMov mov = economatoService.getMovById(id);
+		List<EcoBienesMov> listMovs = economatoService.listMovsById(id);
+		System.out.println("listMovs "+ listMovs);
+		String gson = new Gson().toJson(listMovs);
 		
-		Persona persona = personaService.getPersonById(mov.getPerId());
-		
-		if(mov.getBienBcId()==null) {
-			EcoBienesUso bu = economatoService.getBienById(mov.getBienBuId());
-			model.addAttribute("bien",bu.getNombre());
-		}			
-		else {
-			Economato_Elementos bc = economatoService.getBCbyId(mov.getBienBcId());
-			model.addAttribute("bien",bc.getNombre());
-		}
-		
-		
-		model.addAttribute("nombre", persona.getNombre());
-		model.addAttribute("apellido", persona.getApellido());
-		model.addAttribute("cant",mov.getCant());
-		
-		
-		
-		//System.out.println(id+" "+nombrePer+" "+apePer);
+		return gson;			
+	}
+	
+	@GetMapping("/listadoElems/{id}")
+	public String listadoElems(@PathVariable("id") int id) {
 		
 		return "detalleBien";
 	}

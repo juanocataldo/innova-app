@@ -1,5 +1,6 @@
 package com.innova.dao;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import com.innova.entity.EcoBienesUso;
 import com.innova.entity.EcoMovLog;
 import com.innova.entity.EcoTemporal;
 import com.innova.entity.Economato_Elementos;
+import com.innova.entity.Persona;
 
 @Repository
 public class EconomatoDAOImpl implements EconomatoDAO  {
@@ -290,7 +292,7 @@ public class EconomatoDAOImpl implements EconomatoDAO  {
 	}
 
 	@Override
-	public void saveMovBien(int tipoMov, int tipoBien, int idBien, int perid, int cant, Integer temp) {
+	public void saveMovBien(int id, int tipoMov, int tipoBien, int idBien, int perid, int cant, Integer temp) {
 
 		Session session = currentSession.getCurrentSession();
 		
@@ -314,19 +316,48 @@ public class EconomatoDAOImpl implements EconomatoDAO  {
 		
 		mov.setTemp(temp);
 		
+		mov.setId(id);
+		
 		session.save(mov);		
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public List<EcoBienesMov> listMovimientos() {
 
 		Session session = currentSession.getCurrentSession();
 
-		Query<EcoBienesMov> query = session.createQuery("from EcoBienesMov order by id desc",EcoBienesMov.class);
+		List<Object[]> query = session.createQuery("SELECT DISTINCT m.id, m.tipoMovId, m.persona from EcoBienesMov as m",Object[].class).getResultList();
 
-		List<EcoBienesMov> listado = query.getResultList();
+		
+		List<EcoBienesMov> movList = new ArrayList<>();
 
-		return listado;
+		for (Object[] row : query) {
+		    EcoBienesMov container = new EcoBienesMov();
+		    container.setId((int) row[0]);
+		    container.setTipoMovId((int) row[1]);
+		    
+		    container.setPersona((Persona) row[2]);
+		    movList.add(container);
+		}
+		System.out.println("LISTA "+movList);
+		return movList;
 	}
 
 	@Override
@@ -514,6 +545,22 @@ public class EconomatoDAOImpl implements EconomatoDAO  {
 		session.save(movLog);
 		
 		System.out.println("MOVLOG GUARDADO OK");
+	}
+
+	@Override
+	public List<EcoBienesMov> listMovsById(int id) {
+
+		Session session = currentSession.getCurrentSession();
+
+		Query<EcoBienesMov> query = session.createQuery("from EcoBienesMov WHERE id=:id",EcoBienesMov.class);
+		query.setParameter("id", id);
+
+		List<EcoBienesMov> listado = query.getResultList();
+
+		System.out.println("LISTADO DEL ID "+id+": "+listado);
+		
+		return listado;
+		
 	}
 	
 	

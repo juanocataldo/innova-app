@@ -155,9 +155,9 @@ public class EconomatoServiceImpl implements EconomatoService {
 
 	@Transactional
 	@Override
-	public void saveMovBien(int mov, int tipoBien, int idBien, int perid, int cant, Integer temp) {
+	public void saveMovBien(int id, int mov, int tipoBien, int idBien, int perid, int cant, Integer temp) {
 		
-		economatoDAO.saveMovBien(mov, tipoBien,idBien, perid, cant, temp);
+		economatoDAO.saveMovBien(id, mov, tipoBien,idBien, perid, cant, temp);
 		
 	}
 
@@ -264,6 +264,14 @@ public class EconomatoServiceImpl implements EconomatoService {
 		
 		economatoDAO.saveMovLog(movLog);
 		
+	}
+
+	@Transactional
+	@Override
+	public List<EcoBienesMov> listMovsById(int id) {
+
+		List<EcoBienesMov> elems = economatoDAO.listMovsById(id);
+		return elems;
 	}
 	
 	

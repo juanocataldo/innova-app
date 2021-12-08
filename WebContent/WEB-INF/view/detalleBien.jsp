@@ -116,7 +116,7 @@
            		<div class="row">
            			<div class="col-md-3">
            				<span>Movimiento</span><br>
-           				<input type="text" disabled=disabled value="${id}">
+           				<input type="text" name="id" id="id" disabled=disabled value="${id}">
            			</div>           			
            			<div class="col-md-9">
            				<span>Persona</span><br>
@@ -124,17 +124,22 @@
            			</div>
            			
            		</div><br>
-           		<div class="row">
-           			<div class="col-md-4">
-           				<span>Elemento</span><br><input type="text" disabled=disabled value="${bien}">
-           			</div>
-           			<div class="col-md-4">
-           				<span>Cantidad</span><br><input type="text" disabled=disabled value="${cant}">
-           			</div>
-           			<div class="col-md-4">
-           				<span>Fecha</span><br><input type="text" disabled=disabled value="">
-           			</div>
-           		</div>		            
+           		
+           		
+           		  
+           		 <table id="tablaElem" class="table " style="width:100%; color:white">
+            		<thead>
+            			<tr>
+            				<th scope="col">ID</th>
+            				<th scope="col">Bien Uso</th>
+            				<th scope="col">Bien Consumo</th>         
+            				<th scope="col">Cantidad</th>        				  				
+            			</tr>
+            		</thead>
+            		<tbody>
+            		
+            		</tbody>
+            	</table>
            </div>  
     
     </div>
@@ -193,6 +198,53 @@
     });
     </script>
 
+<script>
+$(document).ready(function() {
+	
+	var id= parseInt($('#id').val());
+	
+	$('#tablaElem').DataTable({
+	"ajax":{
+		"url": '${pageContext.request.contextPath}/detalleBien/'+id+'',
+		"dataSrc":''
+	
+	},
+	"language": {
+        "sProcessing":    "Procesando...",
+        "sLengthMenu":    "_MENU_ ",
+        "sZeroRecords":   "No se encontraron resultados",
+        "sEmptyTable":    "Ningún dato disponible en esta tabla",
+        "sInfo":          "_START_ 	al 	_END_ 	de 	_TOTAL_ ",
+        "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix":   "",
+        "sSearch":        "Buscar:",
+        "sUrl":           "",
+        "sInfoThousands":  ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst":    '<span style="cursor: pointer;color:#DCAB46;"><<	</span>',
+            "sLast":    '<span style="cursor: pointer;color:#DCAB46;">	>></span>',
+            "sNext":    '<span style="cursor: pointer;color:#DCAB46;">	></span>',
+            "sPrevious": '<span style="cursor: pointer;color:#DCAB46;"><	</span>'
+        },
+        "oAria": {
+            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+    },
+	"columns":[
+		{"data": 'id'},
+		{"data": 'bienUso.nombre',
+			"defaultContent":"-"},
+		{"data": 'bienConsumo.nombre',
+				"defaultContent":"-"},		
+		{"data": 'cant'}
+		
+	]
+});
+});
+</script>
     
 </body>
 

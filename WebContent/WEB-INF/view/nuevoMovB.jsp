@@ -160,10 +160,7 @@
             			<tr>
             				<th scope="col">ID</th>
             				<th scope="col">Nombre</th>
-            				<th scope="col">Apellido</th>
-            				<th scope="col">Bien Uso</th>
-            				<th scope="col">Bien Consumo</th>
-            				<th scope="col">Cantidad</th>
+            				<th scope="col">Apellido</th>            				
             				<th scope="col">Actividad</th>
             				<th scope="col" class="text-center">Acción</th>            				
             			</tr>
@@ -280,13 +277,7 @@
 		"columns":[
 			{"data": 'id'},
 			{"data": 'persona.nombre'},
-			{"data": 'persona.apellido'},
-			{"data": 'bienUso.nombre',
-				"defaultContent": '<i style="color:#9b9b9b">-</i>'},
-			{"data": 'bienConsumo.nombre',
-					"defaultContent": '<i style="color:#9b9b9b">-</i>'},				
-			{"data": 'cant',
-					"defaultContent": '<i style="color:#9b9b9b">-</i>'},
+			{"data": 'persona.apellido'},					
 			{"data" : 'tipoMovId',
 						
 						"render": function(data, type, row){
@@ -361,12 +352,12 @@ $(document).on("click", ".btnView", function(){
     cat = 2;
     
     $.ajax({
-        url: "${pageContext.request.contextPath}/detalleBien/"+id+"",
+        url: "${pageContext.request.contextPath}/listadoElems/"+id+"",
         type: "GET",
         datatype:"json",
-        data: {id:id, nombrePersona:nombrePersona, apellidoPersona:apellidoPersona, elemento:elemento, cant:cant, actividad:actividad},
+        data: {id:id},
         success: function() {
-        	 location.href = "${pageContext.request.contextPath}/detalleBien/"+id+"";
+        	 location.href = "${pageContext.request.contextPath}/listadoElems/"+id+"";
         }
       });
    	   

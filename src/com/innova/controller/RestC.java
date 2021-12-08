@@ -41,9 +41,11 @@ public class RestC {
 		
 		int total=0;
 		
+		
 		try {
-			idMov= ecoService.getLastIdMovLog();
+			idMov= ecoService.getLastIdMov();
 			idMov++;
+			System.out.println();
 		}catch(Exception e) {
 			idMov=1;
 		}
@@ -62,7 +64,7 @@ public class RestC {
 		    	System.out.println("CANT BU: "+myRequest.getCant());
 		    	
 		    	//Guardo el movimiento general
-		    	ecoService.saveMovBien(myRequest.getTipoMov(), 1, id, persona.getId(),cant,1);
+		    	ecoService.saveMovBien(idMov,myRequest.getTipoMov(), 1, id, persona.getId(),cant,1);
 		    	
 		    	System.out.println("POR GUARDAR TEMPORAL DE "+persona.getId());
 		    	//Guardo el elemento como temporal en la tabla Temporal
@@ -79,7 +81,7 @@ public class RestC {
 		    }catch(Exception e) {
 		    	//e.printStackTrace();
 		    	
-		    	ecoService.saveMovBien(myRequest.getTipoMov(), 2, id, persona.getId(), cant, null);
+		    	ecoService.saveMovBien(idMov, myRequest.getTipoMov(), 2, id, persona.getId(), cant, null);
 		    	
 		    	Economato_Elementos bc = ecoService.getBienByNameIdBC(id,nombre);
 		    	
@@ -92,11 +94,11 @@ public class RestC {
 		    	if(myRequest.getCant()<=cantidadStock) {
 		    		total=cantidadStock-cant;
 		    		bc.setStock(total);		    		
-		    		ecoService.updateStockBC(bc);		    	
+		    		ecoService.updateStockBC(bc);
 		    	}
 		    }	
 		    
-		    
+		   /* 
 		    EcoMovLog movLog = new EcoMovLog();
 		    
 		    //busco el último ID de elemento que se registró en la base
@@ -130,7 +132,7 @@ public class RestC {
 			    ecoService.saveMovLog(movLog);
 			    
 			    System.out.println("MOV LOG "+movLog);
-		    } 
+		    } */
 		}
 
 		idMov++;
@@ -177,13 +179,13 @@ public class RestC {
 		    	System.out.println("COMPARO SI LO QUE DEVUELVE ("+dev+") ES MENOR A LO QUE SE LE DIO ("+buACargo+")");
 		    	
 		    	if(dev<=buACargo) {
-		    		ecoService.saveMovBien(myRequest.getTipoMov(), 1, id, persona.getId(),dev,1);
+		    		ecoService.saveMovBien(idMov, myRequest.getTipoMov(), 1, id, persona.getId(),dev,1);
 		    		//updateDev = buACargo - dev;
 		    		System.out.println("SE ACTUALIZO STOCK A "+updateDev);
 		    		ecoService.saveTemporal(persona.getId(), id, dev, myRequest.getTipoMov());
 		    		//ecoService.updateBienCantCargo(updateDev,id,persona.getId());
 		    	}else {
-		    		ecoService.saveMovBien(myRequest.getTipoMov(), 1, id, persona.getId(),dev,0);
+		    		ecoService.saveMovBien(idMov, myRequest.getTipoMov(), 1, id, persona.getId(),dev,0);
 		    	}
 		    	
 		    	int cantidadStock = ecoService.getStockBU(bu.getId());

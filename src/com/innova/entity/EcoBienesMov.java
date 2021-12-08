@@ -25,6 +25,14 @@ public class EcoBienesMov {
 	@JoinColumn(name="BM_PER_ID", insertable = false, updatable = false)
 	private Persona persona;
 	
+	public Persona getPersona() {
+		return persona;
+	}
+
+	public void setPersona(Persona persona) {
+		this.persona = persona;
+	}
+
 	@ManyToOne()
 	@JoinColumn(name="BM_BU_ID", insertable = false, updatable = false)
 	private EcoBienesUso bienUso;
@@ -33,9 +41,7 @@ public class EcoBienesMov {
 	@JoinColumn(name="BM_BC_ID", insertable = false, updatable = false)
 	private Economato_Elementos bienConsumo;
 	
-	@Id	
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "GEN_POR_BIEN_MOV")
-	@SequenceGenerator(name="GEN_POR_BIEN_MOV", sequenceName="FPA_ECONOMATO.SEQ_ECO_BIENES_MOV", allocationSize=1)
+	@Id
 	@Column(name="BM_ID")
 	private int id;
 	
@@ -65,6 +71,22 @@ public class EcoBienesMov {
 	
 	
 	
+	public EcoBienesUso getBienUso() {
+		return bienUso;
+	}
+
+	public void setBienUso(EcoBienesUso bienUso) {
+		this.bienUso = bienUso;
+	}
+
+	public Economato_Elementos getBienConsumo() {
+		return bienConsumo;
+	}
+
+	public void setBienConsumo(Economato_Elementos bienConsumo) {
+		this.bienConsumo = bienConsumo;
+	}
+
 	public Integer getTemp() {
 		return temp;
 	}
